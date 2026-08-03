@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-5KVFF84ZZC');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../scripts/tailwind-config.js"></script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance { text-wrap: balance; }
+        }
+        body { background-color: #050505; color: #F8FAFC; }
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(195, 255, 0, 0.3);
+            background: rgba(17, 24, 39, 0.5);
+            box-shadow: 0 10px 40px -10px rgba(195, 255, 0, 0.1);
+        }
+        .btn-primary {
+            background: #C3FF00; color: #050505;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 9999px; font-weight: 600;
+        }
+        .btn-primary:hover { background: #D7FF4D; box-shadow: 0 0 30px rgba(195, 255, 0, 0.4); transform: translateY(-2px); }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC; transition: all 0.3s ease; border-radius: 9999px; font-weight: 500;
+        }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: #C3FF00; color: #C3FF00; }
+        .gradient-text {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .reveal-up {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-visible { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .lightbox-trigger { cursor: zoom-in; transition: transform 0.4s ease; }
+        .lightbox-trigger:hover { transform: scale(1.02); }
+        .toc-link.active { color: #C3FF00; border-left-color: #C3FF00; }
+    </style>
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <!-- SEO Foundation -->
+    <title>bangjeje.dev | Premium Digital Design</title>
+    <meta name="description" content="We engineer digital experiences that drive business growth for ambitious brands.">
+    <link rel="canonical" href="https://bangjeje.dev/pages/case-study-template.html">
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="bangjeje.dev | Premium Digital Design">
+    <meta property="og:description" content="We engineer digital experiences that drive business growth for ambitious brands.">
+    <meta property="og:url" content="https://bangjeje.dev/pages/case-study-template.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="bangjeje.dev | Premium Digital Design">
+    <meta name="twitter:description" content="We engineer digital experiences that drive business growth for ambitious brands.">
+    <meta name="twitter:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Favicon (Fallback) -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "bangjeje.dev | Premium Digital Design",
+      "description": "We engineer digital experiences that drive business growth for ambitious brands.",
+      "url": "https://bangjeje.dev/pages/case-study-template.html"
+    }
+    </script>
+<link rel="manifest" href="/site.webmanifest">
+</head>
+<body class="bg-dark text-textPrimary overflow-x-hidden">
+    <!-- Global Navigation -->
+    <nav class="fixed w-full z-50 bg-dark/40 backdrop-blur-md border-b border-glass transition-all duration-500" id="navbar">
+        <div class="max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../../index.html" class="flex items-center gap-4 group">
+                <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 md:w-9 md:h-9 object-contain" />
+                <span class="text-white text-xl md:text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8 bg-surface/50 px-6 py-2 rounded-full border border-glass">
+                <a href="../services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
+                <a href="../industries.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Industries</a>
+                <a href="../case-studies.html" class="text-sm font-medium text-accent hover:text-white transition-colors">Case Studies</a>
+                <a href="../insights.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Insights</a>
+                <a href="../about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
+            </div>
+            <div class="hidden md:flex">
+                <a href="../contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">Initiate Project</a>
+            </div>
+            <button aria-label="Toggle Menu" class="md:hidden text-textSecondary p-2 hover:text-white transition-colors">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section class="relative pt-48 pb-20 px-6 overflow-hidden">
+            <div class="absolute inset-0 bg-mesh opacity-20 z-0 pointer-events-none"></div>
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+            <div class="max-w-8xl mx-auto relative z-10">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-glass bg-surface/50 text-textSecondary text-xs font-semibold tracking-widest uppercase mb-8 reveal-up">
+                    [Project Name] Case Study
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-medium tracking-tighter leading-none mb-16 text-balance reveal-up delay-100">
+                    <span class="gradient-text">[Project Name]</span>
+                </h1>
+
+                <!-- Metadata Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-8 mb-20 border-y border-glass py-10 reveal-up delay-200">
+                    <div>
+                        <div class="text-xs font-semibold tracking-widest uppercase text-textSecondary mb-2">Role</div>
+                        <div class="text-lg text-white">[Role]</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold tracking-widest uppercase text-textSecondary mb-2">Industry</div>
+                        <div class="text-lg text-white">[Industry]</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold tracking-widest uppercase text-textSecondary mb-2">Platform</div>
+                        <div class="text-lg text-white">[Platform]</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold tracking-widest uppercase text-textSecondary mb-2">Timeline</div>
+                        <div class="text-lg text-white">2026</div>
+                    </div>
+                </div>
+
+                <!-- Hero Image -->
+                <div class="w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden glass-panel flex items-center justify-center relative group reveal-up delay-300">
+                    <div class="absolute inset-0 bg-gradient-to-br from-surface to-dark group-hover:scale-105 transition-transform duration-1000 z-0"></div>
+                    <i class="ph ph-image text-8xl text-white/10 relative z-10"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Area with Sticky TOC -->
+        <section class="py-20 px-6 border-t border-glass bg-surface/30">
+            <div class="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 relative">
+                
+                <!-- Sticky TOC -->
+                <aside class="hidden lg:block lg:col-span-3">
+                    <div class="sticky top-32">
+                        <h4 class="text-xs font-semibold tracking-widest uppercase text-white mb-6">Contents</h4>
+                        <nav class="flex flex-col space-y-4 border-l border-glass" id="toc-nav">
+                            <a href="#overview" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">01. Overview</a>
+                            <a href="#challenge" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">02. The Challenge</a>
+                            <a href="#objectives" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">03. Objectives</a>
+                            <a href="#process" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">04. Process</a>
+                            <a href="#deliverables" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">05. Deliverables</a>
+                            <a href="#gallery" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">06. Gallery</a>
+                            <a href="#reflection" class="toc-link pl-4 text-sm font-light text-textSecondary hover:text-white transition-colors border-l-2 border-transparent">07. Reflection</a>
+                        </nav>
+                    </div>
+                </aside>
+
+                <!-- Mobile TOC -->
+                <div class="block lg:hidden lg:col-span-12 mb-12">
+                    <details class="group bg-surface/50 border border-glass rounded-xl overflow-hidden">
+                        <summary class="flex justify-between items-center p-4 cursor-pointer font-medium text-white list-none">
+                            <span>Table of Contents</span>
+                            <i class="ph ph-caret-down transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <nav class="flex flex-col space-y-2 p-4 pt-0 border-t border-glass/50 mt-2">
+                            <a href="#overview" class="text-sm font-light text-textSecondary hover:text-white transition-colors">01. Overview</a>
+                            <a href="#challenge" class="text-sm font-light text-textSecondary hover:text-white transition-colors">02. The Challenge</a>
+                            <a href="#objectives" class="text-sm font-light text-textSecondary hover:text-white transition-colors">03. Objectives</a>
+                            <a href="#process" class="text-sm font-light text-textSecondary hover:text-white transition-colors">04. Process</a>
+                            <a href="#deliverables" class="text-sm font-light text-textSecondary hover:text-white transition-colors">05. Deliverables</a>
+                            <a href="#gallery" class="text-sm font-light text-textSecondary hover:text-white transition-colors">06. Gallery</a>
+                            <a href="#reflection" class="text-sm font-light text-textSecondary hover:text-white transition-colors">07. Reflection</a>
+                        </nav>
+                    </details>
+                </div>
+
+                <!-- Case Study Content -->
+                <article class="lg:col-span-9 space-y-24">
+                    
+                    <!-- 01. Overview -->
+                    <section id="overview" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">01. Project Overview</h2>
+                        <div class="prose prose-invert max-w-3xl text-lg text-textSecondary font-light leading-relaxed space-y-6">
+                            <p>This section will be updated after reviewing the original project documentation.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-medium text-white mt-12 mb-6">My Responsibilities</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-surface/50 border border-glass px-4 py-2 rounded-full text-sm text-textSecondary">Responsibility 1</span>
+<span class="bg-surface/50 border border-glass px-4 py-2 rounded-full text-sm text-textSecondary">Responsibility 2</span>
+<span class="bg-surface/50 border border-glass px-4 py-2 rounded-full text-sm text-textSecondary">Responsibility 3</span>
+                        </div>
+                    </section>
+
+                    <!-- 02. The Challenge -->
+                    <section id="challenge" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">02. The Challenge</h2>
+                        <p class="text-lg text-textSecondary font-light leading-relaxed mb-8 max-w-3xl">Project-specific challenges will be documented after reviewing historical design files.</p>
+                        <div class="glass-card p-8 md:p-12 border-red-500/10">
+                            <h3 class="text-xl text-white mb-4 flex items-center gap-3">
+                                <i class="ph ph-warning-circle text-accent"></i> Core Considerations
+                            </h3>
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-6">
+                                This section will be updated after reviewing the original project documentation.
+                            </p>
+                            <ul class="space-y-4 text-textSecondary font-light">
+                                <li class="flex items-start gap-3"><i class="ph ph-x text-red-400 mt-1"></i> Pending project documentation review</li>
+<li class="flex items-start gap-3"><i class="ph ph-x text-red-400 mt-1"></i> Specific considerations to be added</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- 03. Objectives -->
+                    <section id="objectives" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">03. Objectives</h2>
+                        <p class="text-lg text-textSecondary font-light leading-relaxed mb-8 max-w-3xl">This section will be updated after reviewing the original project documentation.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                            <div class="glass-card p-8 h-full flex flex-col">
+                                <i class="ph ph-target text-3xl text-accent mb-4 block"></i>
+                                <h4 class="text-white font-medium mb-2">Objective 1</h4>
+                                <p class="text-sm text-textSecondary font-light flex-grow">To be updated after reviewing documentation.</p>
+                            </div>
+<div class="glass-card p-8 h-full flex flex-col">
+                                <i class="ph ph-chart-line-up text-3xl text-accent mb-4 block"></i>
+                                <h4 class="text-white font-medium mb-2">Objective 2</h4>
+                                <p class="text-sm text-textSecondary font-light flex-grow">To be updated after reviewing documentation.</p>
+                            </div>
+<div class="glass-card p-8 h-full flex flex-col">
+                                <i class="ph ph-squares-four text-3xl text-accent mb-4 block"></i>
+                                <h4 class="text-white font-medium mb-2">Objective 3</h4>
+                                <p class="text-sm text-textSecondary font-light flex-grow">To be updated after reviewing documentation.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 04. Process -->
+                    <section id="process" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">04. Process</h2>
+                        <p class="text-lg text-textSecondary font-light leading-relaxed mb-12 max-w-3xl">This section will be updated after reviewing the original project documentation.</p>
+                        <div class="relative border-l border-glass pl-8 py-4 space-y-16">
+                            <div class="relative">
+                                <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-dark border border-accent flex items-center justify-center"><div class="w-2 h-2 bg-accent rounded-full"></div></div>
+                                <h4 class="text-xl text-white mb-2">Phase 1</h4>
+                                <p class="text-textSecondary font-light">Pending documentation review.</p>
+                            </div>
+<div class="relative">
+                                <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-dark border border-glass flex items-center justify-center"></div>
+                                <h4 class="text-xl text-white mb-2">Phase 2</h4>
+                                <p class="text-textSecondary font-light">Pending documentation review.</p>
+                            </div>
+<div class="relative">
+                                <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-dark border border-glass flex items-center justify-center"></div>
+                                <h4 class="text-xl text-white mb-2">Phase 3</h4>
+                                <p class="text-textSecondary font-light">Pending documentation review.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 05. Tools & Deliverables -->
+                    <section id="deliverables" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">05. Deliverables</h2>
+                        <p class="text-lg text-textSecondary font-light leading-relaxed mb-12 max-w-3xl">Strategic artifacts and implementation assets delivered throughout the product lifecycle.</p>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                            <div>
+                                <h3 class="text-xl font-medium text-white mb-6">Project Artifacts</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="glass-card px-4 py-3 text-sm text-textSecondary font-light flex items-center gap-3"><i class="ph ph-check text-accent"></i> Deliverable 1</div>
+<div class="glass-card px-4 py-3 text-sm text-textSecondary font-light flex items-center gap-3"><i class="ph ph-check text-accent"></i> Deliverable 2</div>
+<div class="glass-card px-4 py-3 text-sm text-textSecondary font-light flex items-center gap-3"><i class="ph ph-check text-accent"></i> Deliverable 3</div>
+<div class="glass-card px-4 py-3 text-sm text-textSecondary font-light flex items-center gap-3"><i class="ph ph-check text-accent"></i> Deliverable 4</div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-medium text-white mb-6">Tools</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="bg-surface/50 border border-glass px-4 py-2 rounded-full text-sm text-textSecondary">Tool 1</span>
+<span class="bg-surface/50 border border-glass px-4 py-2 rounded-full text-sm text-textSecondary">Tool 2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 06. Gallery -->
+                    <section id="gallery" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">06. Gallery</h2>
+                        <p class="text-lg text-textSecondary font-light leading-relaxed mb-12 max-w-3xl">The culmination of strategy and design translated into a polished, high-performance interface.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="w-full aspect-[16/10] bg-surface/50 rounded-2xl border border-glass flex items-center justify-center lightbox-trigger focus:outline-none focus:ring-2 focus:ring-accent" tabindex="0" role="button" aria-label="View Image 1"><span class="text-textSecondary">Image 1</span></div>
+<div class="w-full aspect-[16/10] bg-surface/50 rounded-2xl border border-glass flex items-center justify-center lightbox-trigger focus:outline-none focus:ring-2 focus:ring-accent" tabindex="0" role="button" aria-label="View Image 2"><span class="text-textSecondary">Image 2</span></div>
+<div class="w-full aspect-[16/10] bg-surface/50 rounded-2xl border border-glass flex items-center justify-center lightbox-trigger focus:outline-none focus:ring-2 focus:ring-accent" tabindex="0" role="button" aria-label="View Image 3"><span class="text-textSecondary">Image 3</span></div>
+<div class="w-full aspect-[16/10] bg-surface/50 rounded-2xl border border-glass flex items-center justify-center lightbox-trigger focus:outline-none focus:ring-2 focus:ring-accent" tabindex="0" role="button" aria-label="View Image 4"><span class="text-textSecondary">Image 4</span></div>
+                        </div>
+                    </section>
+
+                    <!-- 07. Reflection -->
+                    <section id="reflection" class="scroll-mt-32 reveal-up content-section">
+                        <h2 class="text-3xl md:text-4xl font-medium text-white mb-6">07. Reflection</h2>
+                        <div class="prose prose-invert max-w-3xl text-xl text-textSecondary font-light leading-relaxed space-y-6 text-balance">
+                            <p>This section will be updated after reviewing the original project documentation.</p>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </section>
+
+        <!-- Next Project Navigation -->
+        <section class="py-24 px-6 border-t border-glass bg-gradient-to-b from-dark to-surface/30">
+            <div class="max-w-8xl mx-auto flex flex-col items-center text-center">
+                <div class="text-xs font-semibold tracking-widest uppercase text-textSecondary mb-8">Continue Exploring</div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 w-full justify-center mb-16">
+                    <!-- Prev -->
+                    <a href="#.html" class="group flex flex-col items-center md:items-start text-left">
+                        <span class="text-sm text-textSecondary font-light mb-2 flex items-center gap-2 group-hover:-translate-x-2 transition-transform"><i class="ph ph-arrow-left"></i> Previous</span>
+                        <span class="text-2xl md:text-3xl text-white font-medium group-hover:text-accent transition-colors">Previous Project</span>
+                    </a>
+                    
+                    <!-- Next -->
+                    <a href="#.html" class="group flex flex-col items-center md:items-end text-right">
+                        <span class="text-sm text-textSecondary font-light mb-2 flex items-center gap-2 group-hover:translate-x-2 transition-transform">Next <i class="ph ph-arrow-right"></i></span>
+                        <span class="text-2xl md:text-3xl text-white font-medium group-hover:text-accent transition-colors">Next Project</span>
+                    </a>
+                </div>
+
+                <a href="../case-studies.html" class="btn-secondary px-8 py-3 text-sm tracking-widest uppercase">
+                    View All Case Studies
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="py-16 md:py-24 px-6 border-t border-glass bg-dark">
+        <!-- Footer Content is standard across pages -->
+        <div class="max-w-8xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-20">
+                <div class="lg:col-span-2">
+                    <a href="../../index.html" class="flex items-center gap-4 mb-8">
+                        <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 object-contain" />
+                        <span class="text-white text-xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+                    </a>
+                    <p class="text-textSecondary font-light max-w-sm leading-relaxed mb-8">
+                        We engineer digital experiences that drive business growth for ambitious brands.
+                    </p>
+                    <a href="mailto:hello@bangjeje.dev" class="inline-block text-white text-lg font-medium hover:text-accent transition-colors">
+                        hello@bangjeje.dev
+                    </a>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-6">Navigation</h4>
+                    <ul class="space-y-3 text-sm text-textSecondary font-light">
+                        <li><a href="../services.html" class="hover:text-accent transition-colors">Services</a></li>
+                        <li><a href="../industries.html" class="hover:text-accent transition-colors">Industries</a></li>
+                        <li><a href="../case-studies.html" class="hover:text-accent transition-colors">Case Studies</a></li>
+                        <li><a href="../insights.html" class="hover:text-accent transition-colors">Insights</a></li>
+                        <li><a href="../about.html" class="hover:text-accent transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-6">Social</h4>
+                    <ul class="space-y-3 text-sm text-textSecondary font-light">
+                        <li><a href="https://www.linkedin.com/company/bangjejedev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-linkedin-logo"></i> LinkedIn</a></li>
+                        <li><a href="https://www.instagram.com/bangjeje.dev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-instagram-logo"></i> Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-glass flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-textSecondary font-light">
+                <p>&copy; 2026 bangjeje.dev. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="../privacy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="../terms.html" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <button aria-label="Previous Image" id="lightbox-prev" class="fixed left-6 top-1/2 -translate-y-1/2 z-[110] text-white/50 hover:text-white transition-colors p-4 hidden">
+        <i class="ph ph-caret-left text-4xl"></i>
+    </button>
+    <button aria-label="Next Image" id="lightbox-next" class="fixed right-6 top-1/2 -translate-y-1/2 z-[110] text-white/50 hover:text-white transition-colors p-4 hidden">
+        <i class="ph ph-caret-right text-4xl"></i>
+    </button>
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-dark/95 backdrop-blur-xl opacity-0 transition-opacity duration-300">
+        <button aria-label="Close" id="lightbox-close" class="absolute top-6 right-6 text-white hover:text-accent transition-colors p-2 z-[110]">
+            <i class="ph ph-x text-3xl"></i>
+        </button>
+        <figure class="flex flex-col items-center justify-center max-w-[90%] max-h-[90vh]">
+            <img id="lightbox-img" loading="lazy" src="" alt="Expanded View" class="max-h-[85vh] object-contain rounded-xl shadow-2xl transform scale-95 transition-transform duration-300">
+            <figcaption id="lightbox-caption" class="text-textSecondary mt-4 text-sm font-light opacity-0 transition-opacity duration-300"></figcaption>
+        </figure>
+    </div>
+
+    <!-- Page Scripts -->
+    <script src="../../scripts/main.js"></script>
+    <script src="../../scripts/case-study.js"></script>
+</body>
+</html>

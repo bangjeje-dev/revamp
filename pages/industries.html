@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased selection:bg-accent selection:text-dark">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-5KVFF84ZZC');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TXTKX3TL');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#050505',
+                        surface: '#0D1117',
+                        card: '#111827',
+                        accent: '#C3FF00',
+                        accentHover: '#D7FF4D',
+                        glow: 'rgba(195, 255, 0, 0.35)',
+                        textPrimary: '#F8FAFC',
+                        textSecondary: '#94A3B8',
+                        glass: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    maxWidth: {
+                        '8xl': '1440px',
+                    },
+                    letterSpacing: {
+                        tightest: '-.075em',
+                        tighter: '-.04em',
+                        tight: '-.02em',
+                        normal: '0',
+                        wide: '.025em',
+                        widest: '.1em',
+                        caps: '.2em',
+                    },
+                    backgroundImage: {
+                        'mesh': 'radial-gradient(at 40% 20%, hsla(171, 70%, 20%, 0.4) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189, 70%, 15%, 0.4) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(171, 70%, 15%, 0.4) 0px, transparent 50%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance { text-wrap: balance; }
+        }
+        body {
+            background-color: #050505;
+            color: #F8FAFC;
+        }
+        /* Glassmorphism System */
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(195, 255, 0, 0.3);
+            background: rgba(17, 24, 39, 0.5);
+            box-shadow: 0 10px 40px -10px rgba(195, 255, 0, 0.1);
+            transform: translateY(-8px);
+        }
+        /* Buttons */
+        .btn-primary {
+            background: #C3FF00;
+            color: #050505;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: #D7FF4D;
+            box-shadow: 0 0 30px rgba(195, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC;
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #C3FF00;
+            color: #C3FF00;
+        }
+        /* Typography */
+        .text-glow {
+            text-shadow: 0 0 40px rgba(195, 255, 0, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* Scroll Reveal Utility Classes */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+    </style>
+    <!-- SEO Foundation -->
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/images/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/images/site.webmanifest">
+    <!-- Open Graph Image -->
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "wmzess289d");
+    </script>
+    <!-- SEO Foundation -->
+    <title>Industries | bangjeje.dev</title>
+    <meta name="description" content="We serve business owners, founders, and traditional operators who need a trusted partner to elevate their digital presence.">
+    <link rel="canonical" href="https://bangjeje.dev/pages/industries.html">
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Industries | bangjeje.dev">
+    <meta property="og:description" content="We serve business owners, founders, and traditional operators who need a trusted partner to elevate their digital presence.">
+    <meta property="og:url" content="https://bangjeje.dev/pages/industries.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Industries | bangjeje.dev">
+    <meta name="twitter:description" content="We serve business owners, founders, and traditional operators who need a trusted partner to elevate their digital presence.">
+    <meta name="twitter:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Favicon (Fallback) -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Industries | bangjeje.dev",
+      "description": "We serve business owners, founders, and traditional operators who need a trusted partner to elevate their digital presence.",
+      "url": "https://bangjeje.dev/pages/industries.html"
+    }
+    </script>
+</head>
+<body class="bg-dark text-textPrimary overflow-x-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXTKX3TL"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Global Navigation -->
+            <nav class="fixed w-full z-50 bg-dark/40 backdrop-blur-md border-b border-glass transition-all duration-500" id="navbar">
+        <div class="max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-4 group">
+                <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 md:w-9 md:h-9 object-contain" />
+                <span class="text-white text-xl md:text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 bg-surface/50 px-6 py-2 rounded-full border border-glass">
+                <a href="services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
+                <a href="industries.html" class="text-sm font-medium text-accent hover:text-white transition-colors">Industries</a>
+                <a href="case-studies.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                <a href="insights.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Insights</a>
+                <a href="about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
+            </div>
+            
+            <div class="hidden md:flex">
+                <a href="contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
+                    Initiate Project
+                </a>
+            </div>
+
+            <button aria-label="Toggle Menu" class="md:hidden text-textSecondary p-2 hover:text-white transition-colors">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. Hero -->
+        <section class="relative pt-48 pb-32 px-6 overflow-hidden min-h-[85vh] flex flex-col justify-center">
+            <div class="absolute inset-0 bg-mesh opacity-20 z-0 pointer-events-none"></div>
+            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+            <div class="max-w-4xl mx-auto relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-glass bg-surface/50 text-textSecondary text-xs font-semibold tracking-widest uppercase mb-8 reveal-up">
+                    Sector Expertise
+                </div>
+                <h1 class="text-5xl md:text-7xl lg:text-[7rem] font-medium tracking-tighter leading-none mb-12 reveal-up delay-100">
+                    <span class="gradient-text">Engineered for</span><br>
+                    <span class="text-white text-glow">every industry.</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-light text-textSecondary leading-relaxed max-w-2xl mx-auto reveal-up delay-200 mb-12">
+                    We deploy strategic design and high-performance technology to solve complex business challenges across global sectors.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center reveal-up delay-300">
+                    <a href="#sectors" class="btn-primary text-sm uppercase tracking-widest px-8 py-4 flex justify-center items-center gap-3">
+                        Explore Sectors <i class="ph ph-arrow-down text-lg"></i>
+                    </a>
+                    <a href="case-studies.html" class="btn-secondary text-sm uppercase tracking-widest px-8 py-4 flex justify-center items-center gap-3">
+                        View Case Studies
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Industries Overview -->
+        <section class="py-24 md:py-32 px-6 border-t border-glass">
+            <div class="max-w-4xl mx-auto text-center reveal-up">
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tight text-white mb-8">
+                    Why Industry Knowledge Matters
+                </h2>
+                <p class="text-xl md:text-2xl font-light text-textSecondary leading-relaxed">
+                    A beautiful interface is useless if it doesn't align with operational realities. We immerse ourselves in your sector's regulatory constraints, user behaviors, and economic drivers before writing a single line of code or designing a single screen. This ensures our digital solutions integrate seamlessly into your real-world business environment.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Industry Sections -->
+        <section id="sectors" class="pt-32 pb-24 md:pt-48 md:pb-32 px-6 border-t border-glass bg-gradient-to-b from-dark to-surface/30">
+            <div class="max-w-8xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Restaurants & Cafés -->
+                    <div class="glass-card p-10 lg:p-12 reveal-up flex flex-col h-full">
+                        <div class="mb-8">
+                            <i class="ph ph-coffee text-4xl text-accent mb-10"></i>
+                            <h3 class="text-3xl font-medium text-white mb-4">Restaurants & Cafés</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                Elevating dining experiences through premium brand storytelling and streamlined digital interactions.
+                            </p>
+                            <div class="space-y-4 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-textPrimary mb-1">Common Challenges</h4>
+                                    <p class="text-sm font-light text-textSecondary">Outdated brand presence, disjointed digital experiences, manual customer management.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Our Solutions</h4>
+                                    <p class="text-sm font-light text-textSecondary">Custom digital platforms, cohesive brand identity, optimized customer engagement.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="case-studies.html" class="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-accent transition-colors uppercase tracking-widest group">
+                                View Cases <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Healthcare & Clinics -->
+                    <div class="glass-card p-10 lg:p-12 reveal-up delay-100 flex flex-col h-full">
+                        <div class="mb-8">
+                            <i class="ph ph-heartbeat text-4xl text-accent mb-10"></i>
+                            <h3 class="text-3xl font-medium text-white mb-4">Healthcare & Clinics</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                Engineering empathetic and accessible digital experiences for patients and medical providers.
+                            </p>
+                            <div class="space-y-4 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-textPrimary mb-1">Common Challenges</h4>
+                                    <p class="text-sm font-light text-textSecondary">Confusing patient portals, inefficient scheduling, fragmented digital presence.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Our Solutions</h4>
+                                    <p class="text-sm font-light text-textSecondary">Intuitive patient dashboards, accessible web platforms, seamless appointment systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="case-studies.html" class="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-accent transition-colors uppercase tracking-widest group">
+                                View Cases <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Retail & Commerce -->
+                    <div class="glass-card p-10 lg:p-12 reveal-up delay-200 flex flex-col h-full">
+                        <div class="mb-8">
+                            <i class="ph ph-shopping-bag text-4xl text-accent mb-10"></i>
+                            <h3 class="text-3xl font-medium text-white mb-4">Retail & Commerce</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                Driving customer loyalty and brand engagement through highly crafted digital storefronts.
+                            </p>
+                            <div class="space-y-4 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-textPrimary mb-1">Common Challenges</h4>
+                                    <p class="text-sm font-light text-textSecondary">High friction in customer journeys, poor mobile experiences, disconnected brand identity.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Our Solutions</h4>
+                                    <p class="text-sm font-light text-textSecondary">Premium e-commerce experiences, streamlined user flows, scalable digital products.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="case-studies.html" class="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-accent transition-colors uppercase tracking-widest group">
+                                View Cases <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Professional Services -->
+                    <div class="glass-card p-10 lg:p-12 reveal-up flex flex-col h-full">
+                        <div class="mb-8">
+                            <i class="ph ph-briefcase text-4xl text-accent mb-10"></i>
+                            <h3 class="text-3xl font-medium text-white mb-4">Professional Services</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                Establishing authority and trust for firms and agencies through premium digital positioning.
+                            </p>
+                            <div class="space-y-4 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-textPrimary mb-1">Common Challenges</h4>
+                                    <p class="text-sm font-light text-textSecondary">Generic brand identity, low digital credibility, poor lead engagement.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Our Solutions</h4>
+                                    <p class="text-sm font-light text-textSecondary">Authoritative corporate websites, strategic brand design, optimized digital workflows.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="case-studies.html" class="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-accent transition-colors uppercase tracking-widest group">
+                                View Cases <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Manufacturing & SMEs -->
+                    <div class="glass-card p-10 lg:p-12 reveal-up delay-100 flex flex-col h-full">
+                        <div class="mb-8">
+                            <i class="ph ph-factory text-4xl text-accent mb-10"></i>
+                            <h3 class="text-3xl font-medium text-white mb-4">Manufacturing & SMEs</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                Modernizing traditional businesses through tailored digital products and operational interfaces.
+                            </p>
+                            <div class="space-y-4 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-textPrimary mb-1">Common Challenges</h4>
+                                    <p class="text-sm font-light text-textSecondary">Fragmented digital presence, manual business processes, outdated sales platforms.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Our Solutions</h4>
+                                    <p class="text-sm font-light text-textSecondary">Custom business systems, robust corporate websites, streamlined operational dashboards.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="case-studies.html" class="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-accent transition-colors uppercase tracking-widest group">
+                                View Cases <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div></div>
+            </div>
+        </section>
+
+        <!-- 4. Our Approach -->
+        <section class="py-24 md:py-32 lg:py-48 px-6 border-t border-glass">
+            <div class="max-w-8xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-24 reveal-up">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white mb-6">Cross-Industry Approach</h2>
+                    <p class="text-lg md:text-xl text-textSecondary font-light">While the specific challenges vary by sector, our rigorous methodology for solving them remains universal.</p>
+                </div>
+                
+                <!-- Process Flow -->
+                <div class="relative max-w-4xl mx-auto">
+                    <!-- Connecting Line -->
+                    <div class="hidden md:block absolute left-[28px] top-[40px] bottom-[40px] w-0.5 bg-glass z-0"></div>
+                    
+                    <div class="space-y-12">
+                        <div class="relative z-10 flex gap-8 reveal-up">
+                            <div class="w-14 h-14 rounded-full bg-surface border border-accent text-accent flex items-center justify-center font-bold text-xl shrink-0 shadow-[0_0_15px_rgba(195,255,0,0.2)]">01</div>
+                            <div class="pt-2">
+                                <h3 class="text-2xl font-medium text-white mb-3">Understand Business</h3>
+                                <p class="text-textSecondary font-light leading-relaxed">We audit your operational model, revenue streams, and competitive landscape. We define what success looks like in your specific industry.</p>
+                            </div>
+                        </div>
+                        <div class="relative z-10 flex gap-8 reveal-up">
+                            <div class="w-14 h-14 rounded-full bg-surface border border-glass text-textSecondary flex items-center justify-center font-bold text-xl shrink-0">02</div>
+                            <div class="pt-2">
+                                <h3 class="text-2xl font-medium text-white mb-3">Research Users</h3>
+                                <p class="text-textSecondary font-light leading-relaxed">We conduct qualitative and quantitative research to understand the friction points of your patients, guests, students, or customers.</p>
+                            </div>
+                        </div>
+                        <div class="relative z-10 flex gap-8 reveal-up">
+                            <div class="w-14 h-14 rounded-full bg-surface border border-glass text-textSecondary flex items-center justify-center font-bold text-xl shrink-0">03</div>
+                            <div class="pt-2">
+                                <h3 class="text-2xl font-medium text-white mb-3">Design Experience</h3>
+                                <p class="text-textSecondary font-light leading-relaxed">We architect the UX and forge the visual UI layer, ensuring strict compliance with industry standards (e.g., WCAG, HIPAA) without sacrificing aesthetics.</p>
+                            </div>
+                        </div>
+                        <div class="relative z-10 flex gap-8 reveal-up">
+                            <div class="w-14 h-14 rounded-full bg-surface border border-glass text-textSecondary flex items-center justify-center font-bold text-xl shrink-0">04</div>
+                            <div class="pt-2">
+                                <h3 class="text-2xl font-medium text-white mb-3">Build Solution</h3>
+                                <p class="text-textSecondary font-light leading-relaxed">Our engineering team brings the design to life using modern, scalable architectures that integrate deeply with your existing business systems.</p>
+                            </div>
+                        </div>
+                        <div class="relative z-10 flex gap-8 reveal-up">
+                            <div class="w-14 h-14 rounded-full bg-surface border border-glass text-textSecondary flex items-center justify-center font-bold text-xl shrink-0">05</div>
+                            <div class="pt-2">
+                                <h3 class="text-2xl font-medium text-white mb-3">Measure Growth</h3>
+                                <p class="text-textSecondary font-light leading-relaxed">Post-launch, we deploy analytics to track core KPIs—be it conversion rate, reduced support tickets, or increased engagement—and iterate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Featured Case Studies -->
+        <section class="py-24 md:py-32 px-6 border-t border-glass bg-surface/30">
+            <div class="max-w-8xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-up">
+                    <div class="max-w-2xl">
+                        <h2 class="text-4xl md:text-5xl font-medium tracking-tight text-white mb-6">Cross-Sector Proof</h2>
+                        <p class="text-lg text-textSecondary font-light">Explore how we've driven measurable results across varied industries.</p>
+                    </div>
+                    <div class="mt-8 md:mt-0">
+                        <a href="case-studies.html" class="btn-secondary text-sm uppercase tracking-widest px-8 py-4 flex items-center gap-3">
+                            All Case Studies <i class="ph ph-arrow-right text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                    <!-- Featured 1 -->
+                    <div class="glass-panel group cursor-pointer reveal-up">
+                        <div class="aspect-[4/3] rounded-t-xl overflow-hidden relative border-b border-glass bg-dark">
+                            <!-- Abstract Placeholder for Image -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-surface to-dark group-hover:scale-105 transition-transform duration-700"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="ph ph-shopping-bag text-6xl text-white/10"></i>
+                            </div>
+                            <div class="absolute top-6 left-6 flex gap-2">
+                                <span class="bg-dark/80 backdrop-blur text-white text-xs font-semibold tracking-widest uppercase px-3 py-1.5 rounded-full border border-glass">Retail</span>
+                            </div>
+                        </div>
+                        <div class="p-8 lg:p-10">
+                            <h3 class="text-3xl font-medium text-white mb-4">Aura Commerce</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                A headless e-commerce transformation that increased mobile conversion rates by 42% for a luxury retailer.
+                            </p>
+                            <div class="flex gap-4">
+                                <span class="text-xs font-mono text-accent">UI/UX</span>
+                                <span class="text-xs font-mono text-textSecondary">Frontend Engineering</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured 2 -->
+                    <div class="glass-panel group cursor-pointer reveal-up delay-100">
+                        <div class="aspect-[4/3] rounded-t-xl overflow-hidden relative border-b border-glass bg-dark">
+                            <!-- Abstract Placeholder for Image -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-surface to-dark group-hover:scale-105 transition-transform duration-700"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="ph ph-heartbeat text-6xl text-white/10"></i>
+                            </div>
+                            <div class="absolute top-6 left-6 flex gap-2">
+                                <span class="bg-dark/80 backdrop-blur text-white text-xs font-semibold tracking-widest uppercase px-3 py-1.5 rounded-full border border-glass">Healthcare</span>
+                            </div>
+                        </div>
+                        <div class="p-8 lg:p-10">
+                            <h3 class="text-3xl font-medium text-white mb-4">Nexus Health</h3>
+                            <p class="text-textSecondary font-light leading-relaxed mb-6">
+                                A HIPAA-compliant patient dashboard streamlining appointment booking and reducing administrative friction.
+                            </p>
+                            <div class="flex gap-4">
+                                <span class="text-xs font-mono text-accent">Strategy</span>
+                                <span class="text-xs font-mono text-textSecondary">Product Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Final CTA -->
+        <section class="py-32 lg:py-48 px-6 relative overflow-hidden border-t border-glass">
+            <div class="absolute inset-0 bg-mesh opacity-20 z-0 pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+            <div class="max-w-4xl mx-auto relative z-10 text-center reveal-up">
+                <h2 class="text-5xl md:text-7xl font-medium tracking-tighter leading-none mb-8">
+                    Let's elevate your <br><span class="text-white text-glow">industry standard.</span>
+                </h2>
+                <p class="text-xl text-textSecondary font-light mb-12 max-w-2xl mx-auto">
+                    Bring us your complex business challenges. We'll engineer the digital solution.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="contact.html" class="btn-primary text-sm uppercase tracking-widest px-8 py-4 flex justify-center items-center gap-3">
+                        Initiate Project <i class="ph ph-arrow-right text-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+            <footer class="bg-dark border-t border-glass pt-24 pb-8 px-6">
+        <div class="max-w-8xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-24">
+                
+                <!-- Brand -->
+                <div class="md:col-span-5 reveal-up">
+                    <a href="../index.html" class="flex items-center gap-4 group mb-6">
+                        <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-10 h-10 object-contain" />
+                        <span class="text-white text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+                    </a>
+                    <p class="text-textSecondary font-light leading-relaxed max-w-sm mb-8">
+                        We engineer digital experiences that drive business growth for ambitious brands worldwide.
+                    </p>
+                    <a href="mailto:hello@bangjeje.dev" class="text-xl font-medium text-white hover:text-accent transition-colors">
+                        hello@bangjeje.dev
+                    </a>
+                </div>
+                
+                <!-- Links -->
+                <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 reveal-up delay-100">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Services</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Brand Identity</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">UI/UX Design</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Web Development</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Business Systems</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Company</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="case-studies.html" class="hover:text-accent transition-colors">Case Studies</a></li>
+                            <li><a href="industries.html" class="hover:text-accent transition-colors">Industries</a></li>
+                            <li><a href="insights.html" class="hover:text-accent transition-colors">Insights</a></li>
+                            <li><a href="about.html" class="hover:text-accent transition-colors">About</a></li>
+                            <li><a href="contact.html" class="hover:text-accent transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Social</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="https://www.linkedin.com/company/bangjejedev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-linkedin-logo"></i> LinkedIn</a></li>
+                            <li><a href="https://www.instagram.com/bangjeje.dev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-instagram-logo"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-glass flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-textSecondary font-light">
+                <p>&copy; 2026 bangjeje.dev. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+                <!-- JS Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const menuBtn = document.querySelector('.md\\:hidden');
+            
+            if (menuBtn) {
+                const mobileMenuHTML = `
+                    <div id="mobile-menu" class="fixed inset-0 bg-dark/95 backdrop-blur-xl z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-medium tracking-tight">
+                        <a href="services.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Services</a>
+                        <a href="industries.html" class="mobile-link text-accent hover:text-white transition-colors">Industries</a>
+                        <a href="case-studies.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                        <a href="insights.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Insights</a>
+                        <a href="about.html" class="mobile-link text-textSecondary hover:text-white transition-colors">About</a>
+                        <a href="contact.html" class="mobile-link text-textSecondary hover:text-white transition-colors mt-4 text-xl border border-glass px-6 py-2 rounded-full">Contact</a>
+                        <button aria-label="Close" id="close-menu" class="absolute top-6 right-6 p-2 text-textSecondary hover:text-white"><i class="ph ph-x text-3xl"></i></button>
+                    </div>
+                `;
+                
+                // Only insert if it doesn't already exist
+                if (!document.getElementById('mobile-menu')) {
+                    document.body.insertAdjacentHTML('beforeend', mobileMenuHTML);
+                }
+                
+                const mobileMenu = document.getElementById('mobile-menu');
+                const closeBtn = document.getElementById('close-menu');
+                const mobileLinks = document.querySelectorAll('.mobile-link');
+
+                if (mobileMenu) {
+                    menuBtn.addEventListener('click', () => {
+                        mobileMenu.classList.remove('hidden');
+                        mobileMenu.classList.add('flex');
+                        document.body.style.overflow = 'hidden';
+                    });
+
+                    const closeMenu = () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        document.body.style.overflow = 'auto';
+                    };
+
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', closeMenu);
+                    }
+                    
+                    if (mobileLinks.length > 0) {
+                        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+                    }
+                }
+            }
+
+            // Scroll Reveal Observer
+            const revealElements = document.querySelectorAll('.reveal-up');
+            
+            if (revealElements.length > 0) {
+                const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+
+                const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, revealOptions);
+
+                revealElements.forEach(el => revealOnScroll.observe(el));
+                
+                // Trigger initial reveal
+                setTimeout(() => {
+                    document.querySelectorAll('.reveal-up:not(.is-visible)').forEach(el => {
+                        if(el.getBoundingClientRect().top < window.innerHeight) {
+                            el.classList.add('is-visible');
+                        }
+                    });
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased selection:bg-accent selection:text-dark">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-5KVFF84ZZC');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TXTKX3TL');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Works | bangjeje.dev - Premium Digital Product Studio</title>
+    <meta name="description" content="Explore how bangjeje.dev engineers high-performance digital platforms and precise brand identities to solve complex business challenges.">
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../scripts/tailwind-config.js"></script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance { text-wrap: balance; }
+        }
+        
+        body {
+            background-color: #050505;
+            color: #F8FAFC;
+        }
+
+        /* Glassmorphism System */
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+        }
+        
+        .glass-card {
+            background: rgba(17, 24, 39, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(195, 255, 0, 0.3);
+            background: rgba(17, 24, 39, 0.5);
+            box-shadow: 0 10px 40px -10px rgba(195, 255, 0, 0.1);
+            transform: translateY(-8px);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #C3FF00;
+            color: #050505;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: #D7FF4D;
+            box-shadow: 0 0 30px rgba(195, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC;
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(195, 255, 0, 0.5);
+        }
+
+        /* Pills */
+        .pill-tag {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .pill-tag:hover {
+            border-color: rgba(195, 255, 0, 0.5);
+            background: rgba(195, 255, 0, 0.05);
+        }
+
+        /* Typography */
+        .text-glow {
+            text-shadow: 0 0 40px rgba(195, 255, 0, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-accent {
+            background: linear-gradient(to right, #D7FF4D, #C3FF00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+        
+        /* Subtle Grid Pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Case Study Image Hover */
+        .case-study-image-container {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .case-study-image-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -20px rgba(195, 255, 0, 0.15);
+        }
+        .case-study-image-container:hover img {
+            transform: scale(1.02);
+        }
+    </style>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "wmzess289d");
+    </script>
+</head>
+<body class="bg-dark text-textPrimary overflow-x-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXTKX3TL"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- 1. Global Navigation (Glass Header) -->
+    <nav class="fixed w-full z-50 bg-dark/40 backdrop-blur-md border-b border-glass transition-all duration-500" id="navbar">
+        <div class="max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="../index.html" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <div class="w-6 h-6 rounded-md bg-accent flex items-center justify-center shadow-[0_0_10px_rgba(195,255,0,0.5)]">
+                    <div class="w-2 h-2 bg-dark rounded-full"></div>
+                </div>
+                bangjeje<span class="text-textSecondary">.dev</span>
+            </a>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center space-x-8 bg-surface/50 px-6 py-2 rounded-full border border-glass">
+                <a href="services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
+                <a href="case-studies.html" class="text-sm font-medium text-accent hover:text-accentHover transition-colors text-glow">Work</a>
+                <a href="../index.html#approach" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Approach</a>
+                <a href="../index.html#articles" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Articles</a>
+            </div>
+            
+            <!-- CTA -->
+            <div class="hidden md:flex">
+                <a href="../index.html#contact" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
+                    Initiate Project
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-textSecondary p-2 hover:text-white transition-colors">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. The Proof Hero -->
+        <section class="relative pt-48 pb-32 px-6 overflow-hidden bg-dark min-h-[60vh] flex flex-col justify-center">
+            
+            <!-- Ambient Background Effects -->
+            <div class="absolute inset-0 bg-mesh opacity-30 z-0 pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto relative z-10 w-full text-center flex flex-col items-center">
+                
+                <!-- Pill Label -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-glass text-textSecondary text-xs font-semibold tracking-widest uppercase mb-10 reveal-up">
+                    03 // SELECTED WORKS
+                </div>
+
+                <!-- Massive Typography -->
+                <h1 class="text-5xl md:text-7xl lg:text-[7rem] font-bold leading-[1.05] tracking-tighter text-balance reveal-up delay-100 mb-6">
+                    <span class="gradient-text">The Proof.</span>
+                </h1>
+                
+                <h2 class="text-xl md:text-2xl text-textSecondary font-light leading-relaxed reveal-up delay-200 text-balance">
+                    We engineer measurable growth through precise architecture and premium digital design. Here is the evidence.
+                </h2>
+
+                <!-- Scroll Indicator -->
+                <div class="mt-24 reveal-up delay-300">
+                    <a href="#case-studies" class="text-textSecondary hover:text-accent transition-colors flex flex-col items-center gap-3">
+                        <span class="text-xs uppercase tracking-widest font-mono">Explore Cases</span>
+                        <i class="ph ph-arrow-down animate-bounce text-xl"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Featured Case Studies -->
+        <div id="case-studies" class="border-t border-glass relative">
+            <!-- Background Grid Pattern -->
+            <div class="absolute inset-0 bg-grid-pattern opacity-30 z-0 pointer-events-none"></div>
+            
+            <!-- 2. Case Study A (Image Left, Text Right) -->
+            <article class="py-24 md:py-32 px-6 relative z-10 border-b border-glass bg-dark">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+                        
+                        <!-- Image Container (Order 2 on mobile, 1 on desktop) -->
+                        <div class="lg:col-span-7 order-2 lg:order-1 reveal-up">
+                            <a href="#" class="block case-study-image-container rounded-2xl overflow-hidden border border-white/5 bg-surface aspect-[4/3] md:aspect-[16/10] relative group">
+                                <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+                                <img src="https://images.unsplash.com/photo-1661956602868-6ae368943878?q=80&w=2070&auto=format&fit=crop" alt="Complex Fintech Platform Dashboard" class="w-full h-full object-cover transition-transform duration-700" loading="lazy">
+                            </a>
+                        </div>
+                        
+                        <!-- Text Content (Order 1 on mobile, 2 on desktop) -->
+                        <div class="lg:col-span-5 lg:col-start-9 order-1 lg:order-2 flex flex-col">
+                            
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6 reveal-up">
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-accent">Fintech</span>
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-textSecondary">Platform Architecture</span>
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-textSecondary">Next.js</span>
+                            </div>
+
+                            <!-- Title -->
+                            <h2 class="text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6 reveal-up delay-100">
+                                Aura Financial
+                            </h2>
+                            
+                            <!-- Narrative -->
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 reveal-up delay-200">
+                                Aura was struggling with a legacy monolithic architecture that was crashing under peak trading loads. We completely re-engineered their core platform using a decoupled Headless architecture, dramatically reducing load times and paving the way for international expansion.
+                            </p>
+
+                            <!-- Metrics Bar -->
+                            <div class="grid grid-cols-2 gap-6 pt-8 border-t border-glass mb-10 reveal-up delay-300">
+                                <div>
+                                    <p class="text-3xl font-bold text-white mb-1">0.4s</p>
+                                    <p class="text-xs uppercase tracking-widest text-textSecondary">Load Time</p>
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-bold text-white mb-1">+210%</p>
+                                    <p class="text-xs uppercase tracking-widest text-textSecondary">User Retention</p>
+                                </div>
+                            </div>
+                            
+                            <!-- CTA -->
+                            <div class="reveal-up delay-400">
+                                <a href="#" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3 w-fit">
+                                    Read Full Case Study <i class="ph ph-arrow-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 3. Case Study B (Text Left, Image Right) -->
+            <article class="py-24 md:py-32 px-6 relative z-10 border-b border-glass bg-surface/20">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+                        
+                        <!-- Text Content (Order 1 on both) -->
+                        <div class="lg:col-span-5 order-1 flex flex-col">
+                            
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6 reveal-up">
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-accent">E-Commerce</span>
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-textSecondary">CRO</span>
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-textSecondary">Shopify Plus</span>
+                            </div>
+
+                            <!-- Title -->
+                            <h2 class="text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6 reveal-up delay-100">
+                                Lumina Audio
+                            </h2>
+                            
+                            <!-- Narrative -->
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 reveal-up delay-200">
+                                Despite massive organic traffic, Lumina's conversion rate was stalled at 0.8%. We executed a comprehensive UI/UX overhaul of their checkout funnel, introduced high-performance product visualizers, and migrated them to a custom headless Shopify build.
+                            </p>
+
+                            <!-- Metrics Bar -->
+                            <div class="grid grid-cols-2 gap-6 pt-8 border-t border-glass mb-10 reveal-up delay-300">
+                                <div>
+                                    <p class="text-3xl font-bold text-white mb-1">3.2%</p>
+                                    <p class="text-xs uppercase tracking-widest text-textSecondary">Conversion Rate</p>
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-bold text-white mb-1">$4.2M</p>
+                                    <p class="text-xs uppercase tracking-widest text-textSecondary">Rev Generated</p>
+                                </div>
+                            </div>
+                            
+                            <!-- CTA -->
+                            <div class="reveal-up delay-400">
+                                <a href="#" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3 w-fit">
+                                    Visit Live Site <i class="ph ph-arrow-up-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <!-- Image Container (Order 2 on both) -->
+                        <div class="lg:col-span-7 lg:col-start-7 order-2 reveal-up">
+                            <a href="#" class="block case-study-image-container rounded-2xl overflow-hidden border border-white/5 bg-surface aspect-[4/3] md:aspect-[16/10] relative group">
+                                <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+                                <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2064&auto=format&fit=crop" alt="Premium E-commerce Audio Product Page" class="w-full h-full object-cover transition-transform duration-700" loading="lazy">
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+
+            <!-- 4. Case Study C (Image Left, Text Right) -->
+            <article class="py-24 md:py-32 px-6 relative z-10 bg-dark border-b border-glass">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+                        
+                        <!-- Image Container (Order 2 on mobile, 1 on desktop) -->
+                        <div class="lg:col-span-7 order-2 lg:order-1 reveal-up">
+                            <a href="#" class="block case-study-image-container rounded-2xl overflow-hidden border border-white/5 bg-surface aspect-[4/3] md:aspect-[16/10] relative group">
+                                <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+                                <img src="https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=2070&auto=format&fit=crop" alt="SaaS Brand Identity and Marketing Site" class="w-full h-full object-cover transition-transform duration-700" loading="lazy">
+                            </a>
+                        </div>
+                        
+                        <!-- Text Content (Order 1 on mobile, 2 on desktop) -->
+                        <div class="lg:col-span-5 lg:col-start-9 order-1 lg:order-2 flex flex-col">
+                            
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6 reveal-up">
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-accent">Enterprise SaaS</span>
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-textSecondary">Brand Identity</span>
+                                <span class="pill-tag px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-textSecondary">Marketing Site</span>
+                            </div>
+
+                            <!-- Title -->
+                            <h2 class="text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6 reveal-up delay-100">
+                                Vertex AI
+                            </h2>
+                            
+                            <!-- Narrative -->
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 reveal-up delay-200">
+                                Vertex had a powerful AI model but their brand looked like a generic 2010 startup. We forged a dark luxury brand identity to position them for enterprise clients, backed by a highly optimized WebGL marketing site that secured their Series B funding.
+                            </p>
+
+                            <!-- Metrics Bar -->
+                            <div class="grid grid-cols-2 gap-6 pt-8 border-t border-glass mb-10 reveal-up delay-300">
+                                <div>
+                                    <p class="text-3xl font-bold text-white mb-1">Series B</p>
+                                    <p class="text-xs uppercase tracking-widest text-textSecondary">Funding Secured</p>
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-bold text-white mb-1">+450%</p>
+                                    <p class="text-xs uppercase tracking-widest text-textSecondary">Enterprise Leads</p>
+                                </div>
+                            </div>
+                            
+                            <!-- CTA -->
+                            <div class="reveal-up delay-400">
+                                <a href="#" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3 w-fit">
+                                    Read Full Case Study <i class="ph ph-arrow-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- 5. The Archive Grid -->
+        <section class="py-32 px-6 relative bg-surface/10 border-b border-glass">
+            <div class="max-w-8xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 reveal-up">
+                    <div>
+                        <h2 class="text-3xl md:text-5xl font-bold tracking-tighter text-white mb-4">The Archive.</h2>
+                        <p class="text-textSecondary text-lg font-light max-w-lg">A curated selection of our digital product launches, brand realignments, and system integrations.</p>
+                    </div>
+                    <div class="mt-6 md:mt-0">
+                        <a href="../index.html#contact" class="text-accent hover:text-white transition-colors text-sm uppercase tracking-widest font-semibold flex items-center gap-2">
+                            Work With Us <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Archive Item 1 -->
+                    <a href="#" class="glass-card p-8 group block reveal-up">
+                        <div class="flex justify-between items-start mb-12">
+                            <h3 class="text-2xl font-bold text-white">Nova Health</h3>
+                            <i class="ph ph-arrow-up-right text-glass group-hover:text-accent transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-textSecondary text-sm mb-8 leading-relaxed">Complete overhaul of a telehealth patient portal, focusing on WCAG accessibility and reducing appointment booking friction.</p>
+                        <div class="flex gap-2">
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">Healthcare</span>
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">UI/UX</span>
+                        </div>
+                    </a>
+
+                    <!-- Archive Item 2 -->
+                    <a href="#" class="glass-card p-8 group block reveal-up delay-100">
+                        <div class="flex justify-between items-start mb-12">
+                            <h3 class="text-2xl font-bold text-white">Horizon Logistics</h3>
+                            <i class="ph ph-arrow-up-right text-glass group-hover:text-accent transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-textSecondary text-sm mb-8 leading-relaxed">Built a custom internal dashboard for tracking global shipments in real-time, integrating with 4 distinct shipping APIs.</p>
+                        <div class="flex gap-2">
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">Logistics</span>
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">Vue.js</span>
+                        </div>
+                    </a>
+
+                    <!-- Archive Item 3 -->
+                    <a href="#" class="glass-card p-8 group block reveal-up delay-200">
+                        <div class="flex justify-between items-start mb-12">
+                            <h3 class="text-2xl font-bold text-white">Syndicate App</h3>
+                            <i class="ph ph-arrow-up-right text-glass group-hover:text-accent transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-textSecondary text-sm mb-8 leading-relaxed">Mobile application design and Go-To-Market strategy for a Gen-Z focused investment syndicate platform.</p>
+                        <div class="flex gap-2">
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">Fintech</span>
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">App Design</span>
+                        </div>
+                    </a>
+
+                    <!-- Archive Item 4 -->
+                    <a href="#" class="glass-card p-8 group block reveal-up">
+                        <div class="flex justify-between items-start mb-12">
+                            <h3 class="text-2xl font-bold text-white">Oasis Skincare</h3>
+                            <i class="ph ph-arrow-up-right text-glass group-hover:text-accent transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-textSecondary text-sm mb-8 leading-relaxed">Headless Shopify migration utilizing Next.js, resulting in a 400% increase in mobile page speed scores and higher conversions.</p>
+                        <div class="flex gap-2">
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">E-Comm</span>
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">Shopify</span>
+                        </div>
+                    </a>
+
+                    <!-- Archive Item 5 -->
+                    <a href="#" class="glass-card p-8 group block reveal-up delay-100">
+                        <div class="flex justify-between items-start mb-12">
+                            <h3 class="text-2xl font-bold text-white">Nexus Data</h3>
+                            <i class="ph ph-arrow-up-right text-glass group-hover:text-accent transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-textSecondary text-sm mb-8 leading-relaxed">Brand identity and marketing site for an enterprise data warehouse solution, focusing on trust and security signaling.</p>
+                        <div class="flex gap-2">
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">SaaS</span>
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">Branding</span>
+                        </div>
+                    </a>
+
+                    <!-- Archive Item 6 -->
+                    <a href="#" class="glass-card p-8 group block reveal-up delay-200">
+                        <div class="flex justify-between items-start mb-12">
+                            <h3 class="text-2xl font-bold text-white">Elevate HR</h3>
+                            <i class="ph ph-arrow-up-right text-glass group-hover:text-accent transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-textSecondary text-sm mb-8 leading-relaxed">Conversion Rate Optimization (CRO) campaign on their primary landing pages, driving a 45% lift in demo requests.</p>
+                        <div class="flex gap-2">
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">B2B</span>
+                            <span class="pill-tag px-2 py-1 rounded text-[10px] uppercase font-bold text-textSecondary">CRO</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Final Call to Action -->
+        <section class="py-16 md:py-32 px-6 mb-12">
+            <div class="max-w-6xl mx-auto relative reveal-up">
+                
+                <!-- Glowing Backdrop -->
+                <div class="absolute inset-0 bg-accent/10 blur-[80px] rounded-[3rem] z-0" aria-hidden="true"></div>
+                
+                <div class="glass-panel relative z-10 px-8 py-24 md:py-32 md:px-24 text-center border-accent/20">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-white leading-[1.1] mb-6">
+                        Ready to be our next <span class="gradient-accent">success story?</span>
+                    </h2>
+                    <p class="text-textSecondary text-lg md:text-xl font-light mb-12 max-w-2xl mx-auto">
+                        We partner with ambitious brands to build systems that scale. Let's discuss your technical challenges.
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="../index.html#contact" class="btn-primary text-sm uppercase tracking-widest px-10 py-5 flex items-center gap-3">
+                            Initiate Project <i class="ph ph-arrow-right text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 7. Global Footer -->
+    <footer class="border-t border-glass bg-surface/30 pt-20 pb-10 px-6">
+        <div class="max-w-8xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 mb-16">
+                <!-- Brand -->
+                <div class="md:col-span-5">
+                    <a href="../index.html" class="text-2xl font-bold tracking-tight text-white flex items-center gap-2 mb-6">
+                        <div class="w-5 h-5 rounded bg-accent flex items-center justify-center">
+                            <div class="w-1.5 h-1.5 bg-dark rounded-full"></div>
+                        </div>
+                        bangjeje<span class="text-textSecondary">.dev</span>
+                    </a>
+                    <p class="text-textSecondary font-light leading-relaxed mb-8 max-w-xs text-sm">
+                        Strategic digital design and growth partner. We build platforms that convert and scale.
+                    </p>
+                    <a href="mailto:hello@bangjeje.dev" class="inline-block text-white text-lg font-medium hover:text-accent transition-colors">
+                        hello@bangjeje.dev
+                    </a>
+                </div>
+                
+                <!-- Links -->
+                <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Services</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Services Overview</a></li>
+                            <li><a href="services.html#services-list" class="hover:text-accent transition-colors">UI/UX Design</a></li>
+                            <li><a href="services.html#services-list" class="hover:text-accent transition-colors">Web Development</a></li>
+                            <li><a href="services.html#services-list" class="hover:text-accent transition-colors">Business Systems</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Company</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="case-studies.html" class="text-accent transition-colors">Work</a></li>
+                            <li><a href="../index.html#approach" class="hover:text-accent transition-colors">Approach</a></li>
+                            <li><a href="../index.html#articles" class="hover:text-accent transition-colors">Insights</a></li>
+                            <li><a href="../index.html#contact" class="hover:text-accent transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Social</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="https://www.linkedin.com/company/bangjejedev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-linkedin-logo"></i> LinkedIn</a></li>
+                            <li><a href="https://www.instagram.com/bangjeje.dev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-instagram-logo"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-glass flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-textSecondary font-light">
+                <p>&copy; 2026 bangjeje.dev. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const menuBtn = document.querySelector('.md\\:hidden');
+            const mobileMenuHTML = `
+                <div id="mobile-menu" class="fixed inset-0 bg-dark/95 backdrop-blur-xl z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-medium tracking-tight">
+                    <a href="services.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Services</a>
+                    <a href="case-studies.html" class="mobile-link text-accent transition-colors">Work</a>
+                    <a href="../index.html#approach" class="mobile-link text-textSecondary hover:text-white transition-colors">Approach</a>
+                    <a href="../index.html#articles" class="mobile-link text-textSecondary hover:text-white transition-colors">Articles</a>
+                    <a href="../index.html#contact" class="mobile-link text-accent mt-4 text-xl">Initiate Project</a>
+                    <button id="close-menu" class="absolute top-6 right-6 p-2 text-textSecondary hover:text-white"><i class="ph ph-x text-3xl"></i></button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', mobileMenuHTML);
+            
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeBtn = document.getElementById('close-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            });
+
+            const closeMenu = () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            };
+
+            closeBtn.addEventListener('click', closeMenu);
+            mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+            // Scroll Reveal Observer
+            const revealElements = document.querySelectorAll('.reveal-up');
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealOnScroll.observe(el));
+            
+            // Trigger initial reveal
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-up:not(.is-visible)').forEach(el => {
+                    if(el.getBoundingClientRect().top < window.innerHeight) {
+                        el.classList.add('is-visible');
+                    }
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

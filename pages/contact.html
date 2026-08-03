@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased selection:bg-accent selection:text-dark">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-5KVFF84ZZC');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TXTKX3TL');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#050505',
+                        surface: '#0D1117',
+                        card: '#111827',
+                        accent: '#C3FF00',
+                        accentHover: '#D7FF4D',
+                        glow: 'rgba(195, 255, 0, 0.35)',
+                        textPrimary: '#F8FAFC',
+                        textSecondary: '#94A3B8',
+                        glass: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    maxWidth: {
+                        '8xl': '1440px',
+                    },
+                    letterSpacing: {
+                        tightest: '-.075em',
+                        tighter: '-.04em',
+                        tight: '-.02em',
+                        normal: '0',
+                        wide: '.025em',
+                        widest: '.1em',
+                        caps: '.2em',
+                    },
+                    backgroundImage: {
+                        'mesh': 'radial-gradient(at 40% 20%, hsla(171, 70%, 20%, 0.4) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189, 70%, 15%, 0.4) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(171, 70%, 15%, 0.4) 0px, transparent 50%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance { text-wrap: balance; }
+        }
+        body {
+            background-color: #050505;
+            color: #F8FAFC;
+        }
+        /* Glassmorphism System */
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+        }
+        /* Buttons */
+        .btn-primary {
+            background: #C3FF00;
+            color: #050505;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: #D7FF4D;
+            box-shadow: 0 0 30px rgba(195, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        /* Typography */
+        .text-glow {
+            text-shadow: 0 0 40px rgba(195, 255, 0, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* Scroll Reveal */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        /* Form Specifics */
+        .input-field {
+            @apply w-full bg-black/20 border border-white/10 rounded-xl p-4 md:p-5 text-lg font-light text-textPrimary transition-all duration-300;
+        }
+        .input-field:focus {
+            @apply outline-none border-accent ring-1 ring-accent/50 bg-black/40;
+        }
+        .input-field:focus + .input-label {
+            @apply text-accent;
+        }
+        /* Custom Radio/Checkbox Pills */
+        .pill-radio:checked + label {
+            @apply bg-accent text-dark border-accent scale-[1.02] shadow-[0_0_20px_rgba(195,255,0,0.2)];
+        }
+        /* FAQ Accordion */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+    <!-- SEO Foundation -->
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/images/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/images/site.webmanifest">
+    <!-- Open Graph Image -->
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "wmzess289d");
+    </script>
+    <!-- SEO Foundation -->
+    <title>Contact | bangjeje.dev</title>
+    <meta name="description" content="Initiate a project with bangjeje.dev. Get in touch to discuss how we can engineer a digital experience that drives business growth.">
+    <link rel="canonical" href="https://bangjeje.dev/pages/contact.html">
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Contact | bangjeje.dev">
+    <meta property="og:description" content="Initiate a project with bangjeje.dev. Get in touch to discuss how we can engineer a digital experience that drives business growth.">
+    <meta property="og:url" content="https://bangjeje.dev/pages/contact.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact | bangjeje.dev">
+    <meta name="twitter:description" content="Initiate a project with bangjeje.dev. Get in touch to discuss how we can engineer a digital experience that drives business growth.">
+    <meta name="twitter:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Favicon (Fallback) -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact | bangjeje.dev",
+      "description": "Initiate a project with bangjeje.dev. Get in touch to discuss how we can engineer a digital experience that drives business growth.",
+      "url": "https://bangjeje.dev/pages/contact.html"
+    }
+    </script>
+</head>
+<body class="bg-dark text-textPrimary overflow-x-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXTKX3TL"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Global Navigation -->
+            <nav class="fixed w-full z-50 bg-dark/40 backdrop-blur-md border-b border-glass transition-all duration-500" id="navbar">
+        <div class="max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-4 group">
+                <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 md:w-9 md:h-9 object-contain" />
+                <span class="text-white text-xl md:text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 bg-surface/50 px-6 py-2 rounded-full border border-glass">
+                <a href="services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
+                <a href="industries.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Industries</a>
+                <a href="case-studies.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                <a href="insights.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Insights</a>
+                <a href="about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
+            </div>
+            
+            <div class="hidden md:flex">
+                <a href="contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
+                    Initiate Project
+                </a>
+            </div>
+
+            <button aria-label="Toggle Menu" class="md:hidden text-textSecondary p-2 hover:text-white transition-colors">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 01. The Invitation Hero -->
+        <section class="relative pt-48 pb-20 px-6 overflow-hidden">
+            <div class="absolute inset-0 bg-mesh opacity-20 z-0 pointer-events-none"></div>
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+            <div class="max-w-4xl mx-auto relative z-10 text-center lg:text-left">
+                <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-medium tracking-tighter leading-none mb-8 reveal-up">
+                    <span class="text-white text-glow">Let's build</span><br>
+                    <span class="gradient-text">something defining.</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-light text-textSecondary leading-relaxed reveal-up delay-100 max-w-2xl lg:mx-0 mx-auto">
+                    Tell us about your strategic goals, timeline, and current challenges. We review every inquiry and respond within 24 hours.
+                </p>
+            </div>
+        </section>
+
+        <!-- 02. Why Work With Us -->
+        <section class="pb-24 px-6 border-b border-glass relative z-10">
+            <div class="max-w-8xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="reveal-up">
+                        <i class="ph ph-rocket text-3xl text-accent mb-4"></i>
+                        <h3 class="text-lg font-medium text-white mb-2">Relentless Velocity</h3>
+                        <p class="text-sm font-light text-textSecondary">We bypass bureaucratic bloat. We move from strategic vision to shipped code faster than traditional agencies.</p>
+                    </div>
+                    <div class="reveal-up delay-100">
+                        <i class="ph ph-users-three text-3xl text-accent mb-4"></i>
+                        <h3 class="text-lg font-medium text-white mb-2">Direct Access</h3>
+                        <p class="text-sm font-light text-textSecondary">No account managers. You collaborate directly with the senior architects and designers engineering your product.</p>
+                    </div>
+                    <div class="reveal-up delay-200">
+                        <i class="ph ph-chart-line-up text-3xl text-accent mb-4"></i>
+                        <h3 class="text-lg font-medium text-white mb-2">Measurable ROI</h3>
+                        <p class="text-sm font-light text-textSecondary">We engineer outcomes, not just outputs. Every aesthetic decision is grounded in business growth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. The Acquisition Interface -->
+        <section class="py-24 md:py-32 px-6">
+            <div class="max-w-8xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                    
+                    <!-- Alternative Channels (Left) -->
+                    <div class="lg:col-span-4 reveal-up order-2 lg:order-1">
+                        <div class="sticky top-32 space-y-12">
+                            <div>
+                                <h3 class="text-xs font-semibold uppercase tracking-widest text-textSecondary mb-6">Direct Channels</h3>
+                                <ul class="space-y-6">
+                                    <li>
+                                        <a href="mailto:hello@bangjeje.dev" class="group flex items-start gap-4">
+                                            <div class="w-10 h-10 rounded-full border border-glass flex items-center justify-center group-hover:border-accent group-hover:text-accent transition-colors">
+                                                <i class="ph ph-envelope-simple text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-light text-textSecondary mb-1">Email Us</div>
+                                                <div class="text-lg font-medium text-white group-hover:text-accent transition-colors">hello@bangjeje.dev</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.linkedin.com/company/bangjejedev/" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4">
+                                            <div class="w-10 h-10 rounded-full border border-glass flex items-center justify-center group-hover:border-accent group-hover:text-accent transition-colors">
+                                                <i class="ph ph-linkedin-logo text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-light text-textSecondary mb-1">Connect on LinkedIn</div>
+                                                <div class="text-lg font-medium text-white group-hover:text-accent transition-colors">bangjeje.dev</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://whatsapp.com/channel/0029VbC9S7N8vd1LNWuilt45" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4">
+                                            <div class="w-10 h-10 rounded-full border border-glass flex items-center justify-center group-hover:border-accent group-hover:text-accent transition-colors">
+                                                <i class="ph ph-whatsapp-logo text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-light text-textSecondary mb-1">WhatsApp (Priority)</div>
+                                                <div class="text-lg font-medium text-white group-hover:text-accent transition-colors">Bangjeje Channel</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xs font-semibold uppercase tracking-widest text-textSecondary mb-6">Global Operations</h3>
+                                <p class="text-lg font-light text-textPrimary leading-relaxed">
+                                    We operate remotely, partnering with ambitious companies worldwide. <br>
+                                    <span class="text-textSecondary">Based in EST time zone.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The Form (Right) -->
+                    <div class="lg:col-span-8 reveal-up delay-100 order-1 lg:order-2">
+                        <div id="form-container" class="glass-panel p-8 md:p-12 relative overflow-hidden transition-all duration-700">
+                            
+                            <!-- Success State (Hidden initially) -->
+                            <div id="success-state" class="absolute inset-0 bg-[#0D1117] flex flex-col items-center justify-center text-center opacity-0 pointer-events-none transition-opacity duration-700 z-20 px-8">
+                                <i class="ph ph-check-circle text-accent text-[5rem] md:text-[7rem] mb-8"></i>
+                                <h2 class="text-4xl md:text-5xl font-medium tracking-tight text-white mb-4">Inquiry Received</h2>
+                                <p class="text-lg font-light text-textSecondary max-w-md">
+                                    Thank you for reaching out. We will review your details and respond within 24 hours to schedule our intro call.
+                                </p>
+                            </div>
+
+                            <form id="contact-form" class="relative z-10 space-y-12">
+                                
+                                <!-- Personal Info -->
+                                <div class="space-y-6">
+                                    <h3 class="text-2xl font-medium text-white mb-8">01. Your Details</h3>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="flex flex-col-reverse group">
+                                            <input type="text" id="name" name="name" required class="input-field peer" placeholder="John Doe">
+                                            <label for="name" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Full Name</label>
+                                        </div>
+                                        <div class="flex flex-col-reverse group">
+                                            <input type="email" id="email" name="email" required class="input-field peer" placeholder="john@company.com">
+                                            <label for="email" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Work Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col-reverse group">
+                                        <input type="text" id="company" name="company" class="input-field peer" placeholder="Acme Corp">
+                                        <label for="company" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Company Name (Optional)</label>
+                                    </div>
+                                </div>
+
+                                <!-- Project Needs -->
+                                <div class="space-y-6 pt-8 border-t border-glass">
+                                    <h3 class="text-2xl font-medium text-white mb-8">02. Project Scope</h3>
+                                    
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase tracking-widest text-textSecondary mb-4">Project Type (Select all that apply)</label>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <!-- Pill 1 -->
+                                            <div class="relative">
+                                                <input type="checkbox" id="type-ui" name="project_type" value="uiux" class="pill-radio hidden peer">
+                                                <label for="type-ui" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">UI/UX Design</label>
+                                            </div>
+                                            <!-- Pill 2 -->
+                                            <div class="relative">
+                                                <input type="checkbox" id="type-web" name="project_type" value="web" class="pill-radio hidden peer">
+                                                <label for="type-web" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">Web Development</label>
+                                            </div>
+                                            <!-- Pill 3 -->
+                                            <div class="relative">
+                                                <input type="checkbox" id="type-brand" name="project_type" value="brand" class="pill-radio hidden peer">
+                                                <label for="type-brand" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">Brand Identity</label>
+                                            </div>
+                                            <!-- Pill 4 -->
+                                            <div class="relative">
+                                                <input type="checkbox" id="type-sys" name="project_type" value="system" class="pill-radio hidden peer">
+                                                <label for="type-sys" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">Business Systems</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    
+                                    <div class="flex flex-col-reverse group pt-6">
+                                        <textarea id="challenge" name="challenge" required rows="4" class="input-field peer resize-none" placeholder="Briefly describe your current business challenge and what you hope to achieve..."></textarea>
+                                        <label for="challenge" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Core Challenge</label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="pt-8 border-t border-glass text-right">
+                                    <button type="submit" id="submit-btn" class="btn-primary w-full md:w-auto px-12 py-5 text-sm uppercase tracking-widest flex items-center justify-center gap-3 ml-auto">
+                                        <span id="btn-text">Send Inquiry</span>
+                                        <i id="btn-icon" class="ph ph-paper-plane-right text-xl"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. The Process & FAQ -->
+        <section class="py-24 md:py-32 px-6 border-t border-glass bg-surface/30">
+            <div class="max-w-8xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+                    
+                    <!-- Process -->
+                    <div class="reveal-up">
+                        <h2 class="text-3xl md:text-5xl font-medium tracking-tight text-white mb-12">What happens next?</h2>
+                        <div class="space-y-12">
+                            <div class="flex gap-6 relative">
+                                <div class="absolute left-6 top-16 bottom-0 w-px bg-glass"></div>
+                                <div class="text-4xl font-bold text-accent">01</div>
+                                <div>
+                                    <h3 class="text-xl font-medium text-white mb-2 mt-1">Review & Qualification</h3>
+                                    <p class="text-textSecondary font-light leading-relaxed">We review your inquiry to ensure your challenge aligns with our expertise and minimum engagement criteria.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6 relative">
+                                <div class="absolute left-6 top-16 bottom-0 w-px bg-glass"></div>
+                                <div class="text-4xl font-bold text-accent">02</div>
+                                <div>
+                                    <h3 class="text-xl font-medium text-white mb-2 mt-1">Strategic Intro Call</h3>
+                                    <p class="text-textSecondary font-light leading-relaxed">We schedule a 30-minute consultation to dive deep into your business objectives, timeline, and technical requirements.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="text-4xl font-bold text-accent">03</div>
+                                <div>
+                                    <h3 class="text-xl font-medium text-white mb-2 mt-1">Proposal & Scope</h3>
+                                    <p class="text-textSecondary font-light leading-relaxed">We present a comprehensive project roadmap, architectural strategy, and formal investment proposal.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="reveal-up delay-100">
+                        <h2 class="text-3xl md:text-5xl font-medium tracking-tight text-white mb-12">Common Questions</h2>
+                        <div class="space-y-4">
+                            <details class="group glass-panel rounded-xl px-6 py-4 cursor-pointer">
+                                <summary class="flex justify-between items-center text-lg font-medium text-white select-none">
+                                    What is your typical response time?
+                                    <i class="ph ph-plus group-open:hidden text-accent"></i>
+                                    <i class="ph ph-minus hidden group-open:block text-accent"></i>
+                                </summary>
+                                <p class="text-textSecondary font-light mt-4 leading-relaxed">
+                                    We aim to review and respond to all qualified inquiries within 24 hours during standard business days (EST).
+                                </p>
+                            </details>
+
+                            <details class="group glass-panel rounded-xl px-6 py-4 cursor-pointer">
+                                <summary class="flex justify-between items-center text-lg font-medium text-white select-none">
+                                    Do you work with international clients?
+                                    <i class="ph ph-plus group-open:hidden text-accent"></i>
+                                    <i class="ph ph-minus hidden group-open:block text-accent"></i>
+                                </summary>
+                                <p class="text-textSecondary font-light mt-4 leading-relaxed">
+                                    Yes, we operate completely remotely and have successfully partnered with ambitious companies across North America, Europe, and Asia.
+                                </p>
+                            </details>
+
+                            <details class="group glass-panel rounded-xl px-6 py-4 cursor-pointer">
+                                <summary class="flex justify-between items-center text-lg font-medium text-white select-none">
+                                    What types of projects do you take on?
+                                    <i class="ph ph-plus group-open:hidden text-accent"></i>
+                                    <i class="ph ph-minus hidden group-open:block text-accent"></i>
+                                </summary>
+                                <p class="text-textSecondary font-light mt-4 leading-relaxed">
+                                    We specialize in complex web applications, comprehensive UI/UX redesigns, high-performance marketing sites, and full-scale brand identity systems. We do not do minor bug fixes or small template modifications.
+                                </p>
+                            </details>
+
+                            <details class="group glass-panel rounded-xl px-6 py-4 cursor-pointer">
+                                <summary class="flex justify-between items-center text-lg font-medium text-white select-none">
+                                    How does remote collaboration work?
+                                    <i class="ph ph-plus group-open:hidden text-accent"></i>
+                                    <i class="ph ph-minus hidden group-open:block text-accent"></i>
+                                </summary>
+                                <p class="text-textSecondary font-light mt-4 leading-relaxed">
+                                    We use asynchronous communication via Slack, paired with highly focused weekly syncs via Zoom. Project visibility is maintained transparently through Notion and Figma.
+                                </p>
+                            </details>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+            <footer class="bg-dark border-t border-glass pt-24 pb-8 px-6">
+        <div class="max-w-8xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-24">
+                
+                <!-- Brand -->
+                <div class="md:col-span-5 reveal-up">
+                    <a href="../index.html" class="flex items-center gap-4 group mb-6">
+                        <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-10 h-10 object-contain" />
+                        <span class="text-white text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+                    </a>
+                    <p class="text-textSecondary font-light leading-relaxed max-w-sm mb-8">
+                        We engineer digital experiences that drive business growth for ambitious brands worldwide.
+                    </p>
+                    <a href="mailto:hello@bangjeje.dev" class="text-xl font-medium text-white hover:text-accent transition-colors">
+                        hello@bangjeje.dev
+                    </a>
+                </div>
+                
+                <!-- Links -->
+                <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 reveal-up delay-100">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Services</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Brand Identity</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">UI/UX Design</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Web Development</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Business Systems</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Company</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="case-studies.html" class="hover:text-accent transition-colors">Case Studies</a></li>
+                            <li><a href="industries.html" class="hover:text-accent transition-colors">Industries</a></li>
+                            <li><a href="insights.html" class="hover:text-accent transition-colors">Insights</a></li>
+                            <li><a href="about.html" class="hover:text-accent transition-colors">About</a></li>
+                            <li><a href="contact.html" class="hover:text-accent transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Social</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="https://www.linkedin.com/company/bangjejedev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-linkedin-logo"></i> LinkedIn</a></li>
+                            <li><a href="https://www.instagram.com/bangjeje.dev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-instagram-logo"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-glass flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-textSecondary font-light">
+                <p>&copy; 2026 bangjeje.dev. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+                <!-- JS Interactions -->
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/hubspot.js"></script>
+</body>
+</html>

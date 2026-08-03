@@ -1,0 +1,142 @@
+@layer utilities {
+            .text-balance { text-wrap: balance; }
+        }
+        
+        body {
+            background-color: #050505;
+            color: #F8FAFC;
+        }
+
+        /* Glassmorphism System */
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem; /* 24px */
+        }
+        
+        .glass-card {
+            background: rgba(17, 24, 39, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1rem; /* 16px */
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(195, 255, 0, 0.3);
+            background: rgba(17, 24, 39, 0.5);
+            box-shadow: 0 10px 40px -10px rgba(195, 255, 0, 0.1);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #C3FF00;
+            color: #050505;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: #D7FF4D;
+            box-shadow: 0 0 30px rgba(195, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC;
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Typography */
+        .text-glow {
+            text-shadow: 0 0 40px rgba(195, 255, 0, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-accent {
+            background: linear-gradient(to right, #D7FF4D, #C3FF00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        
+        /* Subtle Grid Pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Contact Form Restoration */
+        .input-field {
+            width: 100%;
+            background: rgba(13, 17, 23, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            color: #F8FAFC;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .input-field::placeholder {
+            color: rgba(148, 163, 184, 0.5);
+        }
+        
+        .input-field:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(13, 17, 23, 0.6);
+        }
+        
+        .input-field:focus {
+            border-color: #C3FF00;
+            box-shadow: 0 0 0 1px #C3FF00, 0 10px 30px -10px rgba(195, 255, 0, 0.1);
+            background: rgba(13, 17, 23, 0.8);
+        }
+
+        .pill-radio:checked + label {
+            border-color: #C3FF00;
+            color: #C3FF00;
+            background: rgba(195, 255, 0, 0.05);
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.1);
+        }
+
+        .input-field:focus ~ .input-label,
+        .input-field:not(:placeholder-shown) ~ .input-label {
+            color: #C3FF00;
+        }

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased selection:bg-accent selection:text-dark">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-5KVFF84ZZC');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TXTKX3TL');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../scripts/tailwind-config.js"></script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance { text-wrap: balance; }
+        }
+        body {
+            background-color: #050505;
+            color: #F8FAFC;
+        }
+        /* Glassmorphism System */
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(195, 255, 0, 0.3);
+            background: rgba(17, 24, 39, 0.5);
+            box-shadow: 0 10px 40px -10px rgba(195, 255, 0, 0.1);
+        }
+        /* Buttons */
+        .btn-primary {
+            background: #C3FF00;
+            color: #050505;
+            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: #D7FF4D;
+            box-shadow: 0 0 30px rgba(195, 255, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC;
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(195, 255, 0, 0.5);
+        }
+        /* Typography */
+        .text-glow {
+            text-shadow: 0 0 40px rgba(195, 255, 0, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #F8FAFC, #94A3B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-accent {
+            background: linear-gradient(to right, #D7FF4D, #C3FF00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* Scroll Reveal Utility Classes */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+        /* Subtle Grid Pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        /* Deliverable List Hover */
+        .deliverable-row {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .deliverable-row:hover {
+            border-color: rgba(195, 255, 0, 0.5);
+            padding-left: 1rem;
+            background: rgba(195, 255, 0, 0.03);
+        }
+    </style>
+    <!-- SEO Foundation -->
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/images/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/images/site.webmanifest">
+    <!-- Open Graph Image -->
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "wmzess289d");
+    </script>
+    <!-- SEO Foundation -->
+    <title>Services | bangjeje.dev</title>
+    <meta name="description" content="Discover our premium digital design services including product design, UI/UX, and scalable business systems.">
+    <link rel="canonical" href="https://bangjeje.dev/pages/services.html">
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Services | bangjeje.dev">
+    <meta property="og:description" content="Discover our premium digital design services including product design, UI/UX, and scalable business systems.">
+    <meta property="og:url" content="https://bangjeje.dev/pages/services.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Services | bangjeje.dev">
+    <meta name="twitter:description" content="Discover our premium digital design services including product design, UI/UX, and scalable business systems.">
+    <meta name="twitter:image" content="https://cdn.bangjeje.dev/bangjejedev.svg">
+    <!-- Favicon (Fallback) -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Services | bangjeje.dev",
+      "description": "Discover our premium digital design services including product design, UI/UX, and scalable business systems.",
+      "url": "https://bangjeje.dev/pages/services.html"
+    }
+    </script>
+</head>
+<body class="bg-dark text-textPrimary overflow-x-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXTKX3TL"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- 1. Global Navigation (Glass Header) -->
+            <nav class="fixed w-full z-50 bg-dark/40 backdrop-blur-md border-b border-glass transition-all duration-500" id="navbar">
+        <div class="max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-4 group">
+                <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 md:w-9 md:h-9 object-contain" />
+                <span class="text-white text-xl md:text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 bg-surface/50 px-6 py-2 rounded-full border border-glass">
+                <a href="services.html" class="text-sm font-medium text-accent hover:text-white transition-colors">Services</a>
+                <a href="industries.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Industries</a>
+                <a href="case-studies.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                <a href="insights.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Insights</a>
+                <a href="about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
+            </div>
+            
+            <div class="hidden md:flex">
+                <a href="contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
+                    Initiate Project
+                </a>
+            </div>
+
+            <button aria-label="Toggle Menu" class="md:hidden text-textSecondary p-2 hover:text-white transition-colors">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. The Capabilities Hero -->
+        <section class="relative pt-40 pb-20 px-6 lg:pt-48 lg:pb-32 overflow-hidden bg-dark min-h-[70vh] flex flex-col justify-center">
+            
+            <!-- Ambient Background Effects -->
+            <div class="absolute inset-0 bg-mesh opacity-50 z-0 pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+            
+            <div class="max-w-8xl mx-auto relative z-10 w-full text-center flex flex-col items-center">
+                
+                <!-- Pill Label -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-glass text-textSecondary text-xs font-semibold tracking-widest uppercase mb-10 reveal-up">
+                    02 // OUR EXPERTISE
+                </div>
+
+                <!-- Massive Typography -->
+                <h1 class="text-5xl md:text-7xl lg:text-[7rem] font-bold leading-[1.05] tracking-tighter text-balance reveal-up delay-100 max-w-5xl">
+                    <span class="gradient-text">Capabilities &</span><br>
+                    <span class="text-white text-glow">Services.</span>
+                </h1>
+                
+                <!-- Scroll Indicator -->
+                <div class="mt-24 reveal-up delay-300">
+                    <a href="#services" class="text-textSecondary hover:text-accent transition-colors flex flex-col items-center gap-3">
+                        <span class="text-xs uppercase tracking-widest font-mono">Explore Methodologies</span>
+                        <i class="ph ph-arrow-down animate-bounce text-xl"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <div id="services-list">
+            <!-- 2. UI/UX & Product Design (Z-Pattern Left) -->
+            <section class="py-32 px-6 relative border-t border-glass">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                        <!-- Side A (Content) -->
+                        <div class="lg:col-span-5 reveal-up">
+                            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-6">UI/UX & Product Design</h2>
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 max-w-lg">
+                                We design digital products that capture attention and drive action. Exceptional UX reduces churn, builds trust, and translates directly to increased user retention and revenue.
+                            </p>
+                            <a href="../index.html#work" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3">
+                                View Design Cases <i class="ph ph-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Side B (Deliverables) -->
+                        <div class="lg:col-span-6 lg:col-start-7 lg:pt-4">
+                            <div class="flex flex-col border-t border-glass reveal-up delay-100">
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Design Systems & Guidelines</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-200">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">High-Fidelity Interactive Prototypes</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-300">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">User Flow & Journey Mapping</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-400">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Usability Testing & Conversion Optimization</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Website Development (Z-Pattern Right) -->
+            <section class="py-32 px-6 relative border-t border-glass bg-surface/20">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                        
+                        <!-- Side A (Content - Ordered 2nd on desktop, 1st on mobile) -->
+                        <div class="lg:col-span-5 lg:col-start-8 reveal-up order-1 lg:order-2">
+                            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-6">Website Development</h2>
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 max-w-lg">
+                                We engineer high-performance platforms optimized for speed, infinite scale, and perfect SEO. Clean, modern architectures that load instantly and perform beautifully across all devices.
+                            </p>
+                            <a href="../index.html#work" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3">
+                                View Technical Cases <i class="ph ph-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <!-- Side B (Deliverables - Ordered 1st on desktop, 2nd on mobile) -->
+                        <div class="lg:col-span-6 lg:col-start-1 lg:pt-4 order-2 lg:order-1">
+                            <div class="flex flex-col border-t border-glass reveal-up delay-100">
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Front-End Architecture (React, Vue, Vanilla)</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-200">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Headless CMS Integrations</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-300">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">E-Commerce Solutions (Shopify, Custom)</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-400">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Performance & Technical SEO Optimization</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Business Systems (Z-Pattern Left) -->
+            <section class="py-32 px-6 relative border-t border-glass">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                        <!-- Side A (Content) -->
+                        <div class="lg:col-span-5 reveal-up">
+                            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-6">Business Systems</h2>
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 max-w-lg">
+                                Stop losing time to disjointed workflows. We build custom dashboards, automated operations, and CRM integrations that turn chaos into streamlined, scalable infrastructure.
+                            </p>
+                            <a href="contact.html" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3">
+                                Discuss Integration <i class="ph ph-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Side B (Deliverables) -->
+                        <div class="lg:col-span-6 lg:col-start-7 lg:pt-4">
+                            <div class="flex flex-col border-t border-glass reveal-up delay-100">
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Custom Admin Dashboards & CRM</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-200">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Third-Party API Integrations (Stripe, Twilio, etc)</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-300">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Workflow Automation Scripts</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-400">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Secure Data Architecture & Databases</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Growth Strategy (Z-Pattern Right) -->
+            <section class="py-32 px-6 relative border-t border-glass bg-surface/20">
+                <div class="max-w-8xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                        
+                        <!-- Side A (Content - Ordered 2nd on desktop, 1st on mobile) -->
+                        <div class="lg:col-span-5 lg:col-start-8 reveal-up order-1 lg:order-2">
+                            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-6">Growth Strategy</h2>
+                            <p class="text-lg text-textSecondary font-light leading-relaxed mb-10 max-w-lg">
+                                Design and development are just the beginning. We implement data-driven funnels, A/B testing, and analytics tracking designed strictly to maximize your ROI post-launch.
+                            </p>
+                            <a href="contact.html" class="btn-secondary text-sm uppercase tracking-widest px-8 py-3.5 inline-flex items-center gap-3">
+                                Start Scaling <i class="ph ph-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <!-- Side B (Deliverables - Ordered 1st on desktop, 2nd on mobile) -->
+                        <div class="lg:col-span-6 lg:col-start-1 lg:pt-4 order-2 lg:order-1">
+                            <div class="flex flex-col border-t border-glass reveal-up delay-100">
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Conversion Rate Optimization (CRO)</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-200">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">A/B Testing & User Analytics Setup</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-300">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">High-Converting Landing Pages</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                                <div class="deliverable-row py-6 border-b border-glass flex items-center justify-between group cursor-default reveal-up delay-400">
+                                    <h3 class="text-xl md:text-2xl font-light text-textSecondary group-hover:text-white transition-colors">Strategic Marketing Funnels</h3>
+                                    <i class="ph ph-plus text-glass group-hover:text-accent transition-colors"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 6. The bangjeje.dev Difference -->
+        <section class="py-32 px-6 relative border-t border-glass">
+            <div class="max-w-8xl mx-auto">
+                <div class="text-center mb-24 reveal-up">
+                    <p class="text-accent text-[10px] font-bold uppercase tracking-widest mb-4">Our Working Model</p>
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tighter text-white max-w-3xl mx-auto">
+                        We don't work like traditional agencies.
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Column 1 -->
+                    <div class="glass-card p-10 group reveal-up">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:border-accent/50 transition-colors">
+                            <i class="ph ph-users text-2xl text-white group-hover:text-accent transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Direct Access</h3>
+                        <p class="text-textSecondary font-light leading-relaxed">
+                            No account managers. No middle-management bloat. You work directly with the senior architects designing and building your product.
+                        </p>
+                    </div>
+                    
+                    <!-- Column 2 -->
+                    <div class="glass-card p-10 group reveal-up delay-100">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:border-accent/50 transition-colors">
+                            <i class="ph ph-rocket-launch text-2xl text-white group-hover:text-accent transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Extreme Velocity</h3>
+                        <p class="text-textSecondary font-light leading-relaxed">
+                            We don't bill by the hour to stretch out timelines. We work efficiently, utilizing proven components and systems to ship high-quality products faster.
+                        </p>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="glass-card p-10 group reveal-up delay-200">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:border-accent/50 transition-colors">
+                            <i class="ph ph-handshake text-2xl text-white group-hover:text-accent transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Strategic Partnership</h3>
+                        <p class="text-textSecondary font-light leading-relaxed">
+                            We aren't just order-takers. We push back, offer strategic business insights, and ensure everything we build actually moves the needle for your company.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Final Call to Action -->
+        <section class="py-16 md:py-32 px-6 mb-12">
+            <div class="max-w-6xl mx-auto relative reveal-up">
+                
+                <!-- Glowing Backdrop -->
+                <div class="absolute inset-0 bg-accent/10 blur-[80px] rounded-[3rem] z-0" aria-hidden="true"></div>
+                
+                <div class="glass-panel relative z-10 px-8 py-24 md:py-32 md:px-24 text-center border-accent/20">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-white leading-[1.1] mb-6">
+                        Ready to engineer your next phase of <span class="gradient-accent">growth?</span>
+                    </h2>
+                    <p class="text-textSecondary text-lg md:text-xl font-light mb-12 max-w-2xl mx-auto">
+                        Let's discuss how strategic digital design can unlock your business potential.
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="contact.html" class="btn-primary text-sm uppercase tracking-widest px-10 py-5 flex items-center gap-3">
+                            Initiate Project <i class="ph ph-arrow-right text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 8. Global Footer -->
+            <footer class="bg-dark border-t border-glass pt-24 pb-8 px-6">
+        <div class="max-w-8xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-24">
+                
+                <!-- Brand -->
+                <div class="md:col-span-5 reveal-up">
+                    <a href="../index.html" class="flex items-center gap-4 group mb-6">
+                        <img width="32" height="32" loading="lazy" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-10 h-10 object-contain" />
+                        <span class="text-white text-2xl font-[800] tracking-tight uppercase">BANGJEJE.DEV</span>
+                    </a>
+                    <p class="text-textSecondary font-light leading-relaxed max-w-sm mb-8">
+                        We engineer digital experiences that drive business growth for ambitious brands worldwide.
+                    </p>
+                    <a href="mailto:hello@bangjeje.dev" class="text-xl font-medium text-white hover:text-accent transition-colors">
+                        hello@bangjeje.dev
+                    </a>
+                </div>
+                
+                <!-- Links -->
+                <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 reveal-up delay-100">
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Services</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Brand Identity</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">UI/UX Design</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Web Development</a></li>
+                            <li><a href="services.html" class="hover:text-accent transition-colors">Business Systems</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Company</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="case-studies.html" class="hover:text-accent transition-colors">Case Studies</a></li>
+                            <li><a href="industries.html" class="hover:text-accent transition-colors">Industries</a></li>
+                            <li><a href="insights.html" class="hover:text-accent transition-colors">Insights</a></li>
+                            <li><a href="about.html" class="hover:text-accent transition-colors">About</a></li>
+                            <li><a href="contact.html" class="hover:text-accent transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold text-sm mb-6">Social</h4>
+                        <ul class="space-y-3 text-sm text-textSecondary font-light">
+                            <li><a href="https://www.linkedin.com/company/bangjejedev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-linkedin-logo"></i> LinkedIn</a></li>
+                            <li><a href="https://www.instagram.com/bangjeje.dev/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors flex items-center gap-2"><i class="ph ph-instagram-logo"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-glass flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-textSecondary font-light">
+                <p>&copy; 2026 bangjeje.dev. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+                <!-- JS Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const menuBtn = document.querySelector('.md\\:hidden');
+            
+            if (menuBtn) {
+                const mobileMenuHTML = `
+                    <div id="mobile-menu" class="fixed inset-0 bg-dark/95 backdrop-blur-xl z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-medium tracking-tight">
+                        <a href="services.html" class="mobile-link text-accent hover:text-white transition-colors">Services</a>
+                        <a href="industries.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Industries</a>
+                        <a href="case-studies.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                        <a href="insights.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Insights</a>
+                        <a href="about.html" class="mobile-link text-textSecondary hover:text-white transition-colors">About</a>
+                        <a href="contact.html" class="mobile-link text-textSecondary hover:text-white transition-colors mt-4 text-xl border border-glass px-6 py-2 rounded-full">Contact</a>
+                        <button aria-label="Close" id="close-menu" class="absolute top-6 right-6 p-2 text-textSecondary hover:text-white"><i class="ph ph-x text-3xl"></i></button>
+                    </div>
+                `;
+                
+                // Only insert if it doesn't already exist
+                if (!document.getElementById('mobile-menu')) {
+                    document.body.insertAdjacentHTML('beforeend', mobileMenuHTML);
+                }
+                
+                const mobileMenu = document.getElementById('mobile-menu');
+                const closeBtn = document.getElementById('close-menu');
+                const mobileLinks = document.querySelectorAll('.mobile-link');
+
+                if (mobileMenu) {
+                    menuBtn.addEventListener('click', () => {
+                        mobileMenu.classList.remove('hidden');
+                        mobileMenu.classList.add('flex');
+                        document.body.style.overflow = 'hidden';
+                    });
+
+                    const closeMenu = () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        document.body.style.overflow = 'auto';
+                    };
+
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', closeMenu);
+                    }
+                    
+                    if (mobileLinks.length > 0) {
+                        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+                    }
+                }
+            }
+
+            // Scroll Reveal Observer
+            const revealElements = document.querySelectorAll('.reveal-up');
+            
+            if (revealElements.length > 0) {
+                const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+
+                const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, revealOptions);
+
+                revealElements.forEach(el => revealOnScroll.observe(el));
+                
+                // Trigger initial reveal
+                setTimeout(() => {
+                    document.querySelectorAll('.reveal-up:not(.is-visible)').forEach(el => {
+                        if(el.getBoundingClientRect().top < window.innerHeight) {
+                            el.classList.add('is-visible');
+                        }
+                    });
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
