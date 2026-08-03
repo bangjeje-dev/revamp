@@ -3,15 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const menuBtn = document.querySelector('.md\\:hidden');
             
             if (menuBtn) {
+                // Deteksi base path secara dinamis dari menu desktop agar rute mobile menu selalu akurat (baik di root, pages/, atau sub-folder)
+                const refLink = document.querySelector('nav a[href*="services.html"], nav a[href*="contact.html"], nav a[href*="about.html"]');
+                let basePath = '';
+                if (refLink) {
+                    const href = refLink.getAttribute('href');
+                    const match = href.match(/^(.*?)(?:services|contact|about)\.html/);
+                    if (match) {
+                        basePath = match[1];
+                    }
+                }
+
                 const mobileMenuHTML = `
                     <div id="mobile-menu" class="fixed inset-0 bg-dark/95 backdrop-blur-xl z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-medium tracking-tight">
-                        <a href="services.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Services</a>
-                        <a href="industries.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Industries</a>
-                        <a href="case-studies.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Case Studies</a>
-                        <a href="insights.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Insights</a>
-                        <a href="about.html" class="mobile-link text-textSecondary hover:text-white transition-colors">About</a>
-                        <a href="contact.html" class="mobile-link text-textSecondary hover:text-white transition-colors mt-4 text-xl border border-glass px-6 py-2 rounded-full">Contact</a>
-                        <button id="close-menu" class="absolute top-6 right-6 p-2 text-textSecondary hover:text-white"><i class="ph ph-x text-3xl"></i></button>
+                        <a href="${basePath}services.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Services</a>
+                        <a href="${basePath}industries.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Industries</a>
+                        <a href="${basePath}case-studies.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                        <a href="${basePath}insights.html" class="mobile-link text-textSecondary hover:text-white transition-colors">Insights</a>
+                        <a href="${basePath}about.html" class="mobile-link text-textSecondary hover:text-white transition-colors">About</a>
+                        <a href="${basePath}contact.html" class="mobile-link text-textSecondary hover:text-white transition-colors mt-4 text-xl border border-glass px-6 py-2 rounded-full">Contact</a>
+                        <button aria-label="Close" id="close-menu" class="absolute top-6 right-6 p-2 text-textSecondary hover:text-white"><i class="ph ph-x text-3xl"></i></button>
                     </div>
                 `;
                 
