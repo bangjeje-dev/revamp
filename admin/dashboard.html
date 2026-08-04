@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Dashboard | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/studio.css">
+    <script src="assets/js/studio-components.js" defer></script>
+    <script src="assets/js/studio.js" defer></script>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+    
+    <!-- Unified Vanilla Web Component Sidebar -->
+    <studio-sidebar active="dashboard"></studio-sidebar>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        
+        <!-- Studio Header -->
+        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl" aria-label="Toggle Navigation"><i class="ph ph-list"></i></button>
+                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium"><span class="text-slate-900 font-bold">Executive Overview</span><span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-mono uppercase tracking-wider font-extrabold shadow-xs">Production Ready</span></div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button id="trigger-cmd-palette" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors shadow-inner">
+                    <i class="ph ph-magnifying-glass text-slate-500 text-base"></i>
+                    <span>Global Command Palette...</span>
+                    <kbd class="font-mono text-[10px] bg-white px-2 py-0.5 rounded shadow-sm text-slate-600 font-extrabold">Ctrl + K</kbd>
+                </button>
+                <button type="button" onclick="StudioToast.show('All telemetry monitors connected and operational.', 'success', 'System Normal')" class="btn-studio-secondary px-3.5 py-2 text-xs font-semibold flex items-center gap-2"><i class="ph ph-shield-check text-emerald-600 text-lg"></i> System Health: Optimal</button>
+                <a href="content/articles/create.html" class="btn-studio-primary px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider shadow-md bg-[#C3FF00] text-slate-900 hover:bg-[#d5ff33] flex items-center gap-1.5"><i class="ph ph-plus-circle text-base"></i> New Content</a>
+            </div>
+        </header>
+
+        <!-- Executive Dashboard Main Workspace -->
+        <main class="flex-1 p-6 lg:p-10 space-y-10 max-w-7xl w-full mx-auto">
+            
+            <!-- Executive Greeting -->
+            <div class="studio-card p-8 bg-white border border-slate-200/80 rounded-3xl shadow-sm relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-gradient-to-br from-[#C3FF00]/15 to-emerald-400/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                    <div class="space-y-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white font-mono text-xs uppercase font-extrabold shadow-sm"><span class="w-2 h-2 rounded-full bg-[#C3FF00] animate-pulse"></span> Internal Operating System v1.0</div>
+                        <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Good Morning, Jajang 👋 <span class="block text-xl lg:text-2xl font-bold text-slate-600 mt-1">Welcome back to bangjeje.dev Studio.</span></h1>
+                        <p class="text-sm text-slate-500 max-w-2xl font-normal leading-relaxed">Here is the real-time operational status of your digital ecosystem, content pipelines, commercial digital assets, and HubSpot CRM lead acquisition.</p>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <button onclick="StudioToast.show('Initiating manual backup of all content & digital assets...', 'info', 'Backup Triggered')" class="btn-studio-secondary px-5 py-3 text-xs uppercase tracking-wider font-extrabold"><i class="ph ph-database text-base"></i> Sync Vault</button>
+                        <a href="digital-assets/create.html" class="btn-studio-primary px-6 py-3 text-xs uppercase tracking-wider font-black shadow-lg bg-[#C3FF00] text-slate-900 hover:bg-[#d5ff33]">Launch 3-Step Packager</a>
+                    </div>
+                </div>
+
+                <!-- Action Triage Bar -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-100 font-mono text-xs">
+                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between"><span class="font-bold text-slate-700 flex items-center gap-2"><i class="ph ph-pencil text-amber-600 text-base"></i> Pending Review</span><span class="px-2.5 py-1 bg-amber-100 text-amber-900 rounded-lg font-black text-sm">3 Drafts</span></div>
+                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between"><span class="font-bold text-slate-700 flex items-center gap-2"><i class="ph ph-package text-blue-600 text-base"></i> Digital Asset Matrix</span><span class="px-2.5 py-1 bg-blue-100 text-blue-900 rounded-lg font-black text-sm">22+ Types Ready</span></div>
+                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between"><span class="font-bold text-slate-700 flex items-center gap-2"><i class="ph ph-users text-emerald-600 text-base"></i> HubSpot CRM Sync</span><span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 rounded-lg font-black text-sm">Active #716b6ac2</span></div>
+                </div>
+            </div>
+
+            <!-- 14 LIVE WEBSITE HEALTH & METADATA WIDGETS GRID -->
+            <section class="space-y-4">
+                <div class="flex justify-between items-end">
+                    <div><h2 class="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">1. Telemetry & Core Web Vitals (Real-time Health)</h2></div>
+                    <span class="text-[11px] font-mono text-slate-400">Google Lighthouse Score: 100/100</span>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="studio-card p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
+                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>LCP (Loading)</span> <i class="ph ph-lightning text-emerald-500"></i></div>
+                        <div class="text-3xl font-black text-slate-900 font-mono">0.8s <span class="text-xs font-bold text-emerald-600 block">Optimal Grade A</span></div>
+                    </div>
+                    <div class="studio-card p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
+                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>INP (Interaction)</span> <i class="ph ph-cursor-click text-emerald-500"></i></div>
+                        <div class="text-3xl font-black text-slate-900 font-mono">42ms <span class="text-xs font-bold text-emerald-600 block">Instant Response</span></div>
+                    </div>
+                    <div class="studio-card p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
+                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>CLS (Stability)</span> <i class="ph ph-squares-four text-emerald-500"></i></div>
+                        <div class="text-3xl font-black text-slate-900 font-mono">0.00 <span class="text-xs font-bold text-emerald-600 block">Zero Layout Shift</span></div>
+                    </div>
+                    <div class="studio-card p-5 bg-slate-900 text-white border border-slate-800 rounded-2xl space-y-2 shadow-md">
+                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>HubSpot Forms</span> <i class="ph ph-check-circle text-[#C3FF00] text-lg"></i></div>
+                        <div class="text-xl font-extrabold text-white">245789760 <span class="text-xs font-mono text-[#C3FF00] block font-bold mt-1">Form: 716b6ac2 Connected</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Access Catalog Showcase -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2"><i class="ph ph-package text-[#C3FF00] bg-slate-900 p-1 rounded"></i> Top Converting Digital Assets</h3>
+                        <a href="digital-assets/index.html" class="text-xs font-mono font-bold text-blue-600 hover:underline">View All 22+ Types &rarr;</a>
+                    </div>
+                    <div class="space-y-3 font-medium text-xs">
+                        <a href="digital-assets/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
+                            <div><div class="font-bold text-slate-900 text-sm">Aura SaaS Landing Page Template</div><span class="text-[11px] font-mono text-slate-400">Multi-File: .ZIP + .FIGMA &bull; Free Commercial</span></div>
+                            <span class="px-2.5 py-1 bg-white text-slate-900 rounded font-mono font-extrabold text-sm border shadow-xs">1,248 Dls</span>
+                        </a>
+                        <a href="digital-assets/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
+                            <div><div class="font-bold text-slate-900 text-sm">Nexus Design System Tokens</div><span class="text-[11px] font-mono text-slate-400">Multi-File: .FIG + .AI &bull; $49 Premium Tier</span></div>
+                            <span class="px-2.5 py-1 bg-white text-slate-900 rounded font-mono font-extrabold text-sm border shadow-xs">$20,580 Rev</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2"><i class="ph ph-newspaper text-[#C3FF00] bg-slate-900 p-1 rounded"></i> Recent Editorial Insights & SEO</h3>
+                        <a href="content/articles/index.html" class="text-xs font-mono font-bold text-blue-600 hover:underline">View Repository &rarr;</a>
+                    </div>
+                    <div class="space-y-3 font-medium text-xs">
+                        <a href="content/articles/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
+                            <div><div class="font-bold text-slate-900 text-sm">Designing for Enterprise Growth</div><span class="text-[11px] font-mono text-slate-400">/insights/designing-enterprise-growth &bull; Aug 03</span></div>
+                            <span class="font-mono font-extrabold text-green-700 bg-green-50 px-2.5 py-1 rounded border border-green-200">95/100 SEO</span>
+                        </a>
+                        <a href="content/articles/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
+                            <div><div class="font-bold text-slate-900 text-sm">The Headless Frontend Paradigm in 2026</div><span class="text-[11px] font-mono text-slate-400">/insights/headless-frontend-paradigm &bull; Jul 28</span></div>
+                            <span class="font-mono font-extrabold text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200">84/100 SEO</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="mt-auto h-16 border-t border-slate-200/80 bg-white flex items-center justify-between px-6 lg:px-10 text-xs text-slate-500 font-medium"><p>&copy; 2026 bangjeje.dev Studio. Engineered for Executive Management.</p><p class="font-mono font-bold text-slate-400">System Gateway &bull; https://bangjeje.dev/admin/dashboard</p></footer>
+    </div>
+</body>
+</html>

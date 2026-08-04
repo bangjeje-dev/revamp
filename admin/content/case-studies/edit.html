@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Case Study: COTIT | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/studio.css">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden">
+    <aside id="studio-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-sm">
+        <div>
+            <div class="h-20 flex items-center px-6 border-b border-slate-200/80">
+                <a href="../../dashboard.html" class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center shadow"><div class="w-2 h-2 bg-[#C3FF00] rounded-full"></div></div>
+                    bangjeje<span class="text-slate-400 font-normal">.dev</span> Studio
+                </a>
+            </div>
+            <nav class="p-3 space-y-1">
+                <a href="../../dashboard.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-squares-four text-lg"></i> Dashboard</a>
+                <a href="../articles/index.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-newspaper text-lg"></i> Articles & SEO Suite</a>
+                <a href="index.html" class="studio-nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-briefcase text-lg"></i> Case Studies</a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">JJ</div><div><div class="text-sm font-semibold text-slate-900">Jajang</div></div></div><a href="../../login.html" class="p-2 text-slate-400 hover:text-red-600"><i class="ph ph-sign-out text-lg"></i></a></div>
+    </aside>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                <a href="index.html" class="hover:text-slate-900">Case Studies</a>
+                <span>/</span>
+                <span class="text-slate-900 font-bold">COTIT: Next-Gen Fashion Tech OS</span>
+                <span class="badge-pub text-[10px] px-2 py-0.5 rounded-full uppercase font-mono ml-2 font-bold">Published Live</span>
+            </div>
+            <div class="flex gap-3"><a href="preview.html" class="btn-studio-secondary px-4 py-2 text-xs font-semibold uppercase">View Preview</a><button onclick="alert('Project updated live!'); window.location.href='index.html'" class="btn-studio-primary px-6 py-2 text-xs font-bold uppercase">Save Revisions</button></div>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-7xl w-full mx-auto">
+            <form class="grid grid-cols-1 lg:grid-cols-12 gap-8" onsubmit="event.preventDefault()">
+                <div class="lg:col-span-8 space-y-8">
+                    <div class="studio-panel p-8 bg-white border border-slate-200 rounded-2xl space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Project Name *</label><input type="text" value="COTIT: Next-Gen Fashion Tech OS" class="studio-input text-base font-bold w-full"></div>
+                            <div><label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Client *</label><input type="text" value="COTIT Enterprise B.V." class="studio-input text-sm w-full"></div>
+                            <div><label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Your Role *</label><input type="text" value="Lead Architecture & UI/UX Design System" class="studio-input text-sm w-full"></div>
+                            <div class="grid grid-cols-2 gap-3"><div><label class="block text-xs font-bold text-slate-600 mb-2">Industry</label><input type="text" value="Fashion Tech" class="studio-input text-sm"></div><div><label class="block text-xs font-bold text-slate-600 mb-2">Year</label><input type="number" value="2026" class="studio-input font-mono text-sm"></div></div>
+                        </div>
+                        <div><label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Overview</label><textarea rows="3" class="studio-input text-sm">Engineered a robust headless UI system and custom editorial workflow that unified COTIT's global manufacturing supply chain monitoring.</textarea></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 space-y-8">
+                    <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 border-b pb-2">Hero Thumbnail</h3>
+                        <div class="aspect-[16/10] rounded-xl overflow-hidden border border-slate-200"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover"></div>
+                        <button class="btn-studio-secondary w-full py-2 text-xs font-bold uppercase">Replace in Media Library</button>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer class="mt-auto h-16 border-t border-slate-200 bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p></footer>
+    </div>
+    <script src="../../assets/js/studio.js"></script>
+</body>
+</html>

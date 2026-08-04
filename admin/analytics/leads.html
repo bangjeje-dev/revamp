@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Manager Architecture | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden">
+    <aside id="studio-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col justify-between shadow-sm">
+        <div><div class="h-20 flex items-center px-6 border-b border-slate-200"><a href="../dashboard.html" class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center shadow"><div class="w-2 h-2 bg-[#C3FF00] rounded-full"></div></div>bangjeje<span class="text-slate-400 font-normal">.dev</span> Studio</a></div>
+        <nav class="p-3 space-y-1"><a href="../dashboard.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-squares-four text-lg"></i> Dashboard</a><a href="downloads.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-chart-line-up text-lg"></i> Download Analytics</a><a href="leads.html" class="studio-nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-users text-lg"></i> Lead Manager</a></nav></div>
+        <div class="p-4 border-t bg-slate-50 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">JJ</div><div class="text-sm font-semibold">Jajang</div></div><a href="../login.html" class="p-2 text-slate-400 hover:text-red-600"><i class="ph ph-sign-out text-lg"></i></a></div>
+    </aside>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <span class="font-bold text-slate-900 text-sm">Lead Manager & CRM Integration Architecture</span>
+            <span class="px-3 py-1 bg-slate-900 text-[#C3FF00] rounded-full text-xs font-mono font-bold">Future CRM & Email Marketing Ready</span>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-7xl w-full mx-auto space-y-8">
+            <div class="studio-panel p-8 bg-slate-900 text-white rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <span class="px-3 py-1 rounded-full bg-[#C3FF00]/10 text-[#C3FF00] border border-[#C3FF00]/20 text-[10px] font-mono font-bold uppercase block w-fit mb-2">Roadmap Architecture Prepared</span>
+                    <h2 class="text-2xl font-bold">Lead Capture Engine (Name, Email, Asset, Date)</h2>
+                    <p class="text-xs text-slate-300 font-normal mt-1 max-w-2xl">This interface scaffolds the future data storage pattern for capturing prospective customer emails when downloading free or premium templates.</p>
+                </div>
+                <button onclick="alert('Export Simulated: Ready to synchronize with future HubSpot CRM and Email Marketing engines!')" class="px-6 py-3.5 bg-[#C3FF00] text-slate-900 font-extrabold uppercase rounded-full text-xs shrink-0">Export Lead CSV / CRM Sync</button>
+            </div>
+
+            <div class="studio-card bg-white border border-slate-200 overflow-hidden">
+                <table class="w-full text-left studio-table text-sm">
+                    <thead><tr><th class="py-3.5 px-6">Lead Name & Work Email</th><th class="py-3.5 px-6">Downloaded Asset Title</th><th class="py-3.5 px-6">Download Timestamp</th><th class="py-3.5 px-6">CRM Status</th></tr></thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr><td class="py-4 px-6"><strong class="block font-bold text-slate-900">Alexander Wright</strong><span class="text-xs text-slate-500 font-mono">alex@enterprisecorp.com</span></td><td class="py-4 px-6 font-medium text-slate-800">Aura SaaS Landing Page Template (AST-0042)</td><td class="py-4 px-6 font-mono text-xs text-slate-500">2026-08-04 14:02:11</td><td class="py-4 px-6"><span class="px-2.5 py-1 bg-green-100 text-green-800 rounded-full text-[10px] font-mono font-bold uppercase">Ready to Sync</span></td></tr>
+                        <tr><td class="py-4 px-6"><strong class="block font-bold text-slate-900">Elena Rostova</strong><span class="text-xs text-slate-500 font-mono">e.rostova@designsystems.io</span></td><td class="py-4 px-6 font-medium text-slate-800">Fintech UI Kit & Design System (AST-0012)</td><td class="py-4 px-6 font-mono text-xs text-slate-500">2026-08-03 18:41:09</td><td class="py-4 px-6"><span class="px-2.5 py-1 bg-green-100 text-green-800 rounded-full text-[10px] font-mono font-bold uppercase">Ready to Sync</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p></footer>
+    </div>
+    <script src="../assets/js/studio.js"></script>
+</body>
+</html>

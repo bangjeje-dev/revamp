@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles & SEO Suite | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/studio.css">
+    <script src="../../assets/js/studio-components.js" defer></script>
+    <script src="../../assets/js/studio.js" defer></script>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+    
+    <studio-sidebar active="articles"></studio-sidebar>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl"><i class="ph ph-list"></i></button>
+                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium"><a href="../../dashboard.html" class="hover:text-slate-900">Dashboard</a><span>/</span><span class="text-slate-900 font-bold">Articles & Insights</span></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="trigger-cmd-palette" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold shadow-inner transition-colors">
+                    <i class="ph ph-magnifying-glass text-slate-500 text-base"></i><span>Global Search & Command Palette</span><kbd class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded shadow-sm text-slate-500 font-bold">Ctrl+K</kbd>
+                </button>
+                <a href="create.html" class="btn-studio-primary px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider inline-flex items-center gap-2"><i class="ph ph-plus-circle text-base"></i> Write Article (Zen Mode)</a>
+            </div>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 space-y-8 max-w-7xl mx-auto w-full">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div><h1 class="text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900">Editorial Insights Repository</h1><p class="text-xs sm:text-sm text-slate-500 mt-1">Manage published essays, check live Google SERP scoring, and synchronize Schema.org JSON-LD.</p></div>
+                <div class="flex items-center gap-2">
+                    <button onclick="StudioToast.show('XML Sitemap & Schema JSON-LD verified.', 'info', 'Protocols Sync')" class="btn-studio-secondary px-4 py-2 text-xs font-bold uppercase"><i class="ph ph-arrows-clockwise text-sm"></i> Sync Sitemap XML</button>
+                </div>
+            </div>
+
+            <!-- Filters & Catalog Action Bar -->
+            <div class="studio-card p-4 flex flex-col md:flex-row gap-4 items-center justify-between bg-white border border-slate-200 rounded-2xl shadow-sm">
+                <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+                    <button class="px-4 py-1.5 rounded-lg bg-slate-900 text-white shadow font-bold">All Articles (24)</button>
+                    <button onclick="StudioToast.show('Filtered to Published Live items.', 'info', 'Filter Active');" class="px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Published (18)</button>
+                    <button onclick="StudioToast.show('Filtered to Draft checkpoints.', 'info', 'Filter Active');" class="px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Drafts (6)</button>
+                </div>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-64"><i class="ph ph-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i><input type="text" placeholder="Filter articles by keyword..." class="studio-input pl-9 text-xs w-full font-medium"></div>
+                    <select class="studio-input text-xs font-bold bg-slate-50"><option>Sort by Date: Newer First</option><option>Sort by SEO Score: High -> Low</option></select>
+                </div>
+            </div>
+
+            <!-- TABLE ENGINE WITH BULK SELECTION & SORTING -->
+            <div class="studio-card overflow-hidden bg-white border border-slate-200 rounded-2xl shadow-sm relative">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/80 font-mono">
+                                <th class="py-4 pl-6 pr-2 w-12"><input type="checkbox" id="table-select-all" class="h-4 w-4 text-slate-900 rounded border-slate-300"></th>
+                                <th class="py-4 px-3 w-72 cursor-pointer hover:text-slate-900 transition-colors">Article Title <i class="ph ph-caret-up-down ml-1 text-slate-400 inline-block"></i></th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Category</th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">SEO Health <i class="ph ph-caret-up-down ml-1 text-slate-400 inline-block"></i></th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Status</th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Published Date</th>
+                                <th class="py-4 px-6 text-right">Action Target</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200/60 text-sm font-medium">
+                            <tr class="hover:bg-slate-50/70 transition-colors group">
+                                <td class="py-4 pl-6 pr-2"><input type="checkbox" class="studio-row-checkbox h-4 w-4 text-slate-900 rounded border-slate-300"></td>
+                                <td class="py-4 px-3"><div class="font-bold text-slate-900 text-base flex items-center gap-2">Designing for Enterprise Growth</div><div class="text-xs text-slate-500 font-mono font-normal mt-0.5">/insights/designing-enterprise-growth &bull; ~6 min read</div></td>
+                                <td class="py-4 px-3"><span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">UX Strategy</span></td>
+                                <td class="py-4 px-3"><div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div><span class="font-mono text-emerald-700 font-extrabold text-xs">95 / 100</span><span class="text-[10px] uppercase font-bold text-slate-400 font-mono ml-1">Schema Valid</span></div></td>
+                                <td class="py-4 px-3"><span class="badge-pub text-[10px] px-2.5 py-1 rounded-full uppercase font-mono font-bold">Published Live</span></td>
+                                <td class="py-4 px-3 text-xs text-slate-500 font-mono">Aug 03, 2026</td>
+                                <td class="py-4 px-6 text-right"><div class="flex items-center justify-end gap-1.5"><a href="edit.html" class="p-2 text-slate-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors" title="Edit in Zen Mode"><i class="ph ph-pencil-simple text-lg"></i></a><a href="preview.html" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors" title="View Render Preview"><i class="ph ph-eye text-lg"></i></a><button onclick="StudioToast.show('Article deleted from catalog repository.', 'error', 'Deleted');" class="p-2 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors" title="Delete Article"><i class="ph ph-trash text-lg"></i></button></div></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70 transition-colors group">
+                                <td class="py-4 pl-6 pr-2"><input type="checkbox" class="studio-row-checkbox h-4 w-4 text-slate-900 rounded border-slate-300"></td>
+                                <td class="py-4 px-3"><div class="font-bold text-slate-900 text-base">The Headless Frontend Paradigm in 2026</div><div class="text-xs text-slate-500 font-mono font-normal mt-0.5">/insights/headless-frontend-paradigm &bull; ~4 min read</div></td>
+                                <td class="py-4 px-3"><span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">Engineering</span></td>
+                                <td class="py-4 px-3"><div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div><span class="font-mono text-amber-700 font-extrabold text-xs">84 / 100</span></div></td>
+                                <td class="py-4 px-3"><span class="badge-pub text-[10px] px-2.5 py-1 rounded-full uppercase font-mono font-bold">Published Live</span></td>
+                                <td class="py-4 px-3 text-xs text-slate-500 font-mono">Jul 28, 2026</td>
+                                <td class="py-4 px-6 text-right"><div class="flex items-center justify-end gap-1.5"><a href="edit.html" class="p-2 text-slate-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"><i class="ph ph-pencil-simple text-lg"></i></a><a href="preview.html" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors"><i class="ph ph-eye text-lg"></i></a><button onclick="StudioToast.show('Article deleted.', 'error', 'Deleted');" class="p-2 text-slate-400 hover:text-red-600 rounded-lg"><i class="ph ph-trash text-lg"></i></button></div></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70 transition-colors group">
+                                <td class="py-4 pl-6 pr-2"><input type="checkbox" class="studio-row-checkbox h-4 w-4 text-slate-900 rounded border-slate-300"></td>
+                                <td class="py-4 px-3"><div class="font-bold text-slate-900 text-base">Why White Theme Architecture Dominates B2B SaaS</div><div class="text-xs text-slate-500 font-mono font-normal mt-0.5">/insights/white-theme-dominates-b2b</div></td>
+                                <td class="py-4 px-3"><span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">Design Ops</span></td>
+                                <td class="py-4 px-3"><div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-slate-300"></div><span class="font-mono text-slate-400 font-extrabold text-xs">-- / 100</span></div></td>
+                                <td class="py-4 px-3"><span class="badge-draft text-[10px] px-2.5 py-1 rounded-full uppercase font-mono font-bold">Draft Checkpoint</span></td>
+                                <td class="py-4 px-3 text-xs text-slate-500 font-mono">Unscheduled</td>
+                                <td class="py-4 px-6 text-right"><div class="flex items-center justify-end gap-1.5"><a href="edit.html" class="p-2 text-slate-400 hover:text-blue-600 rounded-lg"><i class="ph ph-pencil-simple text-lg"></i></a><a href="preview.html" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg"><i class="ph ph-eye text-lg"></i></a><button onclick="StudioToast.show('Draft deleted.', 'error', 'Deleted');" class="p-2 text-slate-400 hover:text-red-600 rounded-lg"><i class="ph ph-trash text-lg"></i></button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PAGINATION FOOTER CONTROL -->
+                <div class="p-4 border-t border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+                    <span class="text-slate-600 font-bold">Showing <span class="text-slate-900 font-extrabold">1–10</span> of <span class="text-slate-900 font-extrabold">24</span> editorial insights</span>
+                    <div class="flex items-center gap-1.5 font-bold">
+                        <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-400 bg-white hover:bg-slate-50 cursor-not-allowed uppercase text-[11px]">&larr; Prev</button>
+                        <button class="px-3 py-1.5 rounded-lg bg-slate-900 text-white shadow-sm">1</button>
+                        <button onclick="StudioToast.show('Navigating to Page 2 of catalog...', 'info', 'Pagination');" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 bg-white hover:bg-slate-100">2</button>
+                        <button onclick="StudioToast.show('Navigating to Page 3 of catalog...', 'info', 'Pagination');" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 bg-white hover:bg-slate-100">3</button>
+                        <button onclick="StudioToast.show('Navigating to Page 2 of catalog...', 'info', 'Pagination');" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 bg-white hover:bg-slate-100 uppercase text-[11px]">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- FLOATING BULK ACTIONS TOOLBAR -->
+                <div id="bulk-action-toolbar" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 backdrop-blur-md flex items-center gap-6 translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+                    <div class="flex items-center gap-2.5 font-bold text-xs font-mono"><span class="w-2 h-2 rounded-full bg-[#C3FF00] animate-pulse"></span><span id="bulk-selected-count">1 item selected</span></div>
+                    <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-wider">
+                        <button type="button" onclick="StudioTableManager.batchAction('Publish Selected')" class="px-3.5 py-1.5 bg-[#C3FF00] text-slate-900 rounded-xl hover:bg-[#d5ff33] transition-colors shadow">Publish Live</button>
+                        <button type="button" onclick="StudioTableManager.batchAction('Move to Drafts')" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors">Set Draft</button>
+                        <button type="button" onclick="StudioTableManager.batchAction('Delete Selected')" class="px-3.5 py-1.5 bg-red-600/90 text-white rounded-xl hover:bg-red-600 transition-colors">Delete Selected</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+        
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p><p class="font-mono">Articles Repository &bull; /admin/content/articles</p></footer>
+    </div>
+</body>
+</html>

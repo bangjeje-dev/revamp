@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Composer & Relational Linker | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden">
+    <aside id="studio-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col justify-between shadow-sm">
+        <div><div class="h-20 flex items-center px-6 border-b border-slate-200"><a href="../dashboard.html" class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center shadow"><div class="w-2 h-2 bg-[#C3FF00] rounded-full"></div></div>bangjeje<span class="text-slate-400 font-normal">.dev</span> Studio</a></div>
+        <nav class="p-3 space-y-1"><a href="../dashboard.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-squares-four text-lg"></i> Dashboard</a><a href="calendar.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-calendar-check text-lg"></i> Content Calendar</a><a href="composer.html" class="studio-nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-share-network text-lg"></i> Social Content (AI-Ready)</a></nav></div>
+        <div class="p-4 border-t bg-slate-50 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">JJ</div><div class="text-sm font-semibold">Jajang</div></div><a href="../login.html" class="p-2 text-slate-400 hover:text-red-600"><i class="ph ph-sign-out text-lg"></i></a></div>
+    </aside>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <span class="font-bold text-slate-900 text-sm">Social Campaign Composer & Relational Linker</span>
+            <button onclick="alert('Campaign Scheduled!')" class="btn-studio-primary px-6 py-2.5 text-xs uppercase tracking-wider font-bold">Schedule Campaign</button>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-6xl w-full mx-auto">
+            <form class="grid grid-cols-1 lg:grid-cols-12 gap-8" onsubmit="event.preventDefault()">
+                
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="studio-panel p-8 bg-white border border-slate-200 rounded-2xl space-y-6 shadow-sm">
+                        <div><label class="block text-xs font-bold text-slate-600 mb-2">Campaign Title *</label><input type="text" placeholder="e.g. Enterprise Growth Essay Promo" class="studio-input font-bold text-base"></div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Target Platforms (Multi-Select)</label>
+                            <div class="flex flex-wrap gap-2 text-xs font-bold">
+                                <label class="px-4 py-2 rounded-xl border border-slate-300 flex items-center gap-2 cursor-pointer bg-slate-900 text-white"><input type="checkbox" checked class="hidden"> ✓ LinkedIn</label>
+                                <label class="px-4 py-2 rounded-xl border border-slate-200 flex items-center gap-2 cursor-pointer bg-white hover:bg-slate-50"><input type="checkbox"> Instagram</label>
+                                <label class="px-4 py-2 rounded-xl border border-slate-200 flex items-center gap-2 cursor-pointer bg-white hover:bg-slate-50"><input type="checkbox"> X / Twitter</label>
+                                <label class="px-4 py-2 rounded-xl border border-slate-200 flex items-center gap-2 cursor-pointer bg-white hover:bg-slate-50"><input type="checkbox"> Threads & FB</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2"><label class="block text-xs font-bold text-slate-600">Caption / Copywriting *</label><button type="button" onclick="alert('Architecture Prepared: Future AI-Assisted Content Generation Engine will synthesize high-converting copy from the linked Article or Case Study!')" class="text-[11px] bg-slate-900 text-[#C3FF00] font-bold font-mono px-3 py-1 rounded-full flex items-center gap-1"><i class="ph ph-magic-wand text-sm"></i> Generate with AI (Future Ready)</button></div>
+                            <textarea rows="6" class="studio-input text-sm" placeholder="Write high-engagement social campaign text here..."></textarea>
+                        </div>
+                        <div><label class="block text-xs font-bold text-slate-600 mb-1">Hashtags</label><input type="text" value="#SaaS #Architecture #VanillaCSS #Enterprise #DesignSystems" class="studio-input font-mono text-xs"></div>
+                    </div>
+
+                    <!-- RELATIONAL LINKER MATRIX -->
+                    <div class="studio-panel p-8 bg-gradient-to-b from-white to-slate-50 border border-slate-200 rounded-2xl space-y-4 shadow-md">
+                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2"><i class="ph ph-link text-lg text-slate-700"></i> Relational Target Linker</h3>
+                        <p class="text-xs text-slate-500 font-normal">Connect this campaign directly to an internal Article, Case Study, or Digital Asset.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Target Type</label>
+                                <select class="studio-input text-sm font-bold bg-white"><option>Article / Insight</option><option>Case Study Portfolio</option><option>Digital Asset Template</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Select Target Object</label>
+                                <select class="studio-input text-sm font-bold bg-white"><option>Designing for Enterprise Growth (ART-91)</option><option>COTIT: Fashion Tech OS (PRJ-01)</option><option>Aura SaaS Landing Page (AST-01)</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4 shadow-sm">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 border-b pb-2">Scheduling Pipeline</h3>
+                        <div><label class="block text-xs font-bold text-slate-600 mb-1">Workflow State</label><select class="studio-input text-sm font-bold"><option>Scheduled</option><option>Draft</option><option>Idea</option></select></div>
+                        <div class="grid grid-cols-2 gap-2"><div><label class="text-[10px] text-slate-500 font-bold block">Date</label><input type="date" value="2026-08-12" class="studio-input text-xs"></div><div><label class="text-[10px] text-slate-500 font-bold block">Time</label><input type="time" value="09:00" class="studio-input text-xs"></div></div>
+                    </div>
+                </div>
+
+            </form>
+        </main>
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p></footer>
+    </div>
+    <script src="../assets/js/studio.js"></script>
+</body>
+</html>

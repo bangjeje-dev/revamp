@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Configuration & Integrations | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden">
+    <aside id="studio-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col justify-between shadow-sm">
+        <div><div class="h-20 flex items-center px-6 border-b border-slate-200"><a href="../dashboard.html" class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center shadow"><div class="w-2 h-2 bg-[#C3FF00] rounded-full"></div></div>bangjeje<span class="text-slate-400 font-normal">.dev</span> Studio</a></div>
+        <nav class="p-3 space-y-1"><a href="../dashboard.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-squares-four text-lg"></i> Dashboard</a><a href="index.html" class="studio-nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-gear-six text-lg"></i> Website Settings</a></nav></div>
+        <div class="p-4 border-t bg-slate-50 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">JJ</div><div class="text-sm font-semibold">Jajang</div></div><a href="../login.html" class="p-2 text-slate-400 hover:text-red-600"><i class="ph ph-sign-out text-lg"></i></a></div>
+    </aside>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <span class="font-bold text-slate-900 text-sm">Global Website Configuration & Telemetry Integrations</span>
+            <button onclick="alert('Configuration Saved & Synced across bangjeje.dev ecosystem!')" class="btn-studio-primary px-6 py-2.5 text-xs font-bold uppercase">Save Configuration</button>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-6xl w-full mx-auto space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- SEO & Contact -->
+                <div class="studio-panel p-8 bg-white border border-slate-200 rounded-2xl space-y-5 shadow-sm">
+                    <h3 class="text-sm font-bold uppercase text-slate-900 border-b pb-3 flex items-center gap-2"><i class="ph ph-globe text-lg text-slate-700"></i> Global SEO & Contact Details</h3>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Site Meta Title</label><input type="text" value="bangjeje.dev | Advanced Editorial Web Architecture" class="studio-input text-sm font-bold"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Contact Email</label><input type="email" value="contact@bangjeje.dev" class="studio-input text-sm font-mono"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">HubSpot Embedded Form Portal ID</label><input type="text" value="245789760 (Verified Live)" readonly class="studio-input text-sm font-mono bg-slate-50 text-green-700 font-bold"></div>
+                </div>
+
+                <!-- Telemetry & Analytics Scripts -->
+                <div class="studio-panel p-8 bg-gradient-to-b from-white to-slate-50 border border-slate-200 rounded-2xl space-y-5 shadow-sm">
+                    <h3 class="text-sm font-bold uppercase text-slate-900 border-b pb-3 flex items-center gap-2"><i class="ph ph-chart-bar text-lg text-blue-600"></i> Analytics & Telemetry Integrations</h3>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Google Analytics (GA4) Measurement ID</label><input type="text" placeholder="G-XXXXXXXXXX" class="studio-input font-mono text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Google Search Console Verification Key</label><input type="text" placeholder="meta-tag-verification-string" class="studio-input font-mono text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Microsoft Clarity Project ID</label><input type="text" placeholder="clarity-project-id" class="studio-input font-mono text-sm"></div>
+                </div>
+
+            </div>
+        </main>
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p></footer>
+    </div>
+    <script src="../assets/js/studio.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Asset: Aura SaaS Template | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+    <script src="../assets/js/studio-components.js" defer></script>
+    <script src="../assets/js/studio.js" defer></script>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+    
+    <studio-sidebar active="digital-assets"></studio-sidebar>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-2 text-sm text-slate-500 font-medium"><a href="index.html">Digital Assets</a><span>/</span><span class="text-slate-900 font-bold">Edit: Aura SaaS Landing Page</span><span class="badge-pub text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase font-mono ml-2">Live Catalog</span></div>
+            <div class="flex gap-3"><a href="preview.html" class="btn-studio-secondary px-4 py-2 text-xs font-semibold uppercase">View Preview</a><button onclick="StudioToast.show('Asset release package successfully updated!', 'success', 'Synchronized'); setTimeout(() => window.location.href='index.html', 1500);" class="btn-studio-primary px-6 py-2 text-xs font-bold uppercase">Save Asset Revisions</button></div>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-7xl w-full mx-auto">
+            <form class="grid grid-cols-1 lg:grid-cols-12 gap-8" onsubmit="event.preventDefault()">
+                <div class="lg:col-span-8 space-y-8">
+                    <div class="studio-panel p-8 bg-white border border-slate-200 rounded-2xl space-y-6">
+                        <div><label class="block text-xs font-bold text-slate-600 mb-2">Title *</label><input type="text" value="Aura SaaS Landing Page Template" class="studio-input text-lg font-bold"></div>
+                        <div class="grid grid-cols-2 gap-4"><div><input type="text" value="aura-saas-template" class="studio-input font-mono text-sm"></div><div><input type="text" value="Website Templates" readonly class="studio-input bg-slate-50 text-slate-600 font-medium text-sm"></div></div>
+                        <div><textarea rows="4" class="studio-input text-sm">A premium high-converting landing page with glassmorphism components, bento grids, and integrated HubSpot contact forms.</textarea></div>
+                    </div>
+
+                    <div class="studio-panel p-8 bg-white border border-slate-200 rounded-2xl space-y-4 shadow-sm">
+                        <h3 class="text-base font-bold text-slate-900">Multi-File Download Archive URLs (Active Release)</h3>
+                        <div class="p-3 rounded-xl bg-slate-50 font-mono text-xs text-slate-800 border border-slate-200 flex justify-between items-center"><span>[ZIP] HTML/Tailwind Source: https://github.com/bangjeje-dev/templates/aura.zip</span><span class="text-green-600 font-bold">Live (4.2 MB)</span></div>
+                        <div class="p-3 rounded-xl bg-slate-50 font-mono text-xs text-purple-900 border border-slate-200 flex justify-between items-center"><span>[FIG] Figma Design System: https://cdn.bangjeje.dev/figma/aura.fig</span><span class="text-green-600 font-bold">Live (12 MB)</span></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 space-y-8">
+                    <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+                        <h3 class="text-xs font-bold uppercase text-slate-400">Featured Thumbnail</h3>
+                        <div class="aspect-[16/10] rounded-xl overflow-hidden border border-slate-200"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover"></div>
+                        <div class="flex justify-between pt-4 border-t"><a href="index.html" class="text-xs font-bold text-slate-500">Cancel</a><button type="button" onclick="StudioToast.show('Delete simulated. Item remains in catalog demo.', 'error', 'Action Aborted');" class="btn-studio-danger text-xs px-3 py-1.5 font-bold">Delete Asset</button></div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p></footer>
+    </div>
+</body>
+</html>

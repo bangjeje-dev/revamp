@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Assets Repository (22+ Categories) | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+    <script src="../assets/js/studio-components.js" defer></script>
+    <script src="../assets/js/studio.js" defer></script>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+    
+    <studio-sidebar active="digital-assets"></studio-sidebar>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl"><i class="ph ph-list"></i></button>
+                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium"><a href="../dashboard.html" class="hover:text-slate-900">Dashboard</a><span>/</span><span class="text-slate-900 font-bold">Digital Assets Catalog</span></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="trigger-cmd-palette" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold shadow-inner">
+                    <i class="ph ph-magnifying-glass text-slate-500 text-base"></i><span>Command Palette</span><kbd class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded shadow-sm text-slate-500 font-bold">Ctrl+K</kbd>
+                </button>
+                <a href="create.html" class="btn-studio-primary px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider inline-flex items-center gap-2 shadow-md bg-[#C3FF00] text-slate-900 hover:bg-[#d5ff33]"><i class="ph ph-magic-wand text-slate-900 text-base"></i> Launch 3-Step Packager</a>
+            </div>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 space-y-8 max-w-7xl mx-auto w-full">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div><h1 class="text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900">Commercial & Free Digital Assets</h1><p class="text-xs sm:text-sm text-slate-500 mt-1">Manage templates, UI kits, design systems, and multi-file archives across our 22+ supported product types.</p></div>
+                <div class="flex gap-2"><button onclick="StudioToast.show('Synchronized release tags across cloud storage matrix.', 'info', 'Cloud Sync');" class="btn-studio-secondary px-4 py-2 text-xs font-bold uppercase"><i class="ph ph-cloud-check text-sm"></i> Verify Archive Mirrors</button></div>
+            </div>
+
+            <!-- Category Filter Bar (Showing Sample of 22+ Types) -->
+            <div class="studio-card p-4 flex flex-col lg:flex-row gap-4 items-center justify-between bg-white border border-slate-200 rounded-2xl shadow-sm">
+                <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold">
+                    <button class="px-3.5 py-1.5 rounded-lg bg-slate-900 text-white font-bold shadow">All Assets (12)</button>
+                    <button onclick="StudioToast.show('Filtered to Website & Landing Page Templates.', 'info', 'Filter');" class="px-3.5 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Website & Landing (5)</button>
+                    <button onclick="StudioToast.show('Filtered to UI Kits & Design Systems.', 'info', 'Filter');" class="px-3.5 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">UI Kits & Design Systems (4)</button>
+                    <button onclick="StudioToast.show('Filtered to Presentation & Decks.', 'info', 'Filter');" class="px-3.5 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Pitch Decks (3)</button>
+                </div>
+                <div class="flex items-center gap-3 w-full lg:w-auto">
+                    <div class="relative flex-1 lg:w-64"><i class="ph ph-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i><input type="text" placeholder="Search templates or software..." class="studio-input pl-9 text-xs w-full"></div>
+                </div>
+            </div>
+
+            <!-- TABLE ENGINE WITH BULK SELECTION & SORTING -->
+            <div class="studio-card overflow-hidden bg-white border border-slate-200 rounded-2xl shadow-sm relative">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[900px]">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/80 font-mono">
+                                <th class="py-4 pl-6 pr-2 w-12"><input type="checkbox" id="table-select-all" class="h-4 w-4 text-slate-900 rounded border-slate-300"></th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Product Name & Version <i class="ph ph-caret-up-down ml-1 text-slate-400 inline-block"></i></th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Taxonomy (22+ Types)</th>
+                                <th class="py-4 px-3">Multi-File Matrix</th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Licensing Tier</th>
+                                <th class="py-4 px-3 cursor-pointer hover:text-slate-900">Downloads <i class="ph ph-caret-up-down ml-1 text-slate-400 inline-block"></i></th>
+                                <th class="py-4 px-6 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200/60 text-sm">
+                            <tr class="hover:bg-slate-50/70 transition-colors group">
+                                <td class="py-4 pl-6 pr-2"><input type="checkbox" class="studio-row-checkbox h-4 w-4 text-slate-900 rounded border-slate-300"></td>
+                                <td class="py-4 px-3"><div class="font-bold text-slate-900 text-base flex items-center gap-2">Aura SaaS Landing Page <span class="text-slate-400 font-mono text-xs font-normal">v2.1.0</span></div><div class="text-xs text-slate-500 font-mono mt-0.5">/assets/aura-saas-template &bull; 4.2 MB Archive</div></td>
+                                <td class="py-4 px-3"><span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 text-xs font-bold border border-blue-100">Website Templates</span></td>
+                                <td class="py-4 px-3"><div class="flex items-center gap-1.5"><span class="px-2 py-0.5 bg-slate-900 text-[#C3FF00] font-mono font-extrabold text-[10px] rounded">.ZIP</span><span class="px-2 py-0.5 bg-purple-900 text-purple-200 font-mono font-extrabold text-[10px] rounded">.FIG</span><span class="px-2 py-0.5 bg-slate-100 text-slate-600 font-mono font-bold text-[10px] rounded">+2 more</span></div></td>
+                                <td class="py-4 px-3"><span class="badge-tier-free text-[11px] px-3 py-1 rounded-full font-bold uppercase font-mono">Free Commercial</span></td>
+                                <td class="py-4 px-3 font-mono font-extrabold text-slate-900 text-base">1,248 <span class="text-[10px] text-green-600 block font-normal">+12 today</span></td>
+                                <td class="py-4 px-6 text-right"><div class="flex items-center justify-end gap-1.5"><a href="edit.html" class="p-2 text-slate-400 hover:text-blue-600 rounded-lg hover:bg-blue-50" title="Edit Asset"><i class="ph ph-pencil-simple text-lg"></i></a><a href="preview.html" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50" title="Preview"><i class="ph ph-eye text-lg"></i></a><button onclick="StudioToast.show('Asset removed from live catalog.', 'error', 'Deleted');" class="p-2 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50"><i class="ph ph-trash text-lg"></i></button></div></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70 transition-colors group">
+                                <td class="py-4 pl-6 pr-2"><input type="checkbox" class="studio-row-checkbox h-4 w-4 text-slate-900 rounded border-slate-300"></td>
+                                <td class="py-4 px-3"><div class="font-bold text-slate-900 text-base flex items-center gap-2">Nexus Design System Tokens <span class="text-slate-400 font-mono text-xs font-normal">v3.0.0</span></div><div class="text-xs text-slate-500 font-mono mt-0.5">/assets/nexus-tokens &bull; 24.5 MB Archive</div></td>
+                                <td class="py-4 px-3"><span class="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-800 text-xs font-bold border border-purple-100">Design Systems</span></td>
+                                <td class="py-4 px-3"><div class="flex items-center gap-1.5"><span class="px-2 py-0.5 bg-purple-900 text-purple-200 font-mono font-extrabold text-[10px] rounded">.FIG</span><span class="px-2 py-0.5 bg-amber-900 text-amber-200 font-mono font-extrabold text-[10px] rounded">.AI</span></div></td>
+                                <td class="py-4 px-3"><span class="badge-tier-prem text-[11px] px-3 py-1 rounded-full font-bold uppercase font-mono">$49 Premium</span></td>
+                                <td class="py-4 px-3 font-mono font-extrabold text-slate-900 text-base">420 <span class="text-[10px] text-green-600 block font-normal">$20.5k Rev</span></td>
+                                <td class="py-4 px-6 text-right"><div class="flex items-center justify-end gap-1.5"><a href="edit.html" class="p-2 text-slate-400 hover:text-blue-600 rounded-lg"><i class="ph ph-pencil-simple text-lg"></i></a><a href="preview.html" class="p-2 text-slate-400 hover:text-emerald-600 rounded-lg"><i class="ph ph-eye text-lg"></i></a><button onclick="StudioToast.show('Deleted.', 'error', 'Deleted');" class="p-2 text-slate-400 hover:text-red-600 rounded-lg"><i class="ph ph-trash text-lg"></i></button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 border-t border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+                    <span class="text-slate-600 font-bold">Showing <span class="text-slate-900 font-extrabold">1–10</span> of <span class="text-slate-900 font-extrabold">12</span> multi-file assets</span>
+                    <div class="flex items-center gap-1.5 font-bold">
+                        <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-400 bg-white cursor-not-allowed uppercase text-[11px]">&larr; Prev</button>
+                        <button class="px-3 py-1.5 rounded-lg bg-slate-900 text-white">1</button>
+                        <button onclick="StudioToast.show('Page 2...', 'info', 'Pagination');" class="px-3 py-1.5 rounded-lg border bg-white hover:bg-slate-100">2</button>
+                        <button class="px-3 py-1.5 rounded-lg border bg-white hover:bg-slate-100 uppercase text-[11px]">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- FLOATING BULK ACTIONS TOOLBAR -->
+                <div id="bulk-action-toolbar" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 backdrop-blur-md flex items-center gap-6 translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+                    <div class="flex items-center gap-2.5 font-bold text-xs font-mono"><span class="w-2 h-2 rounded-full bg-[#C3FF00] animate-pulse"></span><span id="bulk-selected-count">1 item selected</span></div>
+                    <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-wider">
+                        <button type="button" onclick="StudioTableManager.batchAction('Export CSV Manifest')" class="px-3.5 py-1.5 bg-[#C3FF00] text-slate-900 rounded-xl hover:bg-[#d5ff33] transition-colors shadow">Export CSV</button>
+                        <button type="button" onclick="StudioTableManager.batchAction('Set Free Tier')" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors">Make Free</button>
+                        <button type="button" onclick="StudioTableManager.batchAction('Delete Selected Assets')" class="px-3.5 py-1.5 bg-red-600/90 text-white rounded-xl hover:bg-red-600 transition-colors">Delete Selected</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p><p class="font-mono">Digital Assets Catalog &bull; /admin/digital-assets</p></footer>
+    </div>
+</body>
+</html>

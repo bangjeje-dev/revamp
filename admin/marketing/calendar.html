@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Calendar & Pipeline | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden">
+    <aside id="studio-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-sm">
+        <div><div class="h-20 flex items-center px-6 border-b border-slate-200"><a href="../dashboard.html" class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center shadow"><div class="w-2 h-2 bg-[#C3FF00] rounded-full"></div></div>bangjeje<span class="text-slate-400 font-normal">.dev</span> Studio</a></div>
+        <nav class="p-3 space-y-1"><a href="../dashboard.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-squares-four text-lg"></i> Dashboard</a><a href="calendar.html" class="studio-nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-calendar-check text-lg"></i> Content Calendar</a><a href="composer.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-share-network text-lg"></i> Social Content (AI-Ready)</a></nav></div>
+        <div class="p-4 border-t bg-slate-50 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">JJ</div><div class="text-sm font-semibold">Jajang</div></div><a href="../login.html" class="p-2 text-slate-400 hover:text-red-600"><i class="ph ph-sign-out text-lg"></i></a></div>
+    </aside>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-4"><button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl"><i class="ph ph-list"></i></button><span class="font-bold text-slate-900 text-sm">Omnichannel Content Calendar & Kanban Pipeline</span></div>
+            <div class="flex items-center gap-3"><a href="composer.html" class="btn-studio-primary px-5 py-2.5 text-xs uppercase tracking-wider font-bold inline-flex items-center gap-2"><i class="ph ph-plus-circle text-base text-[#C3FF00]"></i> Create Campaign Post</a></div>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-7xl w-full mx-auto space-y-6">
+            <!-- View Switcher -->
+            <div class="flex justify-between items-center p-4 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                <div class="flex gap-2 font-mono text-xs">
+                    <button class="px-4 py-2 bg-slate-100 text-slate-600 hover:text-slate-900 rounded-xl font-bold uppercase">Calendar View</button>
+                    <button class="px-4 py-2 bg-slate-100 text-slate-600 hover:text-slate-900 rounded-xl font-bold uppercase">List View</button>
+                    <button class="px-4 py-2 bg-slate-900 text-white rounded-xl font-extrabold uppercase shadow-sm flex items-center gap-1.5"><i class="ph ph-kanban"></i> Kanban Workflow (5-Stage)</button>
+                </div>
+                <span class="text-xs font-mono text-slate-400">Platforms: LinkedIn, IG, FB, Threads, X</span>
+            </div>
+
+            <!-- KANBAN COLUMNS ARCHITECTURE -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start">
+                
+                <!-- Stage 1: IDEA -->
+                <div class="bg-slate-100/70 border border-slate-200 rounded-2xl p-4 space-y-3">
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-200 font-extrabold text-xs uppercase tracking-widest text-slate-700"><span>💡 Idea</span><span class="px-2 py-0.5 rounded bg-white font-mono">2</span></div>
+                    
+                    <div class="studio-card p-4 bg-white space-y-2 text-xs shadow-sm">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-blue-600 uppercase"><span>LinkedIn</span><span>No Target</span></div>
+                        <div class="font-bold text-slate-900 text-sm">AI UI Kit Brainstorm</div>
+                        <p class="text-slate-500 line-clamp-2">Pitching how design tokens automate UI assembly for enterprise SaaS teams.</p>
+                    </div>
+
+                    <div class="studio-card p-4 bg-white space-y-2 text-xs shadow-sm">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-pink-600 uppercase"><span>Instagram Reel</span><span>Link: AST-02</span></div>
+                        <div class="font-bold text-slate-900 text-sm">Fintech Boilerplate Teaser</div>
+                        <p class="text-slate-500 line-clamp-2">Short video showcase of light glassmorphism components.</p>
+                    </div>
+                </div>
+
+                <!-- Stage 2: DRAFT -->
+                <div class="bg-amber-50/70 border border-amber-200/60 rounded-2xl p-4 space-y-3">
+                    <div class="flex justify-between items-center pb-2 border-b border-amber-200 font-extrabold text-xs uppercase tracking-widest text-amber-800"><span>📝 Draft</span><span class="px-2 py-0.5 rounded bg-white font-mono">1</span></div>
+                    
+                    <div class="studio-card p-4 bg-white space-y-2 text-xs shadow-sm border-amber-200">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-blue-700 uppercase"><span>LinkedIn Carousel</span><span>Link: ART-94</span></div>
+                        <div class="font-bold text-slate-900 text-sm">Vanilla CSS vs Tailwind Study</div>
+                        <p class="text-slate-600">Drafting 6 slide carousel comparing micro-second performance.</p>
+                    </div>
+                </div>
+
+                <!-- Stage 3: REVIEW -->
+                <div class="bg-purple-50/70 border border-purple-200/60 rounded-2xl p-4 space-y-3">
+                    <div class="flex justify-between items-center pb-2 border-b border-purple-200 font-extrabold text-xs uppercase tracking-widest text-purple-800"><span>🔍 Review</span><span class="px-2 py-0.5 rounded bg-white font-mono">1</span></div>
+                    
+                    <div class="studio-card p-4 bg-white space-y-2 text-xs shadow-sm border-purple-200">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-slate-900 uppercase"><span>X (Twitter) Thread</span><span>Link: PRJ-01</span></div>
+                        <div class="font-bold text-slate-900 text-sm">COTIT Case Study Promo</div>
+                        <p class="text-slate-600">Reviewing thread copywriting and hero architecture mockup tags.</p>
+                    </div>
+                </div>
+
+                <!-- Stage 4: SCHEDULED -->
+                <div class="bg-blue-50/70 border border-blue-200/60 rounded-2xl p-4 space-y-3">
+                    <div class="flex justify-between items-center pb-2 border-b border-blue-200 font-extrabold text-xs uppercase tracking-widest text-blue-800"><span>⏰ Scheduled</span><span class="px-2 py-0.5 rounded bg-white font-mono">1</span></div>
+                    
+                    <div class="studio-card p-4 bg-white space-y-2 text-xs shadow-sm border-blue-200">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-blue-800 uppercase"><span>LinkedIn & FB</span><span>Aug 12, 09:00</span></div>
+                        <div class="font-bold text-slate-900 text-sm">Enterprise Growth Essay</div>
+                        <span class="px-2 py-1 rounded bg-blue-100 text-blue-800 font-mono font-bold block text-[10px]">Target: ART-91 (Designing Growth)</span>
+                    </div>
+                </div>
+
+                <!-- Stage 5: PUBLISHED -->
+                <div class="bg-emerald-50/70 border border-emerald-200/60 rounded-2xl p-4 space-y-3">
+                    <div class="flex justify-between items-center pb-2 border-b border-emerald-200 font-extrabold text-xs uppercase tracking-widest text-emerald-800"><span>🚀 Published</span><span class="px-2 py-0.5 rounded bg-white font-mono">1</span></div>
+                    
+                    <div class="studio-card p-4 bg-white space-y-2 text-xs shadow-sm border-emerald-200">
+                        <div class="flex justify-between items-center text-[10px] font-bold text-emerald-700 uppercase"><span>LinkedIn & Threads</span><span>July 28</span></div>
+                        <div class="font-bold text-slate-900 text-sm">Aura SaaS Template Launch</div>
+                        <span class="px-2 py-1 rounded bg-emerald-100 text-emerald-800 font-mono font-bold block text-[10px]">Target: AST-01 (1,280 DL)</span>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p><p class="font-mono">Marketing &bull; /admin/marketing/calendar</p></footer>
+    </div>
+    <script src="../assets/js/studio.js"></script>
+</body>
+</html>

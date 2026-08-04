@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Step Asset Packager Wizard | bangjeje.dev Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/studio.css">
+    <script src="../assets/js/studio-components.js" defer></script>
+    <script src="../assets/js/studio.js" defer></script>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+    
+    <!-- Unified 5-Pillar Sidebar -->
+    <studio-sidebar active="digital-assets"></studio-sidebar>
+
+    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl"><i class="ph ph-list"></i></button>
+                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                    <a href="index.html" class="hover:text-slate-900">Digital Assets</a>
+                    <span>/</span>
+                    <span class="text-slate-900 font-bold flex items-center gap-1.5"><i class="ph ph-magic-wand text-[#C3FF00] bg-slate-900 p-1 rounded"></i> 3-Step Multi-File Packager Wizard</span>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button id="trigger-cmd-palette" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold">
+                    <i class="ph ph-magnifying-glass text-slate-500"></i><span>Quick Search</span><kbd class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded shadow-sm text-slate-500">Ctrl+K</kbd>
+                </button>
+                <a href="preview.html" class="btn-studio-secondary px-4 py-2.5 text-xs font-semibold uppercase">Live Preview</a>
+            </div>
+        </header>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-5xl w-full mx-auto space-y-8">
+            
+            <!-- STEPPER PROGRESS TABS -->
+            <div class="grid grid-cols-3 gap-2 p-2 bg-white border border-slate-200 rounded-2xl shadow-sm font-mono text-xs">
+                <button type="button" id="tab-step-1" onclick="switchStep(1)" class="step-tab py-3 px-4 rounded-xl font-bold uppercase tracking-wider text-left flex items-center gap-2.5 bg-slate-900 text-white shadow-sm transition-all">
+                    <span class="w-6 h-6 rounded-full bg-[#C3FF00] text-slate-900 font-extrabold flex items-center justify-center text-xs">1</span>
+                    <span class="truncate">Core Taxonomy & Info</span>
+                </button>
+                <button type="button" id="tab-step-2" onclick="switchStep(2)" class="step-tab py-3 px-4 rounded-xl font-semibold uppercase tracking-wider text-left flex items-center gap-2.5 text-slate-600 hover:bg-slate-50 transition-all">
+                    <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-extrabold flex items-center justify-center text-xs">2</span>
+                    <span class="truncate">Multi-File Vault & Specs</span>
+                </button>
+                <button type="button" id="tab-step-3" onclick="switchStep(3)" class="step-tab py-3 px-4 rounded-xl font-semibold uppercase tracking-wider text-left flex items-center gap-2.5 text-slate-600 hover:bg-slate-50 transition-all">
+                    <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-extrabold flex items-center justify-center text-xs">3</span>
+                    <span class="truncate">Licensing & Live Publish</span>
+                </button>
+            </div>
+
+            <!-- STEP WIZARD FORM -->
+            <form onsubmit="event.preventDefault();" class="space-y-8">
+                
+                <!-- STEP 1: CORE TAXONOMY & PRESENTATION -->
+                <div id="step-panel-1" class="step-panel studio-panel p-8 bg-white border border-slate-200 rounded-2xl shadow-sm space-y-6">
+                    <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+                        <div><h3 class="text-lg font-bold text-slate-900">Step 1: Core Product Metadata & Taxonomy</h3><p class="text-xs text-slate-500">Assign category classification across our 22+ supported product types and craft editorial copy.</p></div>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full font-mono font-bold text-xs">Page 1 of 3</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Product Title *</label>
+                        <input type="text" placeholder="e.g. Aura SaaS Landing Page Template" required class="studio-input text-lg font-bold w-full">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">URL Slug *</label>
+                            <input type="text" placeholder="aura-saas-template" class="studio-input font-mono text-sm w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Product Category (22+ Supported) *</label>
+                            <select class="studio-input text-sm font-bold bg-slate-50 w-full">
+                                <option>Website Templates</option><option>Landing Pages</option><option>Dashboard Templates</option>
+                                <option>UI Kits</option><option>Design Systems</option><option>Wireframes</option><option>Email Templates</option>
+                                <option>Brand Guidelines</option><option>Proposal Templates</option><option>Pitch Decks</option><option>Presentation Templates</option>
+                                <option>Social Media Templates</option><option>SVG Packs</option><option>Icon Packs</option><option>Illustrations</option>
+                                <option>Figma Files</option><option>Adobe XD Files</option><option>Adobe Illustrator Files</option>
+                                <option>Photoshop Files</option><option>Sketch Files</option><option>PDF</option><option>ZIP Packages</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Short Executive Subtitle *</label>
+                        <input type="text" placeholder="One sentence subtitle for cards and catalog preview..." class="studio-input text-sm w-full">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Long Description / Features Specs (Markdown Supported)</label>
+                        <textarea rows="6" placeholder="Full technical breakdown of responsive design tokens, Figma auto-layouts, and component lists..." class="studio-input font-mono text-sm w-full bg-slate-50"></textarea>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-200 flex justify-end">
+                        <button type="button" onclick="switchStep(2); StudioToast.show('Step 1 metadata validated.', 'info', 'Step 1 Complete');" class="btn-studio-primary px-8 py-3 text-xs uppercase tracking-wider font-extrabold flex items-center gap-2">Proceed to Step 2: Multi-File Vault &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: MULTI-FILE VAULT & SOFTWARE MATRIX -->
+                <div id="step-panel-2" class="step-panel hidden studio-panel p-8 bg-white border border-slate-200 rounded-2xl shadow-sm space-y-8">
+                    <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+                        <div><h3 class="text-lg font-bold text-slate-900">Step 2: Multi-File Vault & Software Matrix</h3><p class="text-xs text-slate-500">Each asset can bundle multiple downloadable file formats and software targets.</p></div>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full font-mono font-bold text-xs">Page 2 of 3</span>
+                    </div>
+
+                    <!-- Multi-File Matrix -->
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2"><i class="ph ph-files text-lg text-blue-600"></i> Attached Downloadable Files</span>
+                            <button type="button" onclick="StudioToast.show('New format slot added to matrix.', 'info', 'File Slot Added');" class="px-3 py-1 bg-slate-900 text-[#C3FF00] font-mono font-bold text-xs rounded-lg">+ Attach Additional Format</button>
+                        </div>
+                        <div class="space-y-3 font-mono text-xs">
+                            <div class="p-4 rounded-xl bg-white border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
+                                <div class="flex items-center gap-2 w-full md:w-1/3"><span class="px-2.5 py-1 bg-slate-900 text-white font-bold rounded">File #1</span><select class="studio-input text-xs font-bold"><option>HTML/Tailwind (.ZIP Archive)</option><option>Figma Tokens (.FIG)</option></select></div>
+                                <input type="url" placeholder="https://cdn.bangjeje.dev/releases/aura-saas-v2.zip" class="studio-input text-xs w-full md:w-2/3">
+                            </div>
+                            <div class="p-4 rounded-xl bg-white border border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between">
+                                <div class="flex items-center gap-2 w-full md:w-1/3"><span class="px-2.5 py-1 bg-purple-900 text-purple-200 font-bold rounded">File #2</span><select class="studio-input text-xs font-bold"><option selected>Figma Design System (.FIG)</option></select></div>
+                                <input type="url" placeholder="https://cdn.bangjeje.dev/figma/aura-tokens.fig" class="studio-input text-xs w-full md:w-2/3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 font-mono">
+                        <div><label class="block text-xs font-bold uppercase text-slate-600 mb-2">Version Tag</label><input type="text" value="v2.1.0" class="studio-input font-bold text-sm"></div>
+                        <div><label class="block text-xs font-bold uppercase text-slate-600 mb-2">Total Archive Size Calculation</label><input type="text" value="4.2 MB (Combined)" readonly class="studio-input bg-slate-50 text-slate-500"></div>
+                    </div>
+
+                    <!-- Compatible Software Checkboxes -->
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold uppercase tracking-widest text-slate-600">Compatible Software Platforms (Check all that apply)</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs font-bold">
+                            <label class="p-3.5 rounded-xl border border-slate-200 flex items-center gap-3 bg-slate-50 cursor-pointer hover:border-slate-900"><input type="checkbox" checked class="h-4 w-4 text-slate-900 rounded"> <i class="ph ph-file-svg text-purple-600 text-lg"></i> Figma</label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 flex items-center gap-3 bg-slate-50 cursor-pointer hover:border-slate-900"><input type="checkbox" checked class="h-4 w-4 text-slate-900 rounded"> <i class="ph ph-file-code text-blue-600 text-lg"></i> HTML & Tailwind</label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 flex items-center gap-3 bg-slate-50 cursor-pointer hover:border-slate-900"><input type="checkbox"> <i class="ph ph-palette text-amber-600 text-lg"></i> Adobe XD / AI</label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 flex items-center gap-3 bg-slate-50 cursor-pointer hover:border-slate-900"><input type="checkbox"> <i class="ph ph-vector-two text-orange-600 text-lg"></i> Sketch</label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 flex items-center gap-3 bg-slate-50 cursor-pointer hover:border-slate-900"><input type="checkbox"> <i class="ph ph-file-doc text-blue-800 text-lg"></i> Microsoft DOCX / PPTX</label>
+                            <label class="p-3.5 rounded-xl border border-slate-200 flex items-center gap-3 bg-slate-50 cursor-pointer hover:border-slate-900"><input type="checkbox" checked> <i class="ph ph-check text-emerald-600 text-lg"></i> Zero Overhead ZIP</label>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-200 flex justify-between">
+                        <button type="button" onclick="switchStep(1)" class="btn-studio-secondary px-6 py-3 text-xs uppercase font-bold">&larr; Back to Step 1</button>
+                        <button type="button" onclick="switchStep(3); StudioToast.show('Step 2 archive urls validated.', 'info', 'Step 2 Complete');" class="btn-studio-primary px-8 py-3 text-xs uppercase tracking-wider font-extrabold flex items-center gap-2">Proceed to Step 3: Licensing & Publish &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: LICENSING, TIERING & LIVE PUBLISH -->
+                <div id="step-panel-3" class="step-panel hidden studio-panel p-8 bg-white border border-slate-200 rounded-2xl shadow-sm space-y-6">
+                    <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+                        <div><h3 class="text-lg font-bold text-slate-900">Step 3: Commercial Tiering & Live Gate</h3><p class="text-xs text-slate-500">Define accessibility tiering and verify presentation URLs before deployment.</p></div>
+                        <span class="px-3 py-1 bg-slate-900 text-[#C3FF00] rounded-full font-mono font-extrabold text-xs">Final Step</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Commercial License Tier *</label>
+                            <select class="studio-input text-base font-extrabold w-full bg-slate-50 py-3 text-emerald-700">
+                                <option>Free Commercial Tier (No Cost)</option>
+                                <option>Premium Product Tier ($49 Standard)</option>
+                                <option>Enterprise Custom License ($199)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2">Featured Asset Status</label>
+                            <div class="flex items-center gap-3 h-12 px-4 bg-slate-50 rounded-xl border border-slate-200 font-bold text-sm">
+                                <input type="checkbox" checked class="h-5 w-5 text-slate-900 rounded">
+                                <span>Highlight on Digital Assets Homepage & Dashboard</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div><label class="block text-xs font-bold text-slate-600 mb-1">Live Demo Target URL</label><input type="url" placeholder="https://preview.bangjeje.dev/aura" class="studio-input font-mono text-sm"></div>
+                        <div><label class="block text-xs font-bold text-slate-600 mb-1">Documentation & Setup Guide URL</label><input type="url" placeholder="https://docs.bangjeje.dev/aura" class="studio-input font-mono text-sm"></div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-slate-900 text-white flex items-center justify-between text-xs shadow-xl mt-6">
+                        <div class="space-y-1">
+                            <div class="text-base font-extrabold text-[#C3FF00] flex items-center gap-2"><i class="ph ph-check-fat"></i> Ready for Global Ecosystem Release</div>
+                            <p class="text-slate-300 font-normal">By clicking Publish, this asset will become available on the public download catalog with automated lead capture enabled.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-200 flex justify-between items-center">
+                        <button type="button" onclick="switchStep(2)" class="btn-studio-secondary px-6 py-3 text-xs uppercase font-bold">&larr; Back to Step 2</button>
+                        <button type="button" onclick="StudioToast.show('Multi-file digital asset successfully published live to bangjeje.dev!', 'success', 'Catalog Updated'); setTimeout(() => window.location.href='index.html', 1800);" class="btn-studio-primary px-10 py-4 text-sm uppercase tracking-widest font-extrabold shadow-lg bg-[#C3FF00] text-slate-900 hover:bg-[#d5ff33]">✓ Confirm & Publish Asset Live</button>
+                    </div>
+                </div>
+
+            </form>
+        </main>
+        
+        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p><p class="font-mono">3-Step Packager &bull; /admin/digital-assets/create</p></footer>
+    </div>
+
+    <!-- Stepper Tab Switch Logic -->
+    <script>
+        function switchStep(targetStep) {
+            [1, 2, 3].forEach(num => {
+                const panel = document.getElementById('step-panel-' + num);
+                const tab = document.getElementById('tab-step-' + num);
+                if (num === targetStep) {
+                    panel.classList.remove('hidden');
+                    tab.classList.remove('bg-white', 'text-slate-600', 'hover:bg-slate-50');
+                    tab.classList.add('bg-slate-900', 'text-white', 'shadow-sm');
+                } else {
+                    panel.classList.add('hidden');
+                    tab.classList.remove('bg-slate-900', 'text-white', 'shadow-sm');
+                    tab.classList.add('bg-white', 'text-slate-600', 'hover:bg-slate-50');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
