@@ -3,45 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Analytics & Lead Manager | bangjeje.dev Studio</title>
+    <title>Telemetry & Core Web Vitals | bangjeje.dev Studio</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../assets/css/studio.css">
+    <link rel="stylesheet" href="../../assets/css/studio.css">
+    <script src="../../assets/js/studio-components.js" defer></script>
+    <script src="../../assets/js/studio.js" defer></script>
 </head>
-<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden">
-    <aside id="studio-sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col justify-between shadow-sm">
-        <div><div class="h-20 flex items-center px-6 border-b border-slate-200"><a href="../dashboard.html" class="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center shadow"><div class="w-2 h-2 bg-[#C3FF00] rounded-full"></div></div>bangjeje<span class="text-slate-400 font-normal">.dev</span> Studio</a></div>
-        <nav class="p-3 space-y-1"><a href="../dashboard.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-squares-four text-lg"></i> Dashboard</a><a href="downloads.html" class="studio-nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-chart-line-up text-lg"></i> Download Analytics</a><a href="leads.html" class="studio-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"><i class="ph ph-users text-lg"></i> Lead Manager</a></nav></div>
-        <div class="p-4 border-t bg-slate-50 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">JJ</div><div class="text-sm font-semibold">Jajang</div></div><a href="../login.html" class="p-2 text-slate-400 hover:text-red-600"><i class="ph ph-sign-out text-lg"></i></a></div>
-    </aside>
+<body class="min-h-screen bg-[#F1F5F9] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+    
+    <studio-sidebar active="leads"></studio-sidebar>
 
     <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
-        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
-            <span class="font-bold text-slate-900 text-sm">Digital Asset Download Analytics & Version Logs</span>
-            <span class="px-3 py-1 bg-slate-900 text-[#C3FF00] rounded-full text-xs font-mono font-bold">Google Analytics GA4 Ready</span>
-        </header>
+        <studio-header title="Technical Vitals & Download Analytics" breadcrumb="System & Telemetry"></studio-header>
 
-        <main class="flex-1 p-6 lg:p-10 max-w-7xl w-full mx-auto space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="studio-card p-6 bg-white"><span class="text-xs font-bold uppercase text-slate-400 block mb-2">Total All-Time Downloads</span><span class="text-4xl font-extrabold text-emerald-600 block">3,420</span><span class="text-xs text-slate-500 font-normal mt-1 block">Across 22 digital product format packages</span></div>
-                <div class="studio-card p-6 bg-white"><span class="text-xs font-bold uppercase text-slate-400 block mb-2">Top Performing Asset</span><span class="text-2xl font-bold text-slate-900 block truncate">Aura SaaS Template</span><span class="text-xs text-purple-600 font-mono font-bold mt-1 block">1,280 downloads (v2.1.0)</span></div>
-                <div class="studio-card p-6 bg-white"><span class="text-xs font-bold uppercase text-slate-400 block mb-2">Conversion Growth Rate</span><span class="text-4xl font-extrabold text-blue-600 block">+24.8%</span><span class="text-xs text-slate-500 font-normal mt-1 block">Compared to previous month</span></div>
+        <main class="flex-1 p-4 md:p-6 2xl:p-8 space-y-6 max-w-screen-2xl mx-auto w-full">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div><h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Technical Vitals & GA4 Telemetry</h1><p class="text-xs text-slate-500 mt-0.5">Central monitor for Core Web Vitals, Google Lighthouse scoring, and conversion download velocity.</p></div>
+                <div class="flex gap-2"><button onclick="StudioToast.show('Live Core Web Vitals report fetched from Cloudflare Edge.', 'info', 'Vitals Verified');" class="btn-studio-secondary px-4 py-2 text-xs font-bold uppercase"><i class="ph ph-lightning text-sm"></i> Ping Cloudflare Edge</button></div>
             </div>
 
-            <div class="studio-card bg-white border border-slate-200 overflow-hidden">
-                <div class="p-6 border-b border-slate-100"><h3 class="font-bold text-base text-slate-900">Recent Download Audit Logs</h3></div>
-                <table class="w-full text-left studio-table text-sm">
-                    <thead><tr><th class="py-3.5 px-6">Timestamp</th><th class="py-3.5 px-6">Asset Title & Version</th><th class="py-3.5 px-6">Format Type</th><th class="py-3.5 px-6">User IP / Location</th></tr></thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr><td class="py-4 px-6 font-mono text-xs text-slate-500">Aug 04, 2026 14:02</td><td class="py-4 px-6 font-bold text-slate-900">Aura SaaS Landing Page (v2.1.0)</td><td class="py-4 px-6 font-mono text-xs"><span class="px-2 py-0.5 bg-slate-100 rounded font-bold">.ZIP (4.2 MB)</span></td><td class="py-4 px-6 text-xs text-slate-600">Jakarta, ID (180.252.***)</td></tr>
-                        <tr><td class="py-4 px-6 font-mono text-xs text-slate-500">Aug 04, 2026 13:40</td><td class="py-4 px-6 font-bold text-slate-900">Fintech Dashboard Boilerplate (v1.4.2)</td><td class="py-4 px-6 font-mono text-xs"><span class="px-2 py-0.5 bg-purple-100 text-purple-900 rounded font-bold">.FIGMA</span></td><td class="py-4 px-6 text-xs text-slate-600">London, UK (82.165.***)</td></tr>
-                    </tbody>
-                </table>
+            <!-- CORE WEB VITALS & TECHNICAL METRICS ROW (Relocated from Dashboard per User requirement!) -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-2">
+                    <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>LCP (Loading Speed)</span><i class="ph ph-lightning text-emerald-500 text-lg"></i></div>
+                    <div class="text-3xl font-black text-slate-900 font-mono">0.8s <span class="text-xs font-bold text-emerald-600 block">Optimal Grade A (Target <2.5s)</span></div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-2">
+                    <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>INP (Interaction Latency)</span><i class="ph ph-cursor-click text-emerald-500 text-lg"></i></div>
+                    <div class="text-3xl font-black text-slate-900 font-mono">42ms <span class="text-xs font-bold text-emerald-600 block">Instant Response</span></div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-2">
+                    <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>CLS (Layout Stability)</span><i class="ph ph-squares-four text-emerald-500 text-lg"></i></div>
+                    <div class="text-3xl font-black text-slate-900 font-mono">0.00 <span class="text-xs font-bold text-emerald-600 block">Zero Layout Shift</span></div>
+                </div>
+                <div class="bg-slate-900 text-white rounded-xl p-5 shadow-xs space-y-2">
+                    <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>Lighthouse Score</span><i class="ph ph-check-circle text-[#C3FF00] text-lg"></i></div>
+                    <div class="text-3xl font-black text-[#C3FF00] font-mono">100 / 100 <span class="text-xs font-bold text-white block mt-0.5">Production Verified</span></div>
+                </div>
+            </section>
+
+            <!-- DOWNLOADS LOG TABLE -->
+            <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+                    <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-download-simple text-blue-600 text-lg"></i> Live Digital Asset Download Logs</span>
+                    <span class="text-xs font-mono text-slate-500">GA4 Measurement ID: G-XXXXXX</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200 font-mono text-[11px] font-bold uppercase text-slate-400 bg-slate-50">
+                                <th class="py-3 px-4">Timestamp</th>
+                                <th class="py-3 px-4">Asset Name</th>
+                                <th class="py-3 px-4">Format Downloaded</th>
+                                <th class="py-3 px-4 text-right">User Origin / Email</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 font-medium">
+                            <tr class="hover:bg-slate-50/80">
+                                <td class="py-3 px-4 font-mono text-xs text-slate-500">Just Now</td>
+                                <td class="py-3 px-4 font-bold text-slate-900">Aura SaaS Landing Page</td>
+                                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-900 text-[#C3FF00] font-mono font-extrabold text-[10px]">.ZIP Archive</span></td>
+                                <td class="py-3 px-4 text-right font-mono text-xs">budi.s@enterprise.co.id</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/80">
+                                <td class="py-3 px-4 font-mono text-xs text-slate-500">12 mins ago</td>
+                                <td class="py-3 px-4 font-bold text-slate-900">Nexus Design System</td>
+                                <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-purple-900 text-purple-200 font-mono font-extrabold text-[10px]">.FIGMA Tokens</span></td>
+                                <td class="py-3 px-4 text-right font-mono text-xs">alex@techgrowth.io</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
-        <footer class="mt-auto h-16 border-t bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p></footer>
+        
+        <footer class="mt-auto h-16 border-t border-slate-200 bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p><p class="font-mono">Telemetry &bull; /admin/analytics/downloads</p></footer>
     </div>
-    <script src="../assets/js/studio.js"></script>
 </body>
 </html>

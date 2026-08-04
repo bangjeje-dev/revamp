@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Dashboard | bangjeje.dev Studio</title>
+    <title>Executive Dashboard | bangjeje.dev Studio (TailAdmin Enterprise OS)</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,126 +11,217 @@
     <script src="assets/js/studio-components.js" defer></script>
     <script src="assets/js/studio.js" defer></script>
 </head>
-<body class="min-h-screen bg-[#F8FAFC] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
+<body class="min-h-screen bg-[#F1F5F9] text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
     
-    <!-- Unified Vanilla Web Component Sidebar -->
+    <!-- Streamlined TailAdmin Sidebar Component -->
     <studio-sidebar active="dashboard"></studio-sidebar>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Workspace -->
     <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
         
-        <!-- Studio Header -->
-        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shadow-sm">
-            <div class="flex items-center gap-4">
-                <button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl" aria-label="Toggle Navigation"><i class="ph ph-list"></i></button>
-                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium"><span class="text-slate-900 font-bold">Executive Overview</span><span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-mono uppercase tracking-wider font-extrabold shadow-xs">Production Ready</span></div>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <button id="trigger-cmd-palette" class="flex items-center gap-3 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors shadow-inner">
-                    <i class="ph ph-magnifying-glass text-slate-500 text-base"></i>
-                    <span>Global Command Palette...</span>
-                    <kbd class="font-mono text-[10px] bg-white px-2 py-0.5 rounded shadow-sm text-slate-600 font-extrabold">Ctrl + K</kbd>
-                </button>
-                <button type="button" onclick="StudioToast.show('All telemetry monitors connected and operational.', 'success', 'System Normal')" class="btn-studio-secondary px-3.5 py-2 text-xs font-semibold flex items-center gap-2"><i class="ph ph-shield-check text-emerald-600 text-lg"></i> System Health: Optimal</button>
-                <a href="content/articles/create.html" class="btn-studio-primary px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider shadow-md bg-[#C3FF00] text-slate-900 hover:bg-[#d5ff33] flex items-center gap-1.5"><i class="ph ph-plus-circle text-base"></i> New Content</a>
-            </div>
-        </header>
+        <!-- Universal Header (+ New Dropdown) -->
+        <studio-header title="Dashboard Overview" breadcrumb="Executive Hub"></studio-header>
 
-        <!-- Executive Dashboard Main Workspace -->
-        <main class="flex-1 p-6 lg:p-10 space-y-10 max-w-7xl w-full mx-auto">
+        <!-- TailAdmin Widescreen Workspace -->
+        <main class="flex-1 p-4 md:p-6 2xl:p-8 space-y-6 max-w-screen-2xl w-full mx-auto">
             
-            <!-- Executive Greeting -->
-            <div class="studio-card p-8 bg-white border border-slate-200/80 rounded-3xl shadow-sm relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-gradient-to-br from-[#C3FF00]/15 to-emerald-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            <!-- COMPACT WELCOME STRIP -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4.5 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-lg bg-slate-900 text-[#C3FF00] flex items-center justify-center text-xl shrink-0 shadow-xs"><i class="ph ph-hand-waving"></i></div>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">Good Morning, Jajang 👋 <span class="font-semibold text-slate-600">Welcome back to bangjeje.dev Studio.</span></h1>
+                        <p class="text-xs text-slate-500 font-normal">Internal enterprise operating system for your website content, digital products, and CRM lead acquisition.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 text-xs font-mono">
+                    <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> System: Connected</span>
+                </div>
+            </div>
+
+            <!-- 4-COLUMN OPERATIONAL KPI ROW (No Fake Trends / Transparent Neutral States) -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-                    <div class="space-y-2">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white font-mono text-xs uppercase font-extrabold shadow-sm"><span class="w-2 h-2 rounded-full bg-[#C3FF00] animate-pulse"></span> Internal Operating System v1.0</div>
-                        <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Good Morning, Jajang 👋 <span class="block text-xl lg:text-2xl font-bold text-slate-600 mt-1">Welcome back to bangjeje.dev Studio.</span></h1>
-                        <p class="text-sm text-slate-500 max-w-2xl font-normal leading-relaxed">Here is the real-time operational status of your digital ecosystem, content pipelines, commercial digital assets, and HubSpot CRM lead acquisition.</p>
+                <!-- KPI 1: Articles -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
+                    <div class="flex justify-between items-start">
+                        <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-2xl"><i class="ph ph-newspaper"></i></div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-600 uppercase">Live Catalog</span>
                     </div>
-                    <div class="flex items-center gap-3 shrink-0">
-                        <button onclick="StudioToast.show('Initiating manual backup of all content & digital assets...', 'info', 'Backup Triggered')" class="btn-studio-secondary px-5 py-3 text-xs uppercase tracking-wider font-extrabold"><i class="ph ph-database text-base"></i> Sync Vault</button>
-                        <a href="digital-assets/create.html" class="btn-studio-primary px-6 py-3 text-xs uppercase tracking-wider font-black shadow-lg bg-[#C3FF00] text-slate-900 hover:bg-[#d5ff33]">Launch 3-Step Packager</a>
+                    <div class="mt-4">
+                        <div class="text-2xl font-black text-slate-900 font-mono">24 <span class="text-xs font-sans font-medium text-slate-500 ml-1">Articles</span></div>
+                        <div class="text-xs text-slate-500 mt-1 flex items-center gap-1">18 Published &bull; 6 Drafts in Vault</div>
                     </div>
                 </div>
 
-                <!-- Action Triage Bar -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-100 font-mono text-xs">
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between"><span class="font-bold text-slate-700 flex items-center gap-2"><i class="ph ph-pencil text-amber-600 text-base"></i> Pending Review</span><span class="px-2.5 py-1 bg-amber-100 text-amber-900 rounded-lg font-black text-sm">3 Drafts</span></div>
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between"><span class="font-bold text-slate-700 flex items-center gap-2"><i class="ph ph-package text-blue-600 text-base"></i> Digital Asset Matrix</span><span class="px-2.5 py-1 bg-blue-100 text-blue-900 rounded-lg font-black text-sm">22+ Types Ready</span></div>
-                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between"><span class="font-bold text-slate-700 flex items-center gap-2"><i class="ph ph-users text-emerald-600 text-base"></i> HubSpot CRM Sync</span><span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 rounded-lg font-black text-sm">Active #716b6ac2</span></div>
-                </div>
-            </div>
-
-            <!-- 14 LIVE WEBSITE HEALTH & METADATA WIDGETS GRID -->
-            <section class="space-y-4">
-                <div class="flex justify-between items-end">
-                    <div><h2 class="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">1. Telemetry & Core Web Vitals (Real-time Health)</h2></div>
-                    <span class="text-[11px] font-mono text-slate-400">Google Lighthouse Score: 100/100</span>
+                <!-- KPI 2: Case Studies -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
+                    <div class="flex justify-between items-start">
+                        <div class="w-11 h-11 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-2xl"><i class="ph ph-briefcase"></i></div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-600 uppercase">Enterprise</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-2xl font-black text-slate-900 font-mono">3 <span class="text-xs font-sans font-medium text-slate-500 ml-1">Projects</span></div>
+                        <div class="text-xs text-slate-500 mt-1">COTIT &bull; BAZARTANI &bull; KAWAN PASANG</div>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="studio-card p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>LCP (Loading)</span> <i class="ph ph-lightning text-emerald-500"></i></div>
-                        <div class="text-3xl font-black text-slate-900 font-mono">0.8s <span class="text-xs font-bold text-emerald-600 block">Optimal Grade A</span></div>
+                <!-- KPI 3: Digital Assets -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
+                    <div class="flex justify-between items-start">
+                        <div class="w-11 h-11 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl"><i class="ph ph-package"></i></div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 uppercase">22+ Types</span>
                     </div>
-                    <div class="studio-card p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>INP (Interaction)</span> <i class="ph ph-cursor-click text-emerald-500"></i></div>
-                        <div class="text-3xl font-black text-slate-900 font-mono">42ms <span class="text-xs font-bold text-emerald-600 block">Instant Response</span></div>
-                    </div>
-                    <div class="studio-card p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>CLS (Stability)</span> <i class="ph ph-squares-four text-emerald-500"></i></div>
-                        <div class="text-3xl font-black text-slate-900 font-mono">0.00 <span class="text-xs font-bold text-emerald-600 block">Zero Layout Shift</span></div>
-                    </div>
-                    <div class="studio-card p-5 bg-slate-900 text-white border border-slate-800 rounded-2xl space-y-2 shadow-md">
-                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400 flex justify-between"><span>HubSpot Forms</span> <i class="ph ph-check-circle text-[#C3FF00] text-lg"></i></div>
-                        <div class="text-xl font-extrabold text-white">245789760 <span class="text-xs font-mono text-[#C3FF00] block font-bold mt-1">Form: 716b6ac2 Connected</span></div>
+                    <div class="mt-4">
+                        <div class="text-2xl font-black text-slate-900 font-mono">12 <span class="text-xs font-sans font-medium text-slate-500 ml-1">Bundles</span></div>
+                        <div class="text-xs text-slate-500 mt-1">Free & Premium multi-file templates</div>
                     </div>
                 </div>
+
+                <!-- KPI 4: Downloads & Analytics -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
+                    <div class="flex justify-between items-start">
+                        <div class="w-11 h-11 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-2xl"><i class="ph ph-cloud-arrow-down"></i></div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-600 uppercase">GA4 Synchron</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-2xl font-black text-slate-900 font-mono">1,248 <span class="text-xs font-sans font-medium text-slate-500 ml-1">Total Dls</span></div>
+                        <div class="text-xs text-slate-500 mt-1">Telemetry active &bull; <a href="analytics/downloads.html" class="text-blue-600 font-semibold hover:underline">View Vitals &rarr;</a></div>
+                    </div>
+                </div>
+
             </section>
 
-            <!-- Quick Access Catalog Showcase -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2"><i class="ph ph-package text-[#C3FF00] bg-slate-900 p-1 rounded"></i> Top Converting Digital Assets</h3>
-                        <a href="digital-assets/index.html" class="text-xs font-mono font-bold text-blue-600 hover:underline">View All 22+ Types &rarr;</a>
+            <!-- 2-COLUMN OPERATIONAL WORKSPACE -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left Column (8 cols): Digital Assets & Articles Matrix -->
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <!-- Top Converting Digital Assets -->
+                    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                        <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+                            <div class="flex items-center gap-2.5 font-extrabold text-slate-900 text-sm">
+                                <i class="ph ph-package text-emerald-600 text-lg"></i>
+                                <span>Recent Digital Assets (22+ Supported Types)</span>
+                            </div>
+                            <a href="digital-assets/index.html" class="text-xs font-bold font-mono text-blue-600 hover:underline">View Catalog Repository &rarr;</a>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 font-mono text-[11px] font-bold uppercase text-slate-400 bg-slate-50">
+                                        <th class="py-3 px-4">Asset Name</th>
+                                        <th class="py-3 px-4">Category</th>
+                                        <th class="py-3 px-4">License Tier</th>
+                                        <th class="py-3 px-4 text-right">Downloads</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 font-medium">
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-2">Aura SaaS Landing Page <span class="text-slate-400 font-mono text-[11px] font-normal">v2.1.0</span></td>
+                                        <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-xs font-bold">Website Templates</span></td>
+                                        <td class="py-3.5 px-4"><span class="badge-tier-free text-[11px] px-2 py-0.5 rounded uppercase font-mono">Free Commercial</span></td>
+                                        <td class="py-3.5 px-4 text-right font-mono font-bold text-slate-900">1,248 Dls</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-2">Nexus Design System Tokens <span class="text-slate-400 font-mono text-[11px] font-normal">v3.0.0</span></td>
+                                        <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 text-xs font-bold">Design Systems</span></td>
+                                        <td class="py-3.5 px-4"><span class="badge-tier-prem text-[11px] px-2 py-0.5 rounded uppercase font-mono">$49 Premium</span></td>
+                                        <td class="py-3.5 px-4 text-right font-mono font-bold text-slate-900">420 Dls</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="space-y-3 font-medium text-xs">
-                        <a href="digital-assets/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
-                            <div><div class="font-bold text-slate-900 text-sm">Aura SaaS Landing Page Template</div><span class="text-[11px] font-mono text-slate-400">Multi-File: .ZIP + .FIGMA &bull; Free Commercial</span></div>
-                            <span class="px-2.5 py-1 bg-white text-slate-900 rounded font-mono font-extrabold text-sm border shadow-xs">1,248 Dls</span>
-                        </a>
-                        <a href="digital-assets/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
-                            <div><div class="font-bold text-slate-900 text-sm">Nexus Design System Tokens</div><span class="text-[11px] font-mono text-slate-400">Multi-File: .FIG + .AI &bull; $49 Premium Tier</span></div>
-                            <span class="px-2.5 py-1 bg-white text-slate-900 rounded font-mono font-extrabold text-sm border shadow-xs">$20,580 Rev</span>
-                        </a>
+
+                    <!-- Articles & SEO Health Repository Summary -->
+                    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                        <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+                            <div class="flex items-center gap-2.5 font-extrabold text-slate-900 text-sm">
+                                <i class="ph ph-newspaper text-blue-600 text-lg"></i>
+                                <span>Recent Articles & SEO Optimization Suite</span>
+                            </div>
+                            <a href="content/articles/index.html" class="text-xs font-bold font-mono text-blue-600 hover:underline">Manage Articles &rarr;</a>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 font-mono text-[11px] font-bold uppercase text-slate-400 bg-slate-50">
+                                        <th class="py-3 px-4">Title & Slug</th>
+                                        <th class="py-3 px-4">SEO Score</th>
+                                        <th class="py-3 px-4">Status</th>
+                                        <th class="py-3 px-4 text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 font-medium">
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="py-3.5 px-4 font-bold text-slate-900">Designing for Enterprise Growth <span class="block text-[11px] text-slate-500 font-mono font-normal">/insights/designing-enterprise-growth</span></td>
+                                        <td class="py-3.5 px-4 font-mono font-black text-emerald-600 text-xs">95 / 100</td>
+                                        <td class="py-3.5 px-4"><span class="badge-pub text-[11px] px-2 py-0.5 rounded uppercase font-mono">Published Live</span></td>
+                                        <td class="py-3.5 px-4 text-right"><a href="content/articles/edit.html" class="font-bold text-slate-700 hover:text-blue-600 underline">Edit Zen</a></td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="py-3.5 px-4 font-bold text-slate-900">The Headless Frontend Paradigm in 2026 <span class="block text-[11px] text-slate-500 font-mono font-normal">/insights/headless-frontend-paradigm</span></td>
+                                        <td class="py-3.5 px-4 font-mono font-black text-amber-600 text-xs">84 / 100</td>
+                                        <td class="py-3.5 px-4"><span class="badge-pub text-[11px] px-2 py-0.5 rounded uppercase font-mono">Published Live</span></td>
+                                        <td class="py-3.5 px-4 text-right"><a href="content/articles/edit.html" class="font-bold text-slate-700 hover:text-blue-600 underline">Edit Zen</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                 </div>
 
-                <div class="studio-panel p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2"><i class="ph ph-newspaper text-[#C3FF00] bg-slate-900 p-1 rounded"></i> Recent Editorial Insights & SEO</h3>
-                        <a href="content/articles/index.html" class="text-xs font-mono font-bold text-blue-600 hover:underline">View Repository &rarr;</a>
+                <!-- Right Column (4 cols): HubSpot CRM Lead Feed & System Operations -->
+                <div class="lg:col-span-4 space-y-6">
+                    
+                    <!-- HubSpot CRM Leads Feed -->
+                    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                        <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+                            <div class="flex items-center gap-2 font-extrabold text-slate-900 text-sm"><i class="ph ph-users text-purple-600 text-lg"></i><span>Recent CRM Leads</span></div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">#716b6ac2</span>
+                        </div>
+                        <div class="p-4 space-y-3 text-xs">
+                            <div class="p-3 rounded-lg border border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Budi Santoso</div>
+                                    <div class="text-[11px] font-mono text-slate-500">budi.s@enterprise.co.id</div>
+                                    <div class="text-[10px] text-slate-400 mt-1">Downloaded: Aura SaaS Template</div>
+                                </div>
+                                <span class="text-emerald-600 font-bold font-mono">Verified</span>
+                            </div>
+                            <div class="p-3 rounded-lg border border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Alex Pratama</div>
+                                    <div class="text-[11px] font-mono text-slate-500">alex@techgrowth.io</div>
+                                    <div class="text-[10px] text-slate-400 mt-1">Downloaded: Nexus Tokens</div>
+                                </div>
+                                <span class="text-emerald-600 font-bold font-mono">Verified</span>
+                            </div>
+                            <a href="analytics/leads.html" class="block text-center py-2 text-xs font-bold uppercase text-slate-700 hover:text-slate-900 bg-slate-100 rounded-lg transition-colors">Open Full CRM Lead Manager &rarr;</a>
+                        </div>
                     </div>
-                    <div class="space-y-3 font-medium text-xs">
-                        <a href="content/articles/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
-                            <div><div class="font-bold text-slate-900 text-sm">Designing for Enterprise Growth</div><span class="text-[11px] font-mono text-slate-400">/insights/designing-enterprise-growth &bull; Aug 03</span></div>
-                            <span class="font-mono font-extrabold text-green-700 bg-green-50 px-2.5 py-1 rounded border border-green-200">95/100 SEO</span>
-                        </a>
-                        <a href="content/articles/edit.html" class="p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-100 flex justify-between items-center transition-colors">
-                            <div><div class="font-bold text-slate-900 text-sm">The Headless Frontend Paradigm in 2026</div><span class="text-[11px] font-mono text-slate-400">/insights/headless-frontend-paradigm &bull; Jul 28</span></div>
-                            <span class="font-mono font-extrabold text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200">84/100 SEO</span>
-                        </a>
+
+                    <!-- Quick Telemetry & Cloud Mirrors -->
+                    <div class="bg-slate-900 text-white rounded-xl p-5 shadow-xs space-y-4 text-xs">
+                        <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                            <span class="font-bold uppercase tracking-wider text-slate-400 font-mono text-[11px]">Core Vitals & Telemetry</span>
+                            <span class="text-[#C3FF00] font-mono font-extrabold text-xs">100 / 100 Lighthouse</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed font-normal">Technical metrics (LCP 0.8s, INP 42ms, CLS 0.00) have been centralized inside the comprehensive Telemetry and Analytics module.</p>
+                        <a href="analytics/downloads.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-lg bg-[#C3FF00] text-slate-900 font-black uppercase tracking-widest text-xs hover:bg-[#b8f000] transition-colors">Open Telemetry & Vitals &rarr;</a>
                     </div>
+
                 </div>
+
             </section>
 
         </main>
         
-        <footer class="mt-auto h-16 border-t border-slate-200/80 bg-white flex items-center justify-between px-6 lg:px-10 text-xs text-slate-500 font-medium"><p>&copy; 2026 bangjeje.dev Studio. Engineered for Executive Management.</p><p class="font-mono font-bold text-slate-400">System Gateway &bull; https://bangjeje.dev/admin/dashboard</p></footer>
+        <footer class="mt-auto h-16 border-t border-slate-200 bg-white flex items-center justify-between px-6 lg:px-8 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio. Engineered with TailAdmin Enterprise UX.</p><p class="font-mono text-slate-400">System Root &bull; /admin/dashboard</p></footer>
     </div>
+
 </body>
 </html>
