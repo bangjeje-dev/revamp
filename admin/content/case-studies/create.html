@@ -11,14 +11,14 @@
 </head>
 <body class="bg-slate-50 font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased min-h-screen flex items-center justify-center p-6">
 
-    <!-- ARCHITECTURAL STARTING TEMPLATE SELECTION DIALOG (Phase 7C/7D) -->
-    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-8 sm:p-10 space-y-8">
+    <!-- ARCHITECTURAL STARTING TEMPLATE SELECTION DIALOG WITH PREVIEWS (Phase 7E) -->
+    <div class="max-w-5xl w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-8 sm:p-10 space-y-8">
         <div class="flex items-center justify-between border-b border-slate-100 pb-6">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-slate-900 text-[#C3FF00] flex items-center justify-center text-2xl shadow-sm"><i class="ph ph-briefcase font-bold"></i></div>
                 <div>
                     <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Initialize Portfolio Case Study Builder</h1>
-                    <p class="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">Select a commercial domain starting template to preload optional storytelling modules, or begin blank:</p>
+                    <p class="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">Click any domain archetype to inspect a visual preview of its modular storytelling blocks before launching the editor:</p>
                 </div>
             </div>
             <a href="index.html" class="text-slate-400 hover:text-slate-900 font-mono text-base p-2 transition-colors">✕</a>
@@ -28,63 +28,63 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             
             <!-- Enterprise ERP -->
-            <div onclick="window.location.href='edit.html?template=erp'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+            <div onclick="previewCaseStudyTemplate('erp', 'Enterprise ERP & Logistics', 'Preloads Supply Chain Bottlenecks, Database Schema architectural cards & Empirical ROI speed vitals (e.g. COTIT).')" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
                 <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-buildings"></i></div>
                 <div>
                     <h3 class="font-extrabold text-slate-900 text-sm">Enterprise ERP & Logistics</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads Supply Chain Bottlenecks, Database Schema architectural cards & Empirical ROI speed vitals (e.g. COTIT).</p>
                 </div>
-                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Inspect Structure <i class="ph ph-eye"></i></div>
             </div>
 
             <!-- AgriTech / E-Commerce -->
-            <div onclick="window.location.href='edit.html?template=ecommerce'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+            <div onclick="previewCaseStudyTemplate('ecommerce', 'AgriTech & E-Commerce', 'Preloads Payment Gateway friction solutions, Merchant discovery notes & HubSpot lead capture matrices (e.g. BAZARTANI).')" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
                 <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-shopping-cart"></i></div>
                 <div>
                     <h3 class="font-extrabold text-slate-900 text-sm">AgriTech & E-Commerce</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads Payment Gateway friction solutions, Merchant discovery notes & HubSpot lead capture matrices (e.g. BAZARTANI).</p>
                 </div>
-                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Inspect Structure <i class="ph ph-eye"></i></div>
             </div>
 
             <!-- SaaS Design System -->
-            <div onclick="window.location.href='edit.html?template=saas'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+            <div onclick="previewCaseStudyTemplate('saas', 'SaaS UI Design System', 'Preloads Figma design tokens, component library previews, interactive Viewport galleries & Before/After sliders.')" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
                 <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-stack"></i></div>
                 <div>
                     <h3 class="font-extrabold text-slate-900 text-sm">SaaS UI Design System</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads Figma design tokens, component library previews, interactive Viewport galleries & Before/After sliders.</p>
                 </div>
-                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Inspect Structure <i class="ph ph-eye"></i></div>
             </div>
 
             <!-- Brand Identity -->
-            <div onclick="window.location.href='edit.html?template=brand'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+            <div onclick="previewCaseStudyTemplate('brand', 'Brand Identity & UI/UX', 'Preloads Typography token tables, Color palette hex matrices & high-impact visual proof showcases.')" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
                 <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-paint-brush"></i></div>
                 <div>
                     <h3 class="font-extrabold text-slate-900 text-sm">Brand Identity & UI/UX</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads Typography token tables, Color palette hex matrices & high-impact visual proof showcases.</p>
                 </div>
-                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Inspect Structure <i class="ph ph-eye"></i></div>
             </div>
 
             <!-- High-Converting Landing Page -->
-            <div onclick="window.location.href='edit.html?template=landing'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+            <div onclick="previewCaseStudyTemplate('landing', 'High-Converting Landing Page', 'Preloads Conversion funnel mechanics, A/B Testing speed vitals & Executive client testimonials.')" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
                 <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-lightning"></i></div>
                 <div>
                     <h3 class="font-extrabold text-slate-900 text-sm">High-Converting Landing Page</h3>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads Conversion funnel mechanics, A/B Testing speed vitals & Executive client testimonials.</p>
                 </div>
-                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Inspect Structure <i class="ph ph-eye"></i></div>
             </div>
 
             <!-- Blank Open Canvas -->
-            <div onclick="window.location.href='edit.html?template=blank'" class="group p-5 rounded-xl border border-slate-300 bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-md">
+            <div onclick="previewCaseStudyTemplate('blank', 'Blank Portfolio Canvas', 'Start with zero pre-existing sections. Build custom storytelling structures from scratch using slash commands.')" class="group p-5 rounded-xl border border-slate-300 bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-md">
                 <div class="w-10 h-10 rounded-lg bg-[#C3FF00] text-slate-900 flex items-center justify-center text-xl font-black group-hover:scale-110 transition-transform"><i class="ph ph-plus"></i></div>
                 <div>
                     <h3 class="font-extrabold text-white text-sm">Blank Portfolio Canvas</h3>
                     <p class="text-xs text-slate-300 mt-1 leading-relaxed">Start with zero pre-existing sections. Build custom storytelling structures from scratch using slash commands.</p>
                 </div>
-                <div class="text-[11px] font-mono font-bold text-[#C3FF00] flex items-center gap-1">Open Blank Canvas <i class="ph ph-arrow-right"></i></div>
+                <div class="text-[11px] font-mono font-bold text-[#C3FF00] flex items-center gap-1">Inspect Structure <i class="ph ph-eye"></i></div>
             </div>
 
         </div>
@@ -94,5 +94,95 @@
             <a href="index.html" class="font-bold text-slate-600 hover:text-slate-900 uppercase tracking-wider">Cancel & Return</a>
         </div>
     </div>
+
+    <!-- STRUCTURAL VISUAL PREVIEW MODAL (Phase 7E) -->
+    <div id="cs-preview-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs hidden flex items-center justify-center p-4 sm:p-6 transition-all">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-3xl w-full flex flex-col max-h-[85vh] overflow-hidden transform scale-95 transition-all duration-150" id="cs-modal-box">
+            
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/80">
+                <div>
+                    <span class="px-2.5 py-0.5 rounded bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-extrabold uppercase tracking-wider">Modular Storytelling Preview</span>
+                    <h3 id="cs-preview-title" class="font-extrabold text-slate-900 text-xl mt-1">Template Name</h3>
+                    <p id="cs-preview-desc" class="text-xs text-slate-500 mt-0.5">Template description details.</p>
+                </div>
+                <button onclick="closeCsPreviewModal()" class="text-slate-400 hover:text-slate-900 p-2 font-mono text-lg">✕</button>
+            </div>
+
+            <!-- PREVIEW VIEWPORT CONTENT -->
+            <div class="p-6 sm:p-8 overflow-y-auto flex-1 bg-slate-100/50 space-y-4 font-sans" id="cs-mockup-container">
+                <!-- Dynamically injected visual mockup -->
+            </div>
+
+            <div class="p-4 border-t border-slate-200 bg-white flex items-center justify-between shrink-0">
+                <button onclick="closeCsPreviewModal()" class="btn-studio-secondary py-2.5 px-5 text-xs font-bold text-slate-700">← Choose Another Template</button>
+                <button id="cs-confirm-btn" class="btn-studio-primary py-2.5 px-6 text-xs bg-[#C3FF00] text-slate-900 font-black tracking-wider uppercase shadow-md flex items-center gap-2">
+                    <span>Launch Modular Builder</span> <i class="ph ph-arrow-right text-base font-bold"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function previewCaseStudyTemplate(templateId, title, desc) {
+            document.getElementById('cs-preview-title').textContent = title;
+            document.getElementById('cs-preview-desc').textContent = desc;
+            
+            const container = document.getElementById('cs-mockup-container');
+            const btn = document.getElementById('cs-confirm-btn');
+            btn.onclick = () => window.location.href = `edit.html?template=${templateId}`;
+
+            let mockupHtml = '';
+            if (templateId === 'erp' || templateId === 'ecommerce') {
+                mockupHtml = `
+                    <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm space-y-5 text-left">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase">Storytelling Scaffold: ${title}</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Transforming Enterprise Infrastructure via Cloudflare Architecture</h2>
+                        
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 grid grid-cols-3 gap-3 text-xs">
+                            <div><div class="text-[10px] font-mono text-slate-400 font-bold uppercase">Client</div><div class="font-bold text-slate-800">Global Logistics Corp</div></div>
+                            <div><div class="text-[10px] font-mono text-slate-400 font-bold uppercase">Role</div><div class="font-bold text-slate-800">Lead Architect</div></div>
+                            <div><div class="text-[10px] font-mono text-slate-400 font-bold uppercase">Tech Stack</div><div class="font-bold text-blue-600">Cloudflare Workers</div></div>
+                        </div>
+
+                        <!-- ROI VITALS MODULE -->
+                        <div class="p-5 rounded-xl bg-slate-900 text-white border border-slate-800 space-y-2">
+                            <div class="text-[10px] font-mono text-[#C3FF00] font-extrabold uppercase">Empirical ROI Vitals Module</div>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div><div class="text-2xl font-black text-[#C3FF00] font-mono">0.8s</div><div class="text-[10px] text-slate-400 uppercase">LCP Velocity</div></div>
+                                <div><div class="text-2xl font-black text-[#C3FF00] font-mono">100</div><div class="text-[10px] text-slate-400 uppercase">Lighthouse</div></div>
+                                <div><div class="text-2xl font-black text-[#C3FF00] font-mono">+40%</div><div class="text-[10px] text-slate-400 uppercase">Lead Conv</div></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                mockupHtml = `
+                    <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm space-y-4 text-left">
+                        <h2 class="text-2xl font-extrabold text-slate-900">${title}: Storytelling Scaffold</h2>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div class="aspect-video bg-slate-900 rounded-lg flex items-center justify-center text-[#C3FF00] font-bold">Viewport Showcase Gallery</div>
+                            <div class="aspect-video bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-bold">Before / After Slider Block</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = mockupHtml;
+            const modal = document.getElementById('cs-preview-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('cs-modal-box').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeCsPreviewModal() {
+            const box = document.getElementById('cs-modal-box');
+            box.classList.add('scale-95');
+            setTimeout(() => {
+                document.getElementById('cs-preview-modal').classList.add('hidden');
+            }, 120);
+        }
+    </script>
 </body>
 </html>

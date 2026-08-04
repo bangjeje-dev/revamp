@@ -1,252 +1,1048 @@
 /**
- * bangjeje.dev Studio — Editorial Operating System Engine (Phase 7C/7D)
- * Pure Vanilla JS execution of Notion/Ghost-inspired Block Editor, Slash Commands (/), Focus Mode (Ctrl+Shift+F),
- * Modular Case Study Storytelling blocks, On-Demand Metadata Inspector, Zero-Refresh Multi-Viewport Previews,
- * and Dynamic Template Scaffolding for Articles and Case Studies.
+ * bangjeje.dev Studio — Gutenberg-Inspired Editorial OS Engine (Phase 7E)
+ * Pure Vanilla JS execution of WordPress Gutenberg UX philosophy with TailAdmin White Theme:
+ * - Persistent Dual-Tab Inspector Sidebar ('Document' vs 'Block')
+ * - Dynamic Block Settings (Image crop/lazy-loading, Heading level/anchor ID, Gallery columns/lightbox)
+ * - Floating Block Toolbar ([Type ▼] [Align] [B / I / Link] [↑ / ↓] [Options])
+ * - WordPress-Style Media Library Modal (Upload, Library Vault, URL, Search, Alt Text)
+ * - Reusable Block Patterns & Custom bangjeje.dev Blocks (Case Study CTA, Download Template, HubSpot Form, Author Bio, Tech Stack)
  */
 
 class EditorialOS {
     static init(options = { isCaseStudy: false }) {
         this.isCaseStudy = options.isCaseStudy || window.location.pathname.includes('case-studies');
+        this.activeBlock = null;
         this.setupKeyboardShortcuts();
-        this.setupBlockEvents();
+        this.setupBlockSelection();
         this.setupAutoSave();
+        this.injectFloatingToolbar();
+        this.injectMediaLibraryModal();
+        this.injectBlockInserterModal();
         this.injectSlashMenu();
-        this.injectMetadataDrawer();
         this.injectPublishModal();
         this.injectViewportSandbox();
         this.checkAndApplyTemplate();
         this.updateWordCount();
+        this.switchInspectorTab('document');
     }
 
+    // --- TEMPLATE SCAFFolding & INITIALIZATION ---
     static checkAndApplyTemplate() {
         const urlParams = new URLSearchParams(window.location.search);
         const template = urlParams.get('template');
         if (!template) return;
 
-        const titleEl = document.querySelector('.canvas-title');
+        const titleEl = document.querySelector('.canvas-title') || document.getElementById('doc-title');
         const container = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root');
-        const badge = document.getElementById('current-pub-status-badge');
         
         if (!titleEl || !container) return;
 
         if (template === 'blank') {
-            if (titleEl) {
-                titleEl.textContent = 'Untitled';
-                titleEl.focus();
-            }
-            if (badge) {
-                badge.className = 'px-2.5 py-0.5 rounded bg-amber-100 text-amber-800 font-mono text-[10px] font-extrabold uppercase';
-                badge.textContent = 'Draft in Vault';
-            }
+            titleEl.textContent = 'Untitled';
+            titleEl.focus();
             container.innerHTML = `
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
+                <div class="block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="paragraph" onclick="EditorialOS.selectBlock(this)">
+                    <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                        <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
                     </div>
-                    <div contenteditable="true" class="focus:outline-none text-slate-400 focus:text-slate-800 transition-colors">Start writing, or type '/' for commands...</div>
+                    <p contenteditable="true" class="focus:outline-none text-slate-400 focus:text-slate-800 transition-colors m-0 text-base leading-relaxed">Start writing, or type '/' to choose a block or reusable pattern...</p>
                 </div>
             `;
-            StudioToast.show("Opened Zero-Clutter Blank Canvas. Type '/' for instant blocks.", 'info', 'Editorial OS');
+            StudioToast.show("Opened Zero-Clutter Gutenberg Canvas. Type '/' or click '[ + ]' for Block Library.", 'info', 'Editorial OS');
         } else if (template === 'tutorial') {
             titleEl.textContent = 'Step-by-Step Tutorial: Building Headless Apps with Cloudflare Workers';
             container.innerHTML = `
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <p contenteditable="true" class="focus:outline-none text-slate-700 font-medium sm:text-xl leading-relaxed">In this technical step-by-step tutorial, you will learn how to deploy lightning-fast serverless endpoints at the global edge without managing traditional database servers.</p>
+                <div class="block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="paragraph" onclick="EditorialOS.selectBlock(this)">
+                    <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                    <p contenteditable="true" class="focus:outline-none text-slate-700 font-medium text-lg leading-relaxed m-0">In this technical tutorial, you will learn how to deploy lightning-fast serverless endpoints at the global edge without managing traditional monolithic database servers.</p>
                 </div>
-                <div class="block-item group relative pl-8 pr-2 py-2 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 focus:outline-none mt-6">Prerequisite Environment Checklist</h2>
+                <div class="block-item group relative p-3 my-2 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="heading" data-level="h2" onclick="EditorialOS.selectBlock(this)">
+                    <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                    <h2 contenteditable="true" class="text-2xl font-extrabold text-slate-900 focus:outline-none m-0">Prerequisite Environment Checklist</h2>
                 </div>
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <ul class="list-disc pl-5 space-y-2 text-slate-800 font-medium" contenteditable="true">
-                        <li>Node.js v20.0+ installed on your local OS or WSL2 workspace.</li>
+                <div class="block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="list" onclick="EditorialOS.selectBlock(this)">
+                    <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                    <ul class="list-disc pl-6 space-y-2 text-slate-800 font-medium m-0" contenteditable="true">
+                        <li>Node.js v20.0+ installed on your local OS workspace.</li>
                         <li>Wrangler CLI authenticated with your active Cloudflare Enterprise account.</li>
-                        <li>Basic familiarity with ES modules and TypeScript syntax.</li>
                     </ul>
                 </div>
-                <div class="block-item group relative pl-8 pr-2 py-2 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 focus:outline-none mt-4">Step 1: Initializing the Edge Worker Scaffolding</h2>
-                </div>
-                <div class="block-item group relative pl-8 pr-2 py-1 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs border border-slate-800 shadow-sm overflow-hidden my-2">
-                        <div class="px-4 py-2 bg-slate-800/80 text-[11px] font-bold text-slate-400 flex justify-between items-center border-b border-slate-700">
-                            <span contenteditable="true" class="text-white">terminal / powershell</span>
-                            <button onclick="StudioToast.show('Snippet copied to clipboard.', 'success')" class="hover:text-white transition-colors">Copy <i class="ph ph-copy ml-1"></i></button>
-                        </div>
-                        <pre class="p-4 overflow-x-auto focus:outline-none leading-relaxed" contenteditable="true">npm create cloudflare@latest bangjeje-edge-worker -- --type=simple\ncd bangjeje-edge-worker\nnpm run dev</pre>
-                    </div>
-                </div>
-                <div class="block-item group relative pl-8 pr-2 py-1 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div contenteditable="true" class="focus:outline-none text-slate-400 focus:text-slate-800 transition-colors">Type '/' to add more steps, screenshots, or callout blocks...</div>
-                </div>
+                <!-- CUSTOM BLOCK: DOWNLOAD TEMPLATE -->
+                ${this.getCustomBlockHtml('download-template')}
             `;
-            StudioToast.show("Loaded 'Technical Tutorial' scaffold with syntax fences & checklists.", 'success', 'Template Engine');
+            StudioToast.show("Loaded 'Technical Tutorial' scaffold with syntax code fences & custom download block.", 'success', 'Template Engine');
         } else if (template === 'opinion') {
             titleEl.textContent = 'Why Modern Digital Products Are Over-Engineered: An Executive Manifesto';
             container.innerHTML = `
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <p contenteditable="true" class="focus:outline-none text-slate-700 font-serif italic sm:text-2xl leading-relaxed">"We have traded simplicity, page speed, and cognitive joy for bloated JavaScript bundlers and unmaintainable abstraction mazes."</p>
+                <div class="block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="paragraph" onclick="EditorialOS.selectBlock(this)">
+                    <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                    <p contenteditable="true" class="focus:outline-none text-slate-700 font-serif italic text-xl sm:text-2xl leading-relaxed m-0">"We have traded simplicity, page speed, and cognitive joy for bloated JavaScript bundlers and unmaintainable abstraction mazes."</p>
                 </div>
-                <div class="block-item group relative pl-8 pr-2 py-1 my-4 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <p contenteditable="true" class="focus:outline-none text-slate-800 font-normal leading-relaxed">When founders and software leaders set out to build modern digital platforms, they frequently fall victim to industry peer pressure. They adopt complex single-page architectures for content that could be served thousands of times faster via static edge caching and semantic HTML.</p>
-                </div>
-                <div class="block-item group relative pl-8 pr-2 py-1 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-sm flex items-start gap-4 my-2">
-                        <i class="ph ph-quotes text-2xl text-[#C3FF00] shrink-0 mt-0.5"></i>
-                        <div class="flex-1 space-y-1">
-                            <div class="text-[11px] font-mono font-black uppercase text-[#C3FF00] tracking-wider" contenteditable="true">EXECUTIVE TAKEAWAY</div>
-                            <div class="text-xs sm:text-sm font-normal text-slate-200 focus:outline-none" contenteditable="true">Your end users do not care how complex your internal microservice routing is. They care about instant load times, pristine typography, and seamless interactionability.</div>
-                        </div>
-                    </div>
-                </div>
+                <!-- CUSTOM BLOCK: CASE STUDY CTA -->
+                ${this.getCustomBlockHtml('case-study-cta')}
             `;
             StudioToast.show("Loaded 'Editorial Opinion / Manifesto' scaffold.", 'success', 'Template Engine');
-        } else if (template === 'listicle') {
-            titleEl.textContent = '7 Crucial Architecture Mistakes That Kill Enterprise Software Performance';
-            container.innerHTML = `
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1">
-                    <p contenteditable="true" class="focus:outline-none text-slate-700 font-medium sm:text-xl leading-relaxed">After reviewing dozens of commercial codebases and scaling high-traffic infrastructure at bangjeje.dev, we identified seven fatal engineering anti-patterns that systematically erode system velocity.</p>
-                </div>
-                <div class="block-item group relative pl-8 pr-2 py-2 my-2">
-                    <h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-4">1. Ignoring Edge CDN WebP Media Compression</h2>
-                    <p contenteditable="true" class="text-slate-800 mt-2">Serving uncompressed PNG or JPEG binaries directly from origin servers instantly sabotages your Core Web Vitals LCP latency score.</p>
-                </div>
-                <div class="block-item group relative pl-8 pr-2 py-2 my-2">
-                    <h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-4">2. Excessive Third-Party JavaScript Scripts</h2>
-                    <p contenteditable="true" class="text-slate-800 mt-2">Every unvalidated telemetry tracker or analytics widget increases main-thread interaction blocking (INP). Keep your asset footprint lean.</p>
-                </div>
-                <div class="block-item group relative pl-8 pr-2 py-2 my-2">
-                    <h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-4">3. Database Synchronous Queries on Main Threads</h2>
-                    <p contenteditable="true" class="text-slate-800 mt-2">Always implement asynchronous background job taskers and local cache storage layers for heavy computational reporting.</p>
+        }
+
+        setTimeout(() => {
+            this.updateWordCount();
+            const firstBlock = container.querySelector('.block-item');
+            if (firstBlock) this.selectBlock(firstBlock);
+        }, 200);
+    }
+
+    // --- DYNAMIC RIGHT INSPECTOR (DOCUMENT vs BLOCK TABS) ---
+    static switchInspectorTab(tabName) {
+        const docBtn = document.getElementById('tab-btn-doc');
+        const blockBtn = document.getElementById('tab-btn-block');
+        const docPane = document.getElementById('inspector-pane-doc');
+        const blockPane = document.getElementById('inspector-pane-block');
+
+        if (!docBtn || !blockBtn || !docPane || !blockPane) return;
+
+        if (tabName === 'document') {
+            docBtn.className = 'flex-1 py-3 text-xs font-bold font-sans text-slate-900 border-b-2 border-slate-900 bg-white transition-colors cursor-pointer';
+            blockBtn.className = 'flex-1 py-3 text-xs font-semibold font-sans text-slate-400 hover:text-slate-700 border-b border-slate-200 bg-slate-50/60 transition-colors cursor-pointer';
+            docPane.classList.remove('hidden');
+            blockPane.classList.add('hidden');
+        } else {
+            blockBtn.className = 'flex-1 py-3 text-xs font-bold font-sans text-slate-900 border-b-2 border-slate-900 bg-white transition-colors cursor-pointer';
+            docBtn.className = 'flex-1 py-3 text-xs font-semibold font-sans text-slate-400 hover:text-slate-700 border-b border-slate-200 bg-slate-50/60 transition-colors cursor-pointer';
+            blockPane.classList.remove('hidden');
+            docPane.classList.add('hidden');
+            this.renderDynamicBlockInspector();
+        }
+    }
+
+    static selectBlock(blockEl) {
+        if (this.activeBlock === blockEl) return;
+        
+        // Remove outline from previous block
+        document.querySelectorAll('.block-item').forEach(el => el.classList.remove('ring-2', 'ring-[#C3FF00]', 'border-slate-300', 'bg-slate-50/30'));
+        
+        this.activeBlock = blockEl;
+        if (blockEl) {
+            blockEl.classList.add('ring-2', 'ring-[#C3FF00]', 'bg-slate-50/30');
+            this.positionFloatingToolbar(blockEl);
+            this.switchInspectorTab('block');
+            this.renderDynamicBlockInspector();
+        } else {
+            this.hideFloatingToolbar();
+            this.switchInspectorTab('document');
+        }
+    }
+
+    static setupBlockSelection() {
+        const container = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root');
+        if (container) {
+            container.addEventListener('click', (e) => {
+                const block = e.target.closest('.block-item');
+                if (block) {
+                    this.selectBlock(block);
+                } else if (e.target === container) {
+                    // Clicking empty canvas space adds a new paragraph block
+                    this.insertBlock('paragraph');
+                }
+            });
+
+            // Listen for keyboard arrow block traversal
+            container.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowUp' && e.ctrlKey && this.activeBlock) {
+                    e.preventDefault();
+                    this.moveBlockUp(this.activeBlock);
+                } else if (e.key === 'ArrowDown' && e.ctrlKey && this.activeBlock) {
+                    e.preventDefault();
+                    this.moveBlockDown(this.activeBlock);
+                }
+            });
+        }
+    }
+
+    // --- DYNAMIC BLOCK SETTINGS IN RIGHT SIDEBAR ---
+    static renderDynamicBlockInspector() {
+        const pane = document.getElementById('inspector-pane-block');
+        if (!pane) return;
+
+        if (!this.activeBlock) {
+            pane.innerHTML = `
+                <div class="p-8 text-center text-slate-400 space-y-3 font-sans">
+                    <i class="ph ph-cube text-3xl mx-auto block text-slate-300"></i>
+                    <div class="text-xs font-bold text-slate-600">No Block Selected</div>
+                    <p class="text-xs font-normal leading-relaxed">Click or tap any block in the center editorial canvas to inspect its typography, media dimensions, or relational settings.</p>
                 </div>
             `;
-            StudioToast.show("Loaded 'Industry Listicle' repeatable items scaffold.", 'success', 'Template Engine');
-        } else if (template === 'comparison') {
-            titleEl.textContent = 'Vanilla Web Components vs. React Fiber: Architectural Evaluation for Enterprise Dashboards';
-            container.innerHTML = `
-                <div class="block-item pl-8 pr-2 py-1">
-                    <p contenteditable="true" class="text-slate-700 font-medium sm:text-xl">When structuring an internal enterprise operating system, architecture teams face a fundamental decision: adopt heavy declarative virtual DOM libraries or leverage native browser standards?</p>
-                </div>
-                <div class="block-item pl-8 pr-2 py-2 my-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
-                        <div class="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-2">
-                            <div class="font-black text-emerald-900 text-sm flex items-center gap-2"><i class="ph ph-check-circle text-lg text-emerald-600"></i> Vanilla Web Components</div>
-                            <ul class="text-xs text-emerald-800 space-y-1 font-medium list-disc pl-4" contenteditable="true"><li>Zero bundle overhead or compiler friction</li><li>Direct browser standards compatibility</li><li>Instant boot velocity and minimal memory usage</li></ul>
+            return;
+        }
+
+        const type = this.activeBlock.getAttribute('data-block-type') || 'paragraph';
+
+        if (type === 'heading') {
+            const level = this.activeBlock.getAttribute('data-level') || 'h2';
+            pane.innerHTML = `
+                <div class="p-6 space-y-6 text-xs font-sans">
+                    <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-text-h-two text-blue-600 text-lg"></i> Heading Block Settings</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-600 uppercase">Core</span>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Heading Level</label>
+                        <div class="grid grid-cols-6 gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
+                            <button onclick="EditorialOS.setHeadingLevel('h1')" class="py-1.5 rounded font-bold font-mono text-center ${level === 'h1' ? 'bg-slate-900 text-[#C3FF00]' : 'text-slate-600 hover:bg-white'}">H1</button>
+                            <button onclick="EditorialOS.setHeadingLevel('h2')" class="py-1.5 rounded font-bold font-mono text-center ${level === 'h2' ? 'bg-slate-900 text-[#C3FF00]' : 'text-slate-600 hover:bg-white'}">H2</button>
+                            <button onclick="EditorialOS.setHeadingLevel('h3')" class="py-1.5 rounded font-bold font-mono text-center ${level === 'h3' ? 'bg-slate-900 text-[#C3FF00]' : 'text-slate-600 hover:bg-white'}">H3</button>
+                            <button onclick="EditorialOS.setHeadingLevel('h4')" class="py-1.5 rounded font-bold font-mono text-center ${level === 'h4' ? 'bg-slate-900 text-[#C3FF00]' : 'text-slate-600 hover:bg-white'}">H4</button>
+                            <button onclick="EditorialOS.setHeadingLevel('h5')" class="py-1.5 rounded font-bold font-mono text-center ${level === 'h5' ? 'bg-slate-900 text-[#C3FF00]' : 'text-slate-600 hover:bg-white'}">H5</button>
+                            <button onclick="EditorialOS.setHeadingLevel('h6')" class="py-1.5 rounded font-bold font-mono text-center ${level === 'h6' ? 'bg-slate-900 text-[#C3FF00]' : 'text-slate-600 hover:bg-white'}">H6</button>
                         </div>
-                        <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200 space-y-2">
-                            <div class="font-black text-amber-900 text-sm flex items-center gap-2"><i class="ph ph-warning-circle text-lg text-amber-600"></i> Declarative Virtual DOM Frameworks</div>
-                            <ul class="text-xs text-amber-800 space-y-1 font-medium list-disc pl-4" contenteditable="true"><li>High bundle bandwidth footprint</li><li>Requires complex build pipelines (Webpack, Vite)</li><li>Frequent breaking changes across library upgrades</li></ul>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">HTML Anchor ID (Jump Link)</label>
+                        <div class="flex rounded-lg border border-slate-300 overflow-hidden bg-white">
+                            <span class="bg-slate-100 px-3 py-2 font-mono text-slate-400 border-r border-slate-300">#</span>
+                            <input type="text" value="section-heading-anchor" onchange="StudioToast.show('Anchor ID updated in DOM.', 'info')" class="w-full px-3 py-2 font-mono font-semibold text-slate-900 focus:outline-none">
+                        </div>
+                        <span class="text-[10px] text-slate-400 block font-normal">Enables deep linking directly to this section across browsers.</span>
+                    </div>
+
+                    <div class="space-y-2 pt-4 border-t border-slate-100">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Typography & Color Overrides</label>
+                        <div class="flex items-center justify-between py-1"><span>Font Weight:</span><select class="studio-input w-36 font-semibold"><option>Extrabold (800)</option><option>Bold (700)</option></select></div>
+                        <div class="flex items-center justify-between py-1">
+                            <span>Text Color:</span>
+                            <div class="flex gap-2">
+                                <span class="w-6 h-6 rounded-full bg-slate-900 border border-slate-300 cursor-pointer shadow-xs" title="Slate 900"></span>
+                                <span class="w-6 h-6 rounded-full bg-blue-600 border border-slate-300 cursor-pointer shadow-xs" title="Brand Blue"></span>
+                                <span class="w-6 h-6 rounded-full bg-emerald-600 border border-slate-300 cursor-pointer shadow-xs" title="Emerald"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
-            StudioToast.show("Loaded 'Framework Comparison' matrix scaffold.", 'success', 'Template Engine');
-        } else if (template === 'ai') {
-            titleEl.textContent = '[AI Assisted Scaffold] Automated Research & Insight Strategy';
-            container.innerHTML = `
-                <div class="block-item pl-8 pr-2 py-4">
-                    <div class="p-6 rounded-2xl border-2 border-dashed border-purple-300 bg-purple-50/50 text-center space-y-3 my-2">
-                        <i class="ph ph-magic-wand text-3xl text-purple-600 mx-auto block"></i>
-                        <div class="text-base font-extrabold text-slate-800">AI Intelligent Scaffolding (Future Placeholder)</div>
-                        <p class="text-xs text-slate-600 max-w-md mx-auto">In Phase 7F, entering prompt directives here will automatically outline structured headings, generate SEO meta parameters, and prepare interactive FAQ accordions without traditional writer's block.</p>
+        } else if (type === 'image') {
+            pane.innerHTML = `
+                <div class="p-6 space-y-6 text-xs font-sans">
+                    <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-image text-purple-600 text-lg"></i> Image Block Settings</span>
+                        <button onclick="EditorialOS.openMediaLibraryModal()" class="px-2.5 py-1 rounded bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black hover:bg-slate-800 transition-colors">Replace Image</button>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">WCAG Mandatory Alt Text</label>
+                        <textarea class="studio-input w-full h-20 text-xs leading-relaxed font-normal" placeholder="Describe image details for screen readers and SEO...">COTIT global logistics enterprise dashboard interface deployed via Cloudflare Workers</textarea>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Image Caption & Attribution</label>
+                        <input type="text" value="Figure 1.1 — High-velocity handheld scanner UI on iPhone 15 Pro" class="studio-input w-full font-normal">
+                    </div>
+
+                    <div class="space-y-3 pt-4 border-t border-slate-100">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Crop & Aspect Ratio</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="StudioToast.show('Set aspect ratio to 16:9 widescreen.', 'info')" class="p-2 rounded-lg border border-slate-900 bg-slate-900 text-[#C3FF00] font-mono font-bold text-[11px]">16:9 Wide</button>
+                            <button onclick="StudioToast.show('Set aspect ratio to 4:3 standard.', 'info')" class="p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-400 font-mono font-bold text-[11px]">4:3 Standard</button>
+                            <button onclick="StudioToast.show('Set aspect ratio to 1:1 square.', 'info')" class="p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-400 font-mono font-bold text-[11px]">1:1 Square</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-4 border-t border-slate-100">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 flex justify-between items-center">
+                            <span>Edge Lazy Loading</span>
+                            <input type="checkbox" checked class="accent-[#C3FF00] w-4 h-4 rounded cursor-pointer" onchange="StudioToast.show('Toggled native loading=lazy directive.', 'info')">
+                        </label>
+                        <p class="text-[11px] text-slate-500 font-normal">Defers downloading binary media until visible in viewport to guarantee 0.8s LCP scores.</p>
                     </div>
                 </div>
             `;
-            StudioToast.show("Loaded 'AI Assisted' placeholder scaffold.", 'info', 'AI Future Hook');
-        } else if (template === 'business' || template === 'dev' || template === 'uiux') {
-            titleEl.textContent = `${template.toUpperCase()} Strategic Insight & Architectural Breakdown`;
-            StudioToast.show(`Loaded '${template.toUpperCase()}' starting scaffold.`, 'success', 'Template Engine');
+        } else if (type === 'gallery') {
+            pane.innerHTML = `
+                <div class="p-6 space-y-6 text-xs font-sans">
+                    <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-squares-four text-emerald-600 text-lg"></i> Gallery Block Settings</span>
+                        <button onclick="EditorialOS.openMediaLibraryModal()" class="px-2 py-1 rounded bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black">+ Add Visuals</button>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Layout Mode</label>
+                        <div class="flex gap-2">
+                            <label class="flex-1 p-2.5 rounded-lg bg-slate-900 text-[#C3FF00] font-bold text-center cursor-pointer border border-slate-800 shadow-xs font-mono"><input type="radio" name="g_mode" checked class="hidden"> Grid Flow</label>
+                            <label class="flex-1 p-2.5 rounded-lg bg-slate-50 text-slate-700 font-semibold text-center cursor-pointer border border-slate-200 hover:bg-slate-100 font-mono"><input type="radio" name="g_mode" class="hidden"> Masonry</label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center font-bold font-mono text-[11px] uppercase text-slate-600"><span>Grid Columns:</span><span class="text-blue-600 font-black">2 Columns</span></div>
+                        <input type="range" min="1" max="4" value="2" class="w-full accent-slate-900 cursor-pointer" onchange="StudioToast.show('Gallery column arrangement updated.', 'info')">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Grid Gap Spacing</label>
+                        <select class="studio-input w-full font-semibold"><option>Medium (16px / 1rem)</option><option>Small (8px / 0.5rem)</option><option>Large (24px / 1.5rem)</option></select>
+                    </div>
+
+                    <div class="space-y-2 pt-4 border-t border-slate-100">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 flex justify-between items-center">
+                            <span>Interactive Lightbox Zoom</span>
+                            <input type="checkbox" checked class="accent-[#C3FF00] w-4 h-4 rounded cursor-pointer" onchange="StudioToast.show('Toggled interactive modal lightbox on click.', 'info')">
+                        </label>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'case-study-cta' || type === 'download-template' || type === 'hubspot-form' || type === 'author-bio' || type === 'tech-stack' || type === 'related-assets') {
+            pane.innerHTML = `
+                <div class="p-6 space-y-6 text-xs font-sans">
+                    <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-sparkle text-[#C3FF00] bg-slate-900 p-1 rounded"></i> Custom bangjeje Block</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-100 text-purple-800 uppercase">Brand OS</span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Relational Asset Target</label>
+                        <select class="studio-input w-full font-bold text-slate-900 bg-slate-50" onchange="StudioToast.show('Linked commercial target updated in block card.', 'success')">
+                            <option>COTIT: Enterprise ERP Logistics (LCP 0.8s)</option>
+                            <option>BAZARTANI: AgriTech E-Commerce Platform</option>
+                            <option>Aura SaaS UI Kit (Figma + WebP Tokens)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Call to Action Button Text</label>
+                        <input type="text" value="${type === 'download-template' ? 'Download Free Template Starter' : 'Explore Commercial Execution ➔'}" class="studio-input w-full font-bold text-blue-600">
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-1">
+                        <div class="font-extrabold text-slate-900">Enterprise Brand Component</div>
+                        <p>This block dynamically inherit styling tokens from <code>studio.css</code> and ensures automated CRM lead attribution across your Cloudflare Edge domain.</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Default Paragraph / Code / List Settings
+            pane.innerHTML = `
+                <div class="p-6 space-y-6 text-xs font-sans">
+                    <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-text-t text-slate-700 text-lg"></i> Paragraph & Typography Settings</span>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Font Size Scale</label>
+                        <select class="studio-input w-full font-semibold"><option>Regular Body (18px)</option><option>Lead Introductory (20px)</option><option>Compact Caption (14px)</option></select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-[11px] uppercase text-slate-600 block">Drop Cap Initials</label>
+                        <label class="flex items-center gap-2 text-slate-700 font-medium cursor-pointer"><input type="checkbox" class="accent-slate-900 w-4 h-4 rounded"> Render oversized initial magazine letter</label>
+                    </div>
+                </div>
+            `;
         }
-
-        setTimeout(() => this.updateWordCount(), 200);
     }
 
-    static setupKeyboardShortcuts() {
-        document.addEventListener('keydown', (e) => {
-            // Focus Mode: Ctrl + Shift + F or Cmd + Shift + F
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') {
-                e.preventDefault();
-                this.toggleFocusMode();
-            }
-            // Silent Vault Save Pulse: Ctrl + S or Cmd + S
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-                e.preventDefault();
-                this.triggerVaultSave();
-            }
-            // Escape to exit Focus Mode or close drawers/menus
-            if (e.key === 'Escape') {
-                this.closeSlashMenu();
-                this.closeMetadataDrawer();
-                this.closePublishModal();
-                this.exitViewportSandbox();
-            }
-        });
-    }
-
-    static toggleFocusMode() {
-        document.body.classList.toggle('focus-zen-mode');
-        const isFocus = document.body.classList.contains('focus-zen-mode');
-        StudioToast.show(isFocus ? 'Focus Mode Activated. Press Ctrl+Shift+F or ESC to exit.' : 'Exited Focus Mode.', 'info', 'Editorial OS');
-    }
-
-    static triggerVaultSave() {
-        const statusEl = document.getElementById('vault-sync-status');
-        if (statusEl) {
-            statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping inline-block mr-1.5"></span> Syncing...';
-            setTimeout(() => {
-                statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced';
-            }, 600);
+    static setHeadingLevel(newLevel) {
+        if (!this.activeBlock || this.activeBlock.getAttribute('data-block-type') !== 'heading') return;
+        this.activeBlock.setAttribute('data-level', newLevel);
+        const heading = this.activeBlock.querySelector('h1, h2, h3, h4, h5, h6');
+        if (heading) {
+            const newTag = document.createElement(newLevel);
+            newTag.contentEditable = "true";
+            newTag.textContent = heading.textContent;
+            newTag.className = newLevel === 'h1' ? 'text-3xl font-black text-slate-900 focus:outline-none m-0' :
+                               newLevel === 'h2' ? 'text-2xl font-extrabold text-slate-900 focus:outline-none m-0' :
+                               newLevel === 'h3' ? 'text-xl font-bold text-slate-800 focus:outline-none m-0' :
+                               'text-lg font-bold text-slate-800 focus:outline-none m-0';
+            heading.replaceWith(newTag);
+            newTag.focus();
+            StudioToast.show(`Changed heading level to ${newLevel.toUpperCase()}`, 'info', 'Block Inspector');
+            this.renderDynamicBlockInspector();
         }
-        StudioToast.show('Editorial revisions saved silently to Vault repository.', 'success', 'Vault Sync');
     }
 
-    static setupAutoSave() {
-        let debounceTimer;
-        document.addEventListener('input', (e) => {
-            if (e.target && (e.target.classList.contains('editor-canvas') || e.target.closest('.storytelling-block') || e.target.classList.contains('canvas-title') || e.target.closest('.block-item'))) {
-                clearTimeout(debounceTimer);
-                const statusEl = document.getElementById('vault-sync-status');
-                if (statusEl) statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400 inline-block mr-1.5"></span> Unsaved...';
+    // --- FLOATING BLOCK TOOLBAR ---
+    static injectFloatingToolbar() {
+        if (document.getElementById('floating-block-toolbar')) return;
+        const toolbar = document.createElement('div');
+        toolbar.id = 'floating-block-toolbar';
+        toolbar.className = 'fixed z-40 bg-slate-900 text-white rounded-xl shadow-2xl border border-slate-700 p-1 flex items-center gap-1 text-xs hidden transition-all duration-150 transform -translate-y-2 font-sans';
+        toolbar.innerHTML = `
+            <div class="flex items-center gap-0.5 px-2 py-1 border-r border-slate-700 font-bold font-mono text-[#C3FF00] cursor-pointer hover:bg-slate-800 rounded-lg" onclick="EditorialOS.openBlockInserterModal()">
+                <i class="ph ph-cube text-base"></i> <span id="tb-block-type">Paragraph</span> <i class="ph ph-caret-down text-[10px] ml-1"></i>
+            </div>
+            <div class="flex items-center gap-0.5 px-1 border-r border-slate-700">
+                <button onclick="StudioToast.show('Aligned text left.', 'info')" class="p-1.5 hover:bg-slate-800 rounded text-slate-300 hover:text-white" title="Align Left"><i class="ph ph-text-align-left text-base"></i></button>
+                <button onclick="StudioToast.show('Aligned text center.', 'info')" class="p-1.5 hover:bg-slate-800 rounded text-slate-300 hover:text-white" title="Align Center"><i class="ph ph-text-align-center text-base"></i></button>
+            </div>
+            <div class="flex items-center gap-0.5 px-1 border-r border-slate-700">
+                <button onclick="document.execCommand('bold');" class="p-1.5 hover:bg-slate-800 rounded font-black text-slate-200 hover:text-white" title="Bold">B</button>
+                <button onclick="document.execCommand('italic');" class="p-1.5 hover:bg-slate-800 rounded italic text-slate-200 hover:text-white" title="Italic">I</button>
+                <button onclick="StudioToast.show('Insert link URL dialog...', 'info')" class="p-1.5 hover:bg-slate-800 rounded text-slate-300 hover:text-white" title="Link"><i class="ph ph-link-simple text-base"></i></button>
+            </div>
+            <div class="flex items-center gap-0.5 px-1">
+                <button onclick="EditorialOS.moveBlockUp(EditorialOS.activeBlock)" class="p-1.5 hover:bg-slate-800 rounded text-slate-300 hover:text-white" title="Move Up"><i class="ph ph-arrow-up text-base"></i></button>
+                <button onclick="EditorialOS.moveBlockDown(EditorialOS.activeBlock)" class="p-1.5 hover:bg-slate-800 rounded text-slate-300 hover:text-white" title="Move Down"><i class="ph ph-arrow-down text-base"></i></button>
+                <button onclick="EditorialOS.blockActionMenu(this, event)" class="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-rose-400" title="Block Options / Delete"><i class="ph ph-trash text-base"></i></button>
+            </div>
+        `;
+        document.body.appendChild(toolbar);
+    }
+
+    static positionFloatingToolbar(blockEl) {
+        const toolbar = document.getElementById('floating-block-toolbar');
+        if (!toolbar || !blockEl) return;
+        const rect = blockEl.getBoundingClientRect();
+        if (rect && rect.top > 40) {
+            toolbar.style.top = `${rect.top + window.scrollY - 44}px`;
+            toolbar.style.left = `${rect.left + 12}px`;
+            const label = document.getElementById('tb-block-type');
+            if (label) {
+                const type = blockEl.getAttribute('data-block-type') || 'paragraph';
+                label.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            }
+            toolbar.classList.remove('hidden', '-translate-y-2');
+        }
+    }
+
+    static hideFloatingToolbar() {
+        const toolbar = document.getElementById('floating-block-toolbar');
+        if (toolbar) toolbar.classList.add('hidden', '-translate-y-2');
+    }
+
+    static moveBlockUp(block) {
+        if (block && block.previousElementSibling) {
+            block.parentNode.insertBefore(block, block.previousElementSibling);
+            this.positionFloatingToolbar(block);
+            StudioToast.show('Moved block up.', 'info', 'Block Reorder');
+            this.updateWordCount();
+        }
+    }
+
+    static moveBlockDown(block) {
+        if (block && block.nextElementSibling) {
+            block.parentNode.insertBefore(block.nextElementSibling, block);
+            this.positionFloatingToolbar(block);
+            StudioToast.show('Moved block down.', 'info', 'Block Reorder');
+            this.updateWordCount();
+        }
+    }
+
+    static blockActionMenu(btn, event) {
+        if (event) event.stopPropagation();
+        const block = btn.closest('.block-item') || this.activeBlock;
+        if (!block) return;
+
+        if (confirm(`Execute block action on this module?\n\n• OK to Duplicate / Clone Section\n• Cancel to Scrub / Delete Section`)) {
+            const clone = block.cloneNode(true);
+            block.after(clone);
+            this.selectBlock(clone);
+            StudioToast.show('Block successfully cloned.', 'success', 'Gutenberg Engine');
+        } else {
+            if (confirm('Permanently remove this block?')) {
+                const next = block.nextElementSibling || block.previousElementSibling;
+                block.remove();
+                this.selectBlock(next);
+                StudioToast.show('Block removed from canvas.', 'info', 'Block Engine');
+                this.updateWordCount();
+            }
+        }
+    }
+
+    // --- WORDPRESS-STYLE MEDIA LIBRARY MODAL ---
+    static injectMediaLibraryModal() {
+        if (document.getElementById('media-library-modal')) return;
+        const modal = document.createElement('div');
+        modal.id = 'media-library-modal';
+        modal.className = 'fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs hidden flex items-center justify-center p-4 sm:p-6 transition-all font-sans';
+        modal.innerHTML = `
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-4xl w-full flex flex-col max-h-[85vh] overflow-hidden transform scale-95 transition-all duration-150" id="media-modal-box">
                 
-                debounceTimer = setTimeout(() => {
-                    if (statusEl) statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced';
-                    this.updateWordCount();
-                }, 1200);
+                <!-- Modal Header & Tabs -->
+                <div class="p-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-slate-50">
+                    <div class="flex items-center gap-6">
+                        <span class="font-extrabold text-slate-900 text-lg flex items-center gap-2"><i class="ph ph-folder-open text-purple-600 text-2xl"></i> WordPress-Style Media Library</span>
+                        <div class="flex gap-1 bg-slate-200/60 p-1 rounded-xl font-bold text-xs">
+                            <button onclick="EditorialOS.switchMediaTab('library')" id="m-tab-library" class="px-3.5 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs">Media Vault Library (42)</button>
+                            <button onclick="EditorialOS.switchMediaTab('upload')" id="m-tab-upload" class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Upload New Files</button>
+                            <button onclick="EditorialOS.switchMediaTab('url')" id="m-tab-url" class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Insert from URL</button>
+                        </div>
+                    </div>
+                    <button onclick="EditorialOS.closeMediaLibraryModal()" class="text-slate-400 hover:text-slate-900 font-mono text-lg p-1">✕</button>
+                </div>
+
+                <!-- MEDIA LIBRARY GRID PANE -->
+                <div id="media-pane-library" class="p-6 flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-3 gap-6 bg-white">
+                    <div class="md:col-span-2 space-y-4">
+                        <div class="flex gap-3">
+                            <div class="relative flex-1">
+                                <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-base"></i>
+                                <input type="text" placeholder="Search filename, tag, or alt-text..." class="studio-input w-full pl-9 h-9 text-xs font-semibold">
+                            </div>
+                            <select class="studio-input w-36 h-9 text-xs font-semibold bg-slate-50"><option>All File Types</option><option>WebP Imagery</option><option>SVG Icons</option></select>
+                        </div>
+
+                        <!-- Grid Thumbnail Items -->
+                        <div class="grid grid-cols-3 gap-3 overflow-y-auto max-h-80 pr-2">
+                            <div onclick="EditorialOS.selectMediaItem('COTIT_Dashboard_Hero.webp', '142 KB', 'Enterprise Supply Chain LCP 0.8s interface')" class="aspect-video rounded-xl bg-slate-900 border-2 border-[#C3FF00] flex flex-col justify-center items-center p-2 text-white cursor-pointer relative group overflow-hidden shadow-xs">
+                                <i class="ph ph-image text-3xl text-[#C3FF00] mb-1"></i>
+                                <span class="text-[10px] font-mono font-bold text-center leading-tight truncate w-full">COTIT_Hero.webp</span>
+                                <span class="absolute top-1 right-1 w-5 h-5 rounded-full bg-[#C3FF00] text-slate-900 flex items-center justify-center text-xs font-black">✓</span>
+                            </div>
+                            <div onclick="EditorialOS.selectMediaItem('BAZARTANI_Checkout_Flow.webp', '189 KB', 'AgriTech mobile payment gateway modal')" class="aspect-video rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 flex flex-col justify-center items-center p-2 text-white cursor-pointer group overflow-hidden">
+                                <i class="ph ph-shopping-bag text-3xl text-emerald-400 mb-1"></i>
+                                <span class="text-[10px] font-mono font-bold text-slate-300 text-center leading-tight truncate w-full">BAZARTANI.webp</span>
+                            </div>
+                            <div onclick="EditorialOS.selectMediaItem('Aura_SaaS_Design_Tokens.webp', '112 KB', 'Figma design token component library')" class="aspect-video rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 flex flex-col justify-center items-center p-2 text-white cursor-pointer group overflow-hidden">
+                                <i class="ph ph-stack text-3xl text-purple-400 mb-1"></i>
+                                <span class="text-[10px] font-mono font-bold text-slate-300 text-center leading-tight truncate w-full">Aura_Tokens.webp</span>
+                            </div>
+                            <div onclick="EditorialOS.selectMediaItem('Studio_Gutenberg_OS.webp', '98 KB', 'Editorial OS dual tab interface')" class="aspect-video rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 flex flex-col justify-center items-center p-2 text-white cursor-pointer group overflow-hidden">
+                                <i class="ph ph-desktop text-3xl text-rose-400 mb-1"></i>
+                                <span class="text-[10px] font-mono font-bold text-slate-300 text-center leading-tight truncate w-full">Gutenberg_OS.webp</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Attachment Inspector Pane -->
+                    <div class="border-l border-slate-200 pl-6 space-y-4 text-xs">
+                        <div class="font-extrabold text-slate-900 uppercase tracking-wider font-mono text-[11px]">Attachment Details</div>
+                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                            <div id="m-sel-title" class="font-black text-slate-900 text-sm truncate">COTIT_Dashboard_Hero.webp</div>
+                            <div id="m-sel-meta" class="font-mono text-[11px] text-slate-500">142 KB &bull; WebP Edge Compressed &bull; 1440x900px</div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="font-bold font-mono text-[10px] uppercase text-slate-600 block">WCAG Alt Text (Required)</label>
+                            <input id="m-sel-alt" type="text" value="Enterprise Supply Chain LCP 0.8s interface" class="studio-input w-full font-semibold text-xs">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="font-bold font-mono text-[10px] uppercase text-slate-600 block">Caption / Attribution</label>
+                            <input type="text" value="Deployed on Cloudflare Workers global Edge CDN" class="studio-input w-full font-normal text-xs">
+                        </div>
+
+                        <button onclick="StudioToast.show('Deleted media item from Cloudflare Vault storage.', 'info')" class="text-rose-600 hover:underline font-bold text-xs pt-2 block font-mono">Scrub File from Vault</button>
+                    </div>
+                </div>
+
+                <!-- UPLOAD PANE (Hidden) -->
+                <div id="media-pane-upload" class="p-10 flex-1 hidden flex flex-col items-center justify-center text-center bg-slate-50/50">
+                    <div class="max-w-md w-full p-10 rounded-2xl border-2 border-dashed border-slate-300 hover:border-slate-900 bg-white transition-all space-y-4 cursor-pointer">
+                        <i class="ph ph-cloud-arrow-up text-5xl text-blue-600 mx-auto block"></i>
+                        <div><h4 class="font-extrabold text-slate-900 text-base">Drop WebP / PNG files here to compress</h4><p class="text-xs text-slate-400 mt-1">Automatic conversion to WebP with Cloudflare Edge caching protocols.</p></div>
+                        <button class="btn-studio-primary bg-slate-900 text-white text-xs px-6 py-2.5 rounded-xl font-bold">Select Files to Upload</button>
+                    </div>
+                </div>
+
+                <!-- URL PANE (Hidden) -->
+                <div id="media-pane-url" class="p-10 flex-1 hidden bg-white space-y-4 max-w-lg mx-auto w-full flex flex-col justify-center">
+                    <h4 class="font-extrabold text-slate-900 text-base">Insert External CDN Asset by URL</h4>
+                    <div class="space-y-2">
+                        <label class="font-bold font-mono text-xs uppercase text-slate-600 block">Absolute WebP Image URL</label>
+                        <input type="text" placeholder="https://cdn.bangjeje.dev/assets/hero_image.webp" class="studio-input w-full font-mono text-xs">
+                    </div>
+                </div>
+
+                <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-end gap-3 shrink-0">
+                    <button onclick="EditorialOS.closeMediaLibraryModal()" class="btn-studio-secondary py-2.5 px-5 text-xs font-bold text-slate-700">Cancel</button>
+                    <button onclick="EditorialOS.confirmMediaInsertion()" class="btn-studio-primary py-2.5 px-6 text-xs bg-[#C3FF00] text-slate-900 font-black uppercase tracking-wider shadow-md">✓ Insert into Editorial Canvas</button>
+                </div>
+
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    static openMediaLibraryModal() {
+        const modal = document.getElementById('media-library-modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('media-modal-box').classList.remove('scale-95'), 10);
+        }
+    }
+
+    static closeMediaLibraryModal() {
+        const modal = document.getElementById('media-library-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            document.getElementById('media-modal-box').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 150);
+        }
+    }
+
+    static switchMediaTab(tab) {
+        ['library', 'upload', 'url'].forEach(t => {
+            const btn = document.getElementById(`m-tab-${t}`);
+            const pane = document.getElementById(`media-pane-${t}`);
+            if (btn && pane) {
+                if (t === tab) {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs font-bold';
+                    pane.classList.remove('hidden');
+                } else {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 font-semibold';
+                    pane.classList.add('hidden');
+                }
             }
         });
     }
 
-    static updateWordCount() {
-        const canvas = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root') || document.body;
-        const text = canvas.innerText || '';
-        const words = text.trim().split(/\s+/).filter(w => w.length > 0 && w !== '⋮⋮').length;
-        const readTime = Math.max(1, Math.ceil(words / 200));
-        const meter = document.getElementById('reading-time-meter');
-        if (meter) meter.textContent = `${words} Words | ${readTime}m Read`;
+    static selectMediaItem(filename, size, alt) {
+        const tEl = document.getElementById('m-sel-title');
+        const mEl = document.getElementById('m-sel-meta');
+        const aEl = document.getElementById('m-sel-alt');
+        if (tEl) tEl.textContent = filename;
+        if (mEl) mEl.textContent = `${size} • WebP Edge Compressed`;
+        if (aEl) aEl.value = alt;
+        StudioToast.show(`Selected media: ${filename}`, 'info', 'Media Vault');
     }
 
-    // --- SLASH COMMAND ENGINE ---
+    static confirmMediaInsertion() {
+        this.closeMediaLibraryModal();
+        if (!this.activeBlock) this.insertBlock('image');
+        StudioToast.show('Updated image block with selected WebP Media Vault visual!', 'success', 'Media Library');
+    }
+
+    // --- REUSABLE BLOCK PATTERNS & CUSTOM BANGJEJE BLOCKS ---
+    static injectBlockInserterModal() {
+        if (document.getElementById('block-inserter-modal')) return;
+        const modal = document.createElement('div');
+        modal.id = 'block-inserter-modal';
+        modal.className = 'fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs hidden flex items-center justify-center p-4 sm:p-6 transition-all font-sans';
+        modal.innerHTML = `
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-3xl w-full flex flex-col max-h-[85vh] overflow-hidden transform scale-95 transition-all duration-150" id="inserter-modal-box">
+                
+                <div class="p-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-slate-50">
+                    <div class="flex items-center gap-6">
+                        <span class="font-extrabold text-slate-900 text-lg flex items-center gap-2"><i class="ph ph-plus-circle text-blue-600 text-2xl"></i> Gutenberg Block & Pattern Library</span>
+                        <div class="flex gap-1 bg-slate-200/60 p-1 rounded-xl font-bold text-xs">
+                            <button onclick="EditorialOS.switchInserterTab('blocks')" id="i-tab-blocks" class="px-4 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs font-bold">Blocks (Core & Custom)</button>
+                            <button onclick="EditorialOS.switchInserterTab('patterns')" id="i-tab-patterns" class="px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Reusable Block Patterns (10)</button>
+                        </div>
+                    </div>
+                    <button onclick="EditorialOS.closeBlockInserterModal()" class="text-slate-400 hover:text-slate-900 font-mono text-lg p-1">✕</button>
+                </div>
+
+                <!-- BLOCKS TAB PANE -->
+                <div id="inserter-pane-blocks" class="p-6 flex-1 overflow-y-auto space-y-6 bg-white">
+                    <div>
+                        <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block mb-3">Custom bangjeje.dev Blocks (Enterprise OS)</span>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div onclick="EditorialOS.insertCustomBlock('case-study-cta')" class="p-4 rounded-xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer text-left space-y-1 group shadow-xs">
+                                <div class="w-8 h-8 rounded-lg bg-slate-900 text-[#C3FF00] flex items-center justify-center font-bold mb-2"><i class="ph ph-briefcase text-lg"></i></div>
+                                <div class="font-bold text-slate-900 text-xs">Case Study CTA</div>
+                                <p class="text-[11px] text-slate-500">Commercial promotion box with empirical speed ROI KPIs.</p>
+                            </div>
+                            <div onclick="EditorialOS.insertCustomBlock('download-template')" class="p-4 rounded-xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer text-left space-y-1 group shadow-xs">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold mb-2"><i class="ph ph-download-simple text-lg"></i></div>
+                                <div class="font-bold text-slate-900 text-xs">Download Template</div>
+                                <p class="text-[11px] text-slate-500">High-converting asset card for UI kits and starter ZIP bundles.</p>
+                            </div>
+                            <div onclick="EditorialOS.insertCustomBlock('hubspot-form')" class="p-4 rounded-xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer text-left space-y-1 group shadow-xs">
+                                <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold mb-2"><i class="ph ph-envelope text-lg"></i></div>
+                                <div class="font-bold text-slate-900 text-xs">Newsletter / HubSpot Form</div>
+                                <p class="text-[11px] text-slate-500">Embedded CRM lead capture widget with high-contrast button.</p>
+                            </div>
+                            <div onclick="EditorialOS.insertCustomBlock('author-bio')" class="p-4 rounded-xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer text-left space-y-1 group shadow-xs">
+                                <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center font-bold mb-2"><i class="ph ph-user text-lg"></i></div>
+                                <div class="font-bold text-slate-900 text-xs">Author Bio Card</div>
+                                <p class="text-[11px] text-slate-500">Verified developer credentials with social X & LinkedIn linkers.</p>
+                            </div>
+                            <div onclick="EditorialOS.insertCustomBlock('tech-stack')" class="p-4 rounded-xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer text-left space-y-1 group shadow-xs">
+                                <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center font-bold mb-2"><i class="ph ph-stack text-lg"></i></div>
+                                <div class="font-bold text-slate-900 text-xs">Technology Stack Matrix</div>
+                                <p class="text-[11px] text-slate-500">Interactive badge array of Cloudflare, Tailwind & TypeScript tokens.</p>
+                            </div>
+                            <div onclick="EditorialOS.insertCustomBlock('related-assets')" class="p-4 rounded-xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer text-left space-y-1 group shadow-xs">
+                                <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-800 flex items-center justify-center font-bold mb-2"><i class="ph ph-grid-four text-lg"></i></div>
+                                <div class="font-bold text-slate-900 text-xs">Related Assets & Studies</div>
+                                <p class="text-[11px] text-slate-500">Automated internal interlinking card grids for SEO backlink velocity.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-100">
+                        <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block mb-3">Core Editorial Blocks</span>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-semibold text-slate-700">
+                            <button onclick="EditorialOS.insertBlock('heading'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-text-h-two text-blue-600 text-lg"></i> Heading H2/H3</button>
+                            <button onclick="EditorialOS.insertBlock('paragraph'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-text-t text-slate-700 text-lg"></i> Paragraph Text</button>
+                            <button onclick="EditorialOS.insertBlock('image'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-image text-purple-600 text-lg"></i> WebP Media</button>
+                            <button onclick="EditorialOS.insertBlock('gallery'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-squares-four text-emerald-600 text-lg"></i> Viewport Gallery</button>
+                            <button onclick="EditorialOS.insertBlock('code'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-code text-indigo-600 text-lg"></i> Syntax Code Fence</button>
+                            <button onclick="EditorialOS.insertBlock('callout'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-lightning text-amber-500 text-lg"></i> Pro-Tip Alert</button>
+                            <button onclick="EditorialOS.insertBlock('quote'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-quotes text-rose-500 text-lg"></i> Executive Quote</button>
+                            <button onclick="EditorialOS.insertBlock('faq'); EditorialOS.closeBlockInserterModal();" class="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center gap-2"><i class="ph ph-question text-sky-600 text-lg"></i> FAQ Accordion</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PATTERNS TAB PANE (Hidden) -->
+                <div id="inserter-pane-patterns" class="p-6 flex-1 overflow-y-auto space-y-4 bg-white hidden">
+                    <p class="text-xs text-slate-500">Reusable pre-composed storytelling modules that accelerate content creation while remaining completely editable:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Hero Pattern -->
+                        <div onclick="EditorialOS.insertPattern('hero')" class="p-5 rounded-2xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer space-y-2 group shadow-xs">
+                            <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-mono text-[10px] font-extrabold uppercase">Pattern &bull; Hero</span>
+                            <h4 class="font-extrabold text-slate-900 text-sm">Enterprise Impact Hero Scenario</h4>
+                            <p class="text-xs text-slate-500">Combines oversized lead headline, executive summary paragraph, and 3-column empirical KPI scorecard.</p>
+                        </div>
+
+                        <!-- FAQ Pattern -->
+                        <div onclick="EditorialOS.insertPattern('faq-group')" class="p-5 rounded-2xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer space-y-2 group shadow-xs">
+                            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase">Pattern &bull; FAQ</span>
+                            <h4 class="font-extrabold text-slate-900 text-sm">3-Stack FAQ Accordion Group</h4>
+                            <p class="text-xs text-slate-500">Preloads three expandable Q&A accordions optimized for Google search schema snippets.</p>
+                        </div>
+
+                        <!-- Tech Stack Pattern -->
+                        <div onclick="EditorialOS.insertPattern('tech-matrix')" class="p-5 rounded-2xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer space-y-2 group shadow-xs">
+                            <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-mono text-[10px] font-extrabold uppercase">Pattern &bull; Stack</span>
+                            <h4 class="font-extrabold text-slate-900 text-sm">Full-Stack Cloudflare Architecture Matrix</h4>
+                            <p class="text-xs text-slate-500">Preloaded badges for Workers, Pages, D1 SQL Database, Tailwind CSS V3, and HubSpot CRM.</p>
+                        </div>
+
+                        <!-- HubSpot CRM Pattern -->
+                        <div onclick="EditorialOS.insertPattern('hubspot-lead')" class="p-5 rounded-2xl border border-slate-200 hover:border-slate-900 bg-slate-50/50 hover:bg-white transition-all cursor-pointer space-y-2 group shadow-xs">
+                            <span class="px-2 py-0.5 rounded bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-extrabold uppercase">Pattern &bull; Conversion</span>
+                            <h4 class="font-extrabold text-slate-900 text-sm">High-Converting Lead Magnet Section</h4>
+                            <p class="text-xs text-slate-500">Dark-mode callout box featuring value proposition bullets and immediate email input submit form.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    static openBlockInserterModal() {
+        const modal = document.getElementById('block-inserter-modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('inserter-modal-box').classList.remove('scale-95'), 10);
+        }
+    }
+
+    static closeBlockInserterModal() {
+        const modal = document.getElementById('block-inserter-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            document.getElementById('inserter-modal-box').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 150);
+        }
+    }
+
+    static switchInserterTab(tab) {
+        const bBtn = document.getElementById('i-tab-blocks');
+        const pBtn = document.getElementById('i-tab-patterns');
+        const bPane = document.getElementById('inserter-pane-blocks');
+        const pPane = document.getElementById('inserter-pane-patterns');
+        if (!bBtn || !pBtn || !bPane || !pPane) return;
+
+        if (tab === 'blocks') {
+            bBtn.className = 'px-4 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs font-bold';
+            pBtn.className = 'px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900';
+            bPane.classList.remove('hidden');
+            pPane.classList.add('hidden');
+        } else {
+            pBtn.className = 'px-4 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs font-bold';
+            bBtn.className = 'px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900';
+            pPane.classList.remove('hidden');
+            bPane.classList.add('hidden');
+        }
+    }
+
+    static insertBlock(type) {
+        const container = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root');
+        if (!container) return;
+        
+        const block = document.createElement('div');
+        block.className = 'block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text';
+        block.setAttribute('data-block-type', type);
+        block.setAttribute('onclick', 'EditorialOS.selectBlock(this)');
+
+        const grip = `
+            <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
+            </div>
+        `;
+
+        if (type === 'heading') {
+            block.setAttribute('data-level', 'h2');
+            block.innerHTML = `${grip}<h2 contenteditable="true" class="text-2xl font-extrabold text-slate-900 focus:outline-none m-0">New Chapter Heading...</h2>`;
+        } else if (type === 'image') {
+            block.innerHTML = `
+                ${grip}
+                <div onclick="EditorialOS.openMediaLibraryModal(); event.stopPropagation();" class="p-10 rounded-2xl border-2 border-dashed border-slate-300 hover:border-slate-900 bg-slate-50 text-center space-y-3 my-2 cursor-pointer transition-all">
+                    <i class="ph ph-image text-4xl text-purple-600 mx-auto block"></i>
+                    <div class="font-extrabold text-slate-800 text-sm">Click to Open Media Library Vault</div>
+                    <p class="text-xs text-slate-400 font-mono">Supports WebP upload & URL integration</p>
+                </div>
+            `;
+        } else if (type === 'gallery') {
+            block.innerHTML = `
+                ${grip}
+                <div class="grid grid-cols-2 gap-4 my-2">
+                    <div onclick="EditorialOS.openMediaLibraryModal(); event.stopPropagation();" class="aspect-video bg-slate-900 text-white rounded-xl p-4 flex flex-col justify-center items-center text-center cursor-pointer border border-slate-700 hover:border-[#C3FF00]">
+                        <i class="ph ph-monitor text-3xl text-[#C3FF00] mb-1"></i><div class="font-bold text-xs">Desktop Viewport (1440p)</div><span class="text-[10px] font-mono text-slate-400">Click to Replace WebP</span>
+                    </div>
+                    <div onclick="EditorialOS.openMediaLibraryModal(); event.stopPropagation();" class="aspect-video bg-slate-900 text-white rounded-xl p-4 flex flex-col justify-center items-center text-center cursor-pointer border border-slate-700 hover:border-[#C3FF00]">
+                        <i class="ph ph-device-mobile text-3xl text-[#C3FF00] mb-1"></i><div class="font-bold text-xs">Mobile Viewport (390px)</div><span class="text-[10px] font-mono text-slate-400">Click to Replace WebP</span>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'code') {
+            block.innerHTML = `
+                ${grip}
+                <div class="rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs border border-slate-800 shadow-sm overflow-hidden my-2">
+                    <div class="px-4 py-2 bg-slate-800/80 text-[11px] font-bold text-slate-400 flex justify-between items-center border-b border-slate-700">
+                        <span contenteditable="true" class="text-white">tailwind.config.js</span>
+                        <button onclick="StudioToast.show('Code snippet copied.', 'success'); event.stopPropagation();" class="hover:text-white transition-colors">Copy <i class="ph ph-copy ml-1"></i></button>
+                    </div>
+                    <pre class="p-4 overflow-x-auto focus:outline-none leading-relaxed m-0" contenteditable="true">export default {\n  content: ["./**/*.html"],\n  theme: { extend: { colors: { electric: "#C3FF00" } } }\n};</pre>
+                </div>
+            `;
+        } else if (type === 'callout') {
+            block.innerHTML = `
+                ${grip}
+                <div class="p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-sm flex items-start gap-4 my-2">
+                    <i class="ph ph-lightning text-2xl text-[#C3FF00] shrink-0 mt-0.5"></i>
+                    <div class="flex-1 space-y-1">
+                        <div class="text-[11px] font-mono font-bold uppercase text-[#C3FF00] tracking-wider" contenteditable="true">PRO-TIP: ARCHITECTURAL NOTE</div>
+                        <div class="text-xs sm:text-sm font-normal text-slate-200 focus:outline-none" contenteditable="true">Write your high-contrast editorial alert or technical recommendation here...</div>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'quote') {
+            block.innerHTML = `
+                ${grip}
+                <blockquote class="pl-5 border-l-4 border-slate-900 my-4 py-1 italic font-serif text-xl text-slate-800 focus:outline-none m-0" contenteditable="true">
+                    "The author should never adapt to the editor; the editor must adapt to the author's narrative flow."
+                </blockquote>
+            `;
+        } else if (type === 'faq') {
+            block.innerHTML = `
+                ${grip}
+                <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50 my-2">
+                    <div class="p-4 font-bold text-slate-900 flex justify-between items-center cursor-pointer bg-white border-b border-slate-200">
+                        <span contenteditable="true">Frequently Asked Question: Why choose Cloudflare Edge?</span>
+                        <i class="ph ph-caret-down text-slate-400"></i>
+                    </div>
+                    <div class="p-4 text-slate-600 text-sm leading-relaxed" contenteditable="true">Cloudflare Edge delivers WebP binaries and cached static HTML directly from 300+ global network nodes...</div>
+                </div>
+            `;
+        } else {
+            block.innerHTML = `${grip}<p contenteditable="true" class="text-base sm:text-lg leading-relaxed text-slate-800 focus:outline-none m-0">Start typing paragraph block...</p>`;
+        }
+
+        if (this.activeBlock) this.activeBlock.after(block);
+        else container.appendChild(block);
+        
+        this.selectBlock(block);
+        StudioToast.show(`Inserted Gutenberg block: ${type.toUpperCase()}`, 'info', 'Block Library');
+        this.updateWordCount();
+    }
+
+    static insertCustomBlock(type) {
+        this.closeBlockInserterModal();
+        const container = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root');
+        if (!container) return;
+
+        const block = document.createElement('div');
+        block.className = 'block-item group relative p-2 my-3 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text';
+        block.setAttribute('data-block-type', type);
+        block.setAttribute('onclick', 'EditorialOS.selectBlock(this)');
+        block.innerHTML = this.getCustomBlockHtml(type, true);
+
+        if (this.activeBlock) this.activeBlock.after(block);
+        else container.appendChild(block);
+
+        this.selectBlock(block);
+        StudioToast.show(`Inserted Custom bangjeje Block: ${type.toUpperCase()}`, 'success', 'Enterprise Brand OS');
+        this.updateWordCount();
+    }
+
+    static getCustomBlockHtml(type, withGrip = true) {
+        const grip = withGrip ? `
+            <div class="absolute left-[-28px] top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
+            </div>
+        ` : '';
+
+        if (type === 'case-study-cta') {
+            return `
+                <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="case-study-cta" onclick="EditorialOS.selectBlock(this)">
+                    ${grip}
+                    <div class="p-6 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-md flex flex-col md:flex-row items-center justify-between gap-6 my-1">
+                        <div class="space-y-2 max-w-lg">
+                            <span class="inline-block px-2.5 py-0.5 rounded bg-[#C3FF00] text-slate-900 font-mono text-[10px] font-black uppercase">Commercial Triumph &bull; Enterprise Case Study</span>
+                            <h3 contenteditable="true" class="text-lg sm:text-xl font-extrabold text-white leading-tight focus:outline-none">COTIT: Achieving 0.8s LCP Velocity via Cloudflare Workers & Headless Architecture</h3>
+                            <p contenteditable="true" class="text-xs text-slate-300 font-normal leading-relaxed focus:outline-none">See how our enterprise design tokens eliminated legacy database bottlenecks and boosted lead conversion by +40% across global supply chains.</p>
+                        </div>
+                        <a href="javascript:void(0)" onclick="StudioToast.show('Navigating to COTIT commercial case study...', 'info')" class="px-6 py-3.5 rounded-xl bg-[#C3FF00] hover:bg-white text-slate-900 font-black text-xs uppercase tracking-wider transition-colors shrink-0 flex items-center gap-2 shadow-sm">
+                            <span>Explore Study</span> <i class="ph ph-arrow-right text-base font-bold"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'download-template') {
+            return `
+                <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="download-template" onclick="EditorialOS.selectBlock(this)">
+                    ${grip}
+                    <div class="p-6 rounded-2xl bg-white border-2 border-slate-900 shadow-md flex items-center justify-between gap-4 my-1">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-900 text-[#C3FF00] flex items-center justify-center text-2xl font-black shrink-0 shadow-xs"><i class="ph ph-package"></i></div>
+                            <div>
+                                <div class="flex items-center gap-2"><span contenteditable="true" class="font-extrabold text-slate-900 text-base">Aura SaaS UI Kit Starter Bundle</span><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-black uppercase">Free Token</span></div>
+                                <div contenteditable="true" class="text-xs text-slate-500 font-mono mt-0.5">Includes Figma Design System & Tailwind CSS V3 web layout components (4.2 MB ZIP)</div>
+                            </div>
+                        </div>
+                        <button onclick="StudioToast.show('Downloading Aura SaaS Starter bundle...', 'success'); event.stopPropagation();" class="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#C3FF00] font-bold text-xs uppercase tracking-wider shrink-0 transition-colors shadow-xs">Download ZIP</button>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'hubspot-form') {
+            return `
+                <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="hubspot-form" onclick="EditorialOS.selectBlock(this)">
+                    ${grip}
+                    <div class="p-8 rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xl text-center space-y-4 my-1 max-w-2xl mx-auto">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-[#C3FF00] font-mono text-xs font-black uppercase"><i class="ph ph-envelope font-bold"></i> Enterprise Engineering Insights</div>
+                        <h3 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Subscribe to the bangjeje.dev Architecture Newsletter</h3>
+                        <p contenteditable="true" class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed font-normal">Receive bi-weekly technical teardowns on Cloudflare Edge velocity, custom design systems, and high-converting commercial UX patterns.</p>
+                        <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto pt-2">
+                            <input type="email" placeholder="Enter your executive or GitHub email..." class="studio-input flex-1 h-11 px-4 text-xs bg-white text-slate-900 rounded-xl font-medium focus:outline-none">
+                            <button onclick="StudioToast.show('Successfully subscribed! HubSpot CRM lead attributed.', 'success'); event.stopPropagation();" class="px-6 h-11 rounded-xl bg-[#C3FF00] hover:bg-white text-slate-900 font-black text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm">Join Pipeline</button>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-500 block pt-1">Zero spam. Connected directly to HubSpot CRM Edge pipeline. Unsubscribe anytime.</span>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'author-bio') {
+            return `
+                <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="author-bio" onclick="EditorialOS.selectBlock(this)">
+                    ${grip}
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex items-start sm:items-center gap-5 my-1">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 text-[#C3FF00] flex items-center justify-center text-2xl font-black font-mono shrink-0 shadow-sm">J</div>
+                        <div class="flex-1 space-y-1">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <div><span contenteditable="true" class="font-extrabold text-slate-900 text-base">Jajang</span> <span class="text-slate-400">&bull;</span> <span contenteditable="true" class="font-bold text-blue-600 text-xs font-mono">Founder & Principal Full-Stack Architect</span></div>
+                                <div class="flex items-center gap-2 font-mono text-xs font-bold">
+                                    <a href="javascript:void(0)" onclick="StudioToast.show('Open X / Twitter profile', 'info'); event.stopPropagation();" class="text-slate-600 hover:text-slate-900 px-2 py-1 rounded bg-white border border-slate-200 shadow-2xs">X / Twitter</a>
+                                    <a href="javascript:void(0)" onclick="StudioToast.show('Open LinkedIn profile', 'info'); event.stopPropagation();" class="text-slate-600 hover:text-slate-900 px-2 py-1 rounded bg-white border border-slate-200 shadow-2xs">LinkedIn</a>
+                                </div>
+                            </div>
+                            <p contenteditable="true" class="text-xs text-slate-600 leading-relaxed font-normal">Building ultra-fast commercial web applications, design systems, and headless enterprise infrastructure at bangjeje.dev Studio.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'tech-stack') {
+            return `
+                <div class="block-item group relative p-2 my-3 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="tech-stack" onclick="EditorialOS.selectBlock(this)">
+                    ${grip}
+                    <div class="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 my-1">
+                        <div class="text-[11px] font-mono font-bold uppercase text-slate-500 tracking-wider flex items-center gap-2"><i class="ph ph-stack text-purple-600"></i> Technology Stack Matrix</div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-mono text-xs font-bold">Cloudflare Workers</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-[#C3FF00] font-mono text-xs font-bold">Tailwind CSS V3</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 font-mono text-xs font-bold border border-blue-200">TypeScript / ES Modules</span>
+                            <span class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-800 font-mono text-xs font-bold border border-amber-200">HubSpot CRM Edge API</span>
+                            <button onclick="StudioToast.show('Added custom stack token.', 'info'); event.stopPropagation();" class="px-3 py-1.5 rounded-lg border border-dashed border-slate-300 text-slate-500 hover:text-slate-900 text-xs font-mono font-bold">+ Add Token</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'related-assets') {
+            return `
+                <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="related-assets" onclick="EditorialOS.selectBlock(this)">
+                    ${grip}
+                    <div class="space-y-3 my-1">
+                        <div class="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between"><span>📚 Related Portfolio Triumphs & Design Assets</span><span class="text-slate-400">Internal SEO Backlink Velocity</span></div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-900 transition-all cursor-pointer space-y-1">
+                                <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-mono text-[10px] font-bold uppercase">Case Study</span>
+                                <h4 class="font-extrabold text-slate-900 text-sm">BAZARTANI: Scaling AgriTech Infrastructure</h4>
+                                <p class="text-xs text-slate-500 line-clamp-2">How Cloudflare Workers solved payment gateway timeouts during agricultural merchant harvests.</p>
+                            </div>
+                            <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-900 transition-all cursor-pointer space-y-1">
+                                <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-mono text-[10px] font-bold uppercase">Design System</span>
+                                <h4 class="font-extrabold text-slate-900 text-sm">COTIT Design Token Spec Sheet</h4>
+                                <p class="text-xs text-slate-500 line-clamp-2">Complete typography and spacing variable definitions for global supply chain handheld scanners.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        return `<div class="block-item group relative p-3 my-1 rounded-xl border border-slate-200 text-xs font-mono text-slate-500">Custom bangjeje Block Placeholder: ${type}</div>`;
+    }
+
+    static insertPattern(patternType) {
+        this.closeBlockInserterModal();
+        const container = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root');
+        if (!container) return;
+
+        let patternHtml = '';
+        if (patternType === 'hero') {
+            patternHtml = `
+                <div class="block-item group relative p-3 my-2" data-block-type="heading" data-level="h1" onclick="EditorialOS.selectBlock(this)">
+                    <h1 contenteditable="true" class="text-3xl sm:text-5xl font-extrabold text-slate-900 focus:outline-none tracking-tight leading-tight m-0">Engineering Enterprise Velocity with Headless Cloudflare Architecture</h1>
+                </div>
+                <div class="block-item group relative p-3 my-1" data-block-type="paragraph" onclick="EditorialOS.selectBlock(this)">
+                    <p contenteditable="true" class="text-lg text-slate-600 leading-relaxed font-normal focus:outline-none m-0">An exhaustive technical audit and architectural implementation blueprint detailing how custom design tokens and edge computing eliminated monolithic supply chain bottlenecks for COTIT Corp.</p>
+                </div>
+                ${this.getCustomBlockHtml('tech-stack')}
+            `;
+        } else if (patternType === 'faq-group') {
+            patternHtml = `
+                <div class="block-item group relative p-3 my-2" data-block-type="heading" data-level="h2" onclick="EditorialOS.selectBlock(this)">
+                    <h2 contenteditable="true" class="text-2xl font-extrabold text-slate-900 m-0">Frequently Asked Questions</h2>
+                </div>
+                <div class="block-item group relative p-3 my-1" data-block-type="faq" onclick="EditorialOS.selectBlock(this)">
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50 my-1"><div class="p-4 font-bold text-slate-900 flex justify-between items-center bg-white border-b border-slate-200"><span contenteditable="true">How does edge caching reduce LCP latency?</span><i class="ph ph-caret-down text-slate-400"></i></div><div class="p-4 text-slate-600 text-sm leading-relaxed" contenteditable="true">By serving pre-compiled WebP visuals and HTML fragments from global Cloudflare edge nodes...</div></div>
+                </div>
+                <div class="block-item group relative p-3 my-1" data-block-type="faq" onclick="EditorialOS.selectBlock(this)">
+                    <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50 my-1"><div class="p-4 font-bold text-slate-900 flex justify-between items-center bg-white border-b border-slate-200"><span contenteditable="true">Can this design system be integrated with WordPress or Next.js?</span><i class="ph ph-caret-down text-slate-400"></i></div><div class="p-4 text-slate-600 text-sm leading-relaxed" contenteditable="true">Yes. Because our tokens are built on standard Vanilla CSS variables and Tailwind classes, they port seamlessly into any framework without breaking changes.</div></div>
+                </div>
+            `;
+        } else if (patternType === 'hubspot-lead') {
+            patternHtml = this.getCustomBlockHtml('hubspot-form');
+        } else if (patternType === 'tech-matrix') {
+            patternHtml = this.getCustomBlockHtml('tech-stack');
+        }
+
+        const div = document.createElement('div');
+        div.className = 'space-y-2 my-2';
+        div.innerHTML = patternHtml;
+        if (this.activeBlock) this.activeBlock.after(div);
+        else container.appendChild(div);
+
+        StudioToast.show(`Inserted Reusable Block Pattern: "${patternType.toUpperCase()}"`, 'success', 'Pattern Library');
+        this.updateWordCount();
+    }
+
+    // --- SLASH MENU PORTAL ---
     static injectSlashMenu() {
         if (document.getElementById('slash-menu-portal')) return;
         const portal = document.createElement('div');
         portal.id = 'slash-menu-portal';
-        portal.className = 'fixed z-50 bg-white rounded-xl shadow-2xl border border-slate-200 w-72 p-2 text-xs font-semibold hidden opacity-0 transition-opacity duration-150 overflow-hidden';
+        portal.className = 'fixed z-50 bg-white rounded-xl shadow-2xl border border-slate-200 w-72 p-2 text-xs font-semibold hidden opacity-0 transition-opacity duration-150 overflow-hidden font-sans';
         portal.innerHTML = `
-            <div class="px-2 py-1.5 text-[10px] font-mono font-bold text-slate-400 uppercase border-b border-slate-100 mb-1">⚡ Instant Slash Commands</div>
-            <div class="space-y-0.5 max-h-64 overflow-y-auto no-scrollbar">
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('h2')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-text-h-two text-lg text-blue-600"></i> Section Heading (H2)</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('h3')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-text-h-three text-lg text-blue-500"></i> Sub-heading (H3)</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('callout')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-lightning text-lg text-amber-500"></i> Editorial Callout Alert</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('code')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-code text-lg text-emerald-600"></i> Syntax Code Fence</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('image')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-image text-lg text-purple-600"></i> WebP Media Dropzone</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('quote')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-quotes text-lg text-rose-500"></i> Executive Blockquote</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('faq')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-question text-lg text-indigo-600"></i> FAQ Accordion Group</a>
-                <a href="javascript:void(0)" onclick="EditorialOS.executeSlash('link')" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-link-simple text-lg text-sky-600"></i> Related Content Citation</a>
+            <div class="px-2 py-1.5 text-[10px] font-mono font-bold text-slate-400 uppercase border-b border-slate-100 mb-1">⚡ Instant Slash Library & Patterns</div>
+            <div class="space-y-0.5 max-h-72 overflow-y-auto no-scrollbar">
+                <a href="javascript:void(0)" onclick="EditorialOS.insertBlock('heading'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-text-h-two text-lg text-blue-600"></i> Heading (H2/H3)</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertBlock('image'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-image text-lg text-purple-600"></i> WordPress Media Library</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertBlock('gallery'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-squares-four text-lg text-emerald-600"></i> Viewport Gallery</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertBlock('code'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-code text-lg text-indigo-600"></i> Syntax Code Fence</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertBlock('callout'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-lightning text-lg text-amber-500"></i> Pro-Tip Alert Callout</a>
+                <!-- Custom bangjeje Blocks -->
+                <div class="px-2 py-1 text-[10px] font-mono font-extrabold text-purple-700 uppercase pt-2 border-t border-slate-100 mt-1">Custom bangjeje Blocks</div>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertCustomBlock('case-study-cta'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-briefcase text-lg text-slate-900"></i> Case Study CTA</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertCustomBlock('download-template'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-download-simple text-lg text-emerald-700"></i> Download Template Box</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertCustomBlock('hubspot-form'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-envelope text-lg text-amber-700"></i> HubSpot CRM Form</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertCustomBlock('author-bio'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-user text-lg text-blue-700"></i> Author Bio Card</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertCustomBlock('tech-stack'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-stack text-lg text-purple-700"></i> Technology Stack Matrix</a>
+                <a href="javascript:void(0)" onclick="EditorialOS.insertCustomBlock('related-assets'); EditorialOS.closeSlashMenu();" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-800 transition-colors"><i class="ph ph-grid-four text-lg text-rose-700"></i> Related Assets Grid</a>
             </div>
         `;
         document.body.appendChild(portal);
 
-        // Listen for '/' key in contenteditable canvas
         document.addEventListener('keyup', (e) => {
             if (e.key === '/') {
                 const selection = window.getSelection();
@@ -263,7 +1059,6 @@ class EditorialOS {
                 this.closeSlashMenu();
             }
         });
-
         document.addEventListener('click', (e) => { if (!portal.contains(e.target)) this.closeSlashMenu(); });
     }
 
@@ -275,241 +1070,82 @@ class EditorialOS {
         }
     }
 
-    static executeSlash(type) {
-        this.closeSlashMenu();
-        const container = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root');
-        if (!container) return;
-
-        const block = document.createElement('div');
-        block.className = 'block-item group relative pl-8 pr-2 py-2 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all';
-        block.setAttribute('data-block-type', type);
-
-        const gripHtml = `
-            <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                <button title="Drag / Block Action" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-            </div>
-        `;
-
-        if (type === 'h2') {
-            block.innerHTML = `${gripHtml}<h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 focus:outline-none">New Chapter Heading...</h2>`;
-        } else if (type === 'h3') {
-            block.innerHTML = `${gripHtml}<h3 contenteditable="true" class="text-base sm:text-lg font-bold text-slate-800 focus:outline-none">Subsection Header...</h3>`;
-        } else if (type === 'callout') {
-            block.innerHTML = `
-                ${gripHtml}
-                <div class="p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-sm flex items-start gap-4 my-2">
-                    <i class="ph ph-lightning text-2xl text-[#C3FF00] shrink-0 mt-0.5"></i>
-                    <div class="flex-1 space-y-1">
-                        <div class="text-[11px] font-mono font-bold uppercase text-[#C3FF00] tracking-wider" contenteditable="true">PRO-TIP: ARCHITECTURAL NOTE</div>
-                        <div class="text-xs sm:text-sm font-normal text-slate-200 focus:outline-none" contenteditable="true">Write your high-contrast editorial alert or technical recommendation here...</div>
-                    </div>
-                </div>
-            `;
-        } else if (type === 'code') {
-            block.innerHTML = `
-                ${gripHtml}
-                <div class="rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs border border-slate-800 shadow-sm overflow-hidden my-2">
-                    <div class="px-4 py-2 bg-slate-800/80 text-[11px] font-bold text-slate-400 flex justify-between items-center border-b border-slate-700">
-                        <span contenteditable="true" class="text-white">tailwind.config.js</span>
-                        <button onclick="StudioToast.show('Code snippet copied to clipboard.', 'success')" class="hover:text-white transition-colors">Copy <i class="ph ph-copy ml-1"></i></button>
-                    </div>
-                    <pre class="p-4 overflow-x-auto focus:outline-none leading-relaxed" contenteditable="true">export default {\n  content: ["./**/*.html"],\n  theme: { extend: { colors: { electric: "#C3FF00" } } }\n};</pre>
-                </div>
-            `;
-        } else if (type === 'image') {
-            block.innerHTML = `
-                ${gripHtml}
-                <div class="p-8 rounded-2xl border-2 border-dashed border-slate-300 hover:border-slate-400 bg-slate-50/50 text-center space-y-3 my-4 transition-all cursor-pointer">
-                    <i class="ph ph-image text-3xl text-slate-400 mx-auto block"></i>
-                    <div class="text-sm font-bold text-slate-700">Drop WebP Media or Click to Upload</div>
-                    <p class="text-xs text-slate-400 font-normal">Automated Edge WebP compression & WCAG alt-text enforcement</p>
-                    <input type="text" class="studio-input w-full max-w-sm mx-auto h-8 text-xs text-center block mt-2 font-mono" placeholder="Enter mandatory Alt-Text caption...">
-                </div>
-            `;
-        } else if (type === 'quote') {
-            block.innerHTML = `
-                ${gripHtml}
-                <blockquote class="pl-4 sm:pl-6 border-l-4 border-slate-900 my-4 py-1 italic font-serif text-lg sm:text-xl text-slate-700 focus:outline-none" contenteditable="true">
-                    "The editor should always adapt to the author; the author should never adapt to the editor."
-                </blockquote>
-            `;
-        } else if (type === 'faq') {
-            block.innerHTML = `
-                ${gripHtml}
-                <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50 my-3">
-                    <div class="p-4 font-bold text-slate-900 flex justify-between items-center cursor-pointer bg-white border-b border-slate-200">
-                        <span contenteditable="true">Frequently Asked Question: How does edge caching work?</span>
-                        <i class="ph ph-caret-down text-slate-400"></i>
-                    </div>
-                    <div class="p-4 text-slate-600 text-sm leading-relaxed" contenteditable="true">Edge caching stores compiled WebP imagery and static HTML fragments across Cloudflare global data centers...</div>
-                </div>
-            `;
-        } else {
-            block.innerHTML = `${gripHtml}<div contenteditable="true" class="text-sm sm:text-base leading-relaxed text-slate-800 focus:outline-none my-1">Start typing text block...</div>`;
-        }
-
-        container.appendChild(block);
-        const target = block.querySelector('[contenteditable="true"]');
-        if (target) target.focus();
-        StudioToast.show(`Inserted slash block: "${type.toUpperCase()}"`, 'info', 'Block Engine');
-        this.updateWordCount();
-    }
-
-    static blockActionMenu(button) {
-        const block = button.closest('.block-item') || button.closest('.storytelling-block');
-        if (!block) return;
-        
-        if (confirm(`Execute block action on this module?\n\n• OK to Duplicate / Clone Section\n• Cancel to Scrub / Delete Section`)) {
-            const clone = block.cloneNode(true);
-            block.after(clone);
-            StudioToast.show('Section successfully duplicated.', 'success', 'Storytelling Block');
-        } else {
-            if (confirm('Permanently scrub this storytelling section?')) {
-                block.remove();
-                StudioToast.show('Section scrubbed from workspace.', 'info', 'Block Scrub');
-                this.updateWordCount();
+    // --- KEYBOARD SHORTCUTS & AUTO SAVE ---
+    static setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') {
+                e.preventDefault();
+                document.body.classList.toggle('focus-zen-mode');
+                StudioToast.show(document.body.classList.contains('focus-zen-mode') ? 'Focus Mode Activated.' : 'Exited Focus Mode.', 'info', 'Gutenberg OS');
             }
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                this.triggerVaultSave();
+            }
+            if (e.key === 'Escape') {
+                this.closeSlashMenu();
+                this.closeMediaLibraryModal();
+                this.closeBlockInserterModal();
+                this.closePublishModal();
+                this.exitViewportSandbox();
+            }
+        });
+    }
+
+    static triggerVaultSave() {
+        const statusEl = document.getElementById('vault-sync-status');
+        if (statusEl) {
+            statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping inline-block mr-1.5"></span> Saving Revisions...';
+            setTimeout(() => statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced', 600);
         }
+        StudioToast.show('Revision snapshot committed directly to Cloudflare Vault.', 'success', 'Vault Sync');
     }
 
-    static setupBlockEvents() {
-        const canvas = document.getElementById('editorial-canvas-blocks');
-        if (canvas) {
-            canvas.addEventListener('click', (e) => {
-                if (e.target === canvas && !canvas.children.length) {
-                    this.executeSlash('paragraph');
-                }
-            });
-        }
+    static setupAutoSave() {
+        let timer;
+        document.addEventListener('input', (e) => {
+            if (e.target && (e.target.closest('.block-item') || e.target.classList.contains('canvas-title'))) {
+                clearTimeout(timer);
+                const statusEl = document.getElementById('vault-sync-status');
+                if (statusEl) statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400 inline-block mr-1.5"></span> Unsaved...';
+                timer = setTimeout(() => {
+                    if (statusEl) statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced';
+                    this.updateWordCount();
+                }, 1200);
+            }
+        });
     }
 
-    // --- METADATA INSPECTOR DRAWER ---
-    static injectMetadataDrawer() {
-        if (document.getElementById('metadata-inspector-drawer')) return;
-        const drawer = document.createElement('div');
-        drawer.id = 'metadata-inspector-drawer';
-        drawer.className = 'fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white border-l border-slate-200 shadow-2xl transform translate-x-full transition-transform duration-200 flex flex-col font-sans';
-        drawer.innerHTML = `
-            <div class="h-16 px-6 border-b border-slate-200 flex items-center justify-between bg-slate-50/70 shrink-0">
-                <span class="font-extrabold text-sm text-slate-900 flex items-center gap-2"><i class="ph ph-gear-six text-lg text-slate-700"></i> Metadata & SEO Inspector</span>
-                <button onclick="EditorialOS.closeMetadataDrawer()" class="text-slate-400 hover:text-slate-900 p-1 font-mono text-base">✕</button>
-            </div>
-            
-            <div class="flex-1 overflow-y-auto p-6 space-y-6 text-xs no-scrollbar">
-                
-                <!-- SEO HEALTH AUDIT -->
-                <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-900 text-sm"><span>SEO Health Audit</span><span class="font-mono bg-white px-2 py-0.5 rounded border border-emerald-300 text-emerald-700 text-xs font-black">95 / 100 Grade A</span></div>
-                    <p class="text-emerald-700 font-medium leading-relaxed">Canonical URL slug, social Open Graph thumbnail, and meta lengths meet all Google Lighthouse edge criteria.</p>
-                </div>
-
-                <!-- REAL-TIME GOOGLE SERP SIMULATION -->
-                <div class="space-y-2">
-                    <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block">Google SERP Simulation (Live Viewport)</label>
-                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 font-sans space-y-1">
-                        <div class="text-[11px] text-[#202124] font-normal flex items-center gap-1"><span class="w-4 h-4 rounded bg-slate-200 inline-block font-mono text-[9px] text-center font-bold">b</span> bangjeje.dev &gt; insights &gt; enterprise-growth</div>
-                        <div class="text-sm font-medium text-[#1a0dab] hover:underline cursor-pointer">Designing for Enterprise Growth & Scalability | bangjeje Studio</div>
-                        <div class="text-xs text-[#4d5156] leading-relaxed">Discover how modern headless architecture, Cloudflare Edge workers, and tailored design tokens empower commercial SaaS expansion.</div>
-                    </div>
-                </div>
-
-                <!-- TAXONOMY & INDEXING -->
-                <div class="space-y-3 pt-4 border-t border-slate-200">
-                    <div>
-                        <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Canonical URL Slug</label>
-                        <div class="flex rounded-lg border border-slate-300 overflow-hidden bg-white">
-                            <span class="bg-slate-100 px-3 py-2 font-mono text-slate-500 border-r border-slate-300 shrink-0">/insights/</span>
-                            <input type="text" value="designing-enterprise-growth" class="w-full px-3 py-2 font-mono font-semibold text-slate-900 focus:outline-none">
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Category Pillar</label>
-                            <select class="studio-input w-full font-semibold bg-slate-50"><option>Design Systems</option><option>Architecture</option><option>Growth & CRM</option></select>
-                        </div>
-                        <div>
-                            <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Status Gate</label>
-                            <select class="studio-input w-full font-semibold bg-slate-50"><option>Draft in Vault</option><option>Live Edge Broadcast</option></select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FEATURED SOCIAL THUMBNAIL -->
-                <div class="space-y-2 pt-4 border-t border-slate-200">
-                    <label class="font-bold text-slate-700 font-mono text-[11px] uppercase flex justify-between items-center"><span>Featured Social Thumbnail</span><span class="text-emerald-600 font-bold">WebP Compressed</span></label>
-                    <div class="h-32 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center text-center p-4 text-slate-300 relative overflow-hidden group cursor-pointer">
-                        <div class="absolute inset-0 bg-gradient-to-br from-[#C3FF00]/20 to-transparent"></div>
-                        <i class="ph ph-image text-3xl text-[#C3FF00] relative z-10 mb-1"></i>
-                        <span class="font-bold text-white text-xs relative z-10">Enterprise_Growth_Hero_16x9.webp</span>
-                        <span class="font-mono text-[10px] text-slate-400 relative z-10">142 KB &bull; Alt-Text Validated</span>
-                    </div>
-                </div>
-
-                <!-- RELATIONAL INTERLINKING GRAPH -->
-                <div class="space-y-3 pt-4 border-t border-slate-200">
-                    <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block">Relational Content Graph</label>
-                    <p class="text-slate-500 font-normal leading-relaxed">Bind this document to existing commercial portfolio work and downloadable templates to drive internal SEO backlink velocity.</p>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2 font-medium">
-                        <div class="flex justify-between items-center text-xs"><span class="font-bold text-purple-700 flex items-center gap-1.5"><i class="ph ph-briefcase"></i> COTIT Logistics Portal</span><button class="text-slate-400 hover:text-red-500 font-mono">✕</button></div>
-                        <div class="flex justify-between items-center text-xs"><span class="font-bold text-emerald-700 flex items-center gap-1.5"><i class="ph ph-package"></i> Aura SaaS Template</span><button class="text-slate-400 hover:text-red-500 font-mono">✕</button></div>
-                        <button onclick="StudioToast.show('Linked new relational asset to graph.', 'info')" class="w-full py-2 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs mt-1">+ Attach Related Content...</button>
-                    </div>
-                </div>
-
-            </div>
-            
-            <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between shrink-0">
-                <button onclick="EditorialOS.closeMetadataDrawer(); StudioToast.show('Metadata & SEO parameters synced to Vault.', 'success');" class="btn-studio-primary w-full text-xs py-3 bg-[#C3FF00] text-slate-900 font-black uppercase tracking-wider">Sync Metadata & Close</button>
-            </div>
-        `;
-        document.body.appendChild(drawer);
+    static updateWordCount() {
+        const canvas = document.getElementById('editorial-canvas-blocks') || document.getElementById('editorial-canvas-root') || document.body;
+        const words = (canvas.innerText || '').trim().split(/\s+/).filter(w => w.length > 0 && w !== '⋮⋮').length;
+        const meter = document.getElementById('reading-time-meter');
+        if (meter) meter.textContent = `${words} Words | ${Math.max(1, Math.ceil(words / 200))}m Read`;
     }
 
-    static openMetadataDrawer() {
-        const drawer = document.getElementById('metadata-inspector-drawer');
-        if (drawer) drawer.classList.remove('translate-x-full');
-    }
-
-    static closeMetadataDrawer() {
-        const drawer = document.getElementById('metadata-inspector-drawer');
-        if (drawer) drawer.classList.add('translate-x-full');
-    }
-
-    // --- PRE-PUBLISH EDITORIAL GATE MODAL ---
+    // --- PRE-PUBLISH GATE & VIEWPORT SANDBOX ---
     static injectPublishModal() {
         if (document.getElementById('publish-gate-modal')) return;
         const modal = document.createElement('div');
         modal.id = 'publish-gate-modal';
         modal.className = 'fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4 hidden opacity-0 transition-all duration-150 font-sans';
         modal.innerHTML = `
-            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 sm:p-8 space-y-6 transform scale-95 transition-transform">
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-8 space-y-6 transform scale-95 transition-transform">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-slate-900 text-[#C3FF00] flex items-center justify-center text-xl shadow-xs"><i class="ph ph-rocket-launch"></i></div>
-                        <div><h3 class="font-extrabold text-slate-900 text-base sm:text-lg">Deploy to Cloudflare Edge?</h3><p class="text-xs text-slate-500 font-normal">Automated pre-publish health verification audit</p></div>
+                        <div><h3 class="font-extrabold text-slate-900 text-lg">Deploy to Cloudflare Edge?</h3><p class="text-xs text-slate-500 font-normal">Gutenberg pre-publish quality verification audit</p></div>
                     </div>
                     <button onclick="EditorialOS.closePublishModal()" class="text-slate-400 hover:text-slate-900 font-mono text-base">✕</button>
                 </div>
-                
                 <div class="space-y-2.5 text-xs font-semibold text-slate-700">
-                    <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center gap-2.5"><i class="ph ph-check-circle text-lg text-emerald-600"></i> <span>SEO Health Optimization Score verified at <strong>95/100 (Grade A)</strong></span></div>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5"><i class="ph ph-check text-emerald-600 text-base font-bold"></i> <span>Canonical URL Slug validated without reserved tokens</span></div>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5"><i class="ph ph-check text-emerald-600 text-base font-bold"></i> <span>Featured WebP Thumbnail attached with compliant Alt-Text</span></div>
-                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5"><i class="ph ph-check text-emerald-600 text-base font-bold"></i> <span>Relational Content Graph linked to commercial portfolio</span></div>
+                    <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center gap-2.5"><i class="ph ph-check-circle text-lg text-emerald-600"></i> <span>SEO Optimization Score verified at <strong>96/100 (Grade A)</strong></span></div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5"><i class="ph ph-check text-emerald-600 text-base font-bold"></i> <span>All Image Blocks contain valid WCAG Alt-Text</span></div>
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5"><i class="ph ph-check text-emerald-600 text-base font-bold"></i> <span>HubSpot CRM Lead capture pipeline connected</span></div>
                 </div>
-
-                <div class="space-y-3 pt-3 border-t border-slate-100 text-xs">
-                    <label class="font-bold text-slate-500 font-mono uppercase text-[10px] block">Broadcast Schedule:</label>
-                    <div class="flex gap-3">
-                        <label class="flex-1 p-3 rounded-xl bg-slate-900 text-white font-bold flex items-center gap-2.5 border border-slate-700 shadow-xs cursor-pointer"><input type="radio" name="deploy_mode" checked class="accent-[#C3FF00]"> <span>Deploy Live Immediately</span></label>
-                        <label class="flex-1 p-3 rounded-xl bg-slate-50 text-slate-700 font-bold flex items-center gap-2.5 border border-slate-200 hover:bg-slate-100 cursor-pointer"><input type="radio" name="deploy_mode"> <span>Schedule Timestamp</span></label>
-                    </div>
-                </div>
-
                 <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
                     <button type="button" onclick="EditorialOS.closePublishModal()" class="btn-studio-secondary py-2.5 px-5 text-xs">Return to Editor</button>
-                    <button type="button" onclick="EditorialOS.confirmBroadcast()" class="btn-studio-primary py-2.5 px-6 text-xs bg-[#C3FF00] text-slate-900 font-black shadow-md">✓ Confirm & Broadcast Live</button>
+                    <button type="button" onclick="EditorialOS.confirmBroadcast()" class="btn-studio-primary py-2.5 px-6 text-xs bg-[#C3FF00] text-slate-900 font-black shadow-md">✓ Broadcast to Edge</button>
                 </div>
             </div>
         `;
@@ -520,10 +1156,7 @@ class EditorialOS {
         const modal = document.getElementById('publish-gate-modal');
         if (modal) {
             modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('div').classList.remove('scale-95');
-            }, 10);
+            setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('div').classList.remove('scale-95'); }, 10);
         }
     }
 
@@ -540,13 +1173,9 @@ class EditorialOS {
         this.closePublishModal();
         StudioToast.show('Successfully broadcasted document to live Cloudflare Edge servers!', 'success', 'Edge Deployment');
         const badge = document.getElementById('current-pub-status-badge');
-        if (badge) {
-            badge.className = 'px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase';
-            badge.textContent = 'Published Live on Edge';
-        }
+        if (badge) { badge.className = 'px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase'; badge.textContent = 'Published Live on Edge'; }
     }
 
-    // --- ZERO-REFRESH VIEWPORT SANDBOX ---
     static injectViewportSandbox() {
         if (document.getElementById('viewport-sandbox-overlay')) return;
         const sandbox = document.createElement('div');
@@ -557,16 +1186,13 @@ class EditorialOS {
                 <div class="flex items-center gap-3 font-sans font-bold text-white text-sm"><i class="ph ph-device-mobile text-lg text-[#C3FF00]"></i> <span>Zero-Refresh Viewport Sandbox</span></div>
                 <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
                     <button onclick="EditorialOS.switchViewport('desktop')" id="vp-btn-desktop" class="px-3 py-1.5 rounded-lg bg-slate-800 text-[#C3FF00] font-bold">Desktop (1440p)</button>
-                    <button onclick="EditorialOS.switchViewport('tablet')" id="vp-btn-tablet" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-400 font-semibold">Tablet (iPad Pro 11")</button>
+                    <button onclick="EditorialOS.switchViewport('tablet')" id="vp-btn-tablet" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-400 font-semibold">Tablet (11")</button>
                     <button onclick="EditorialOS.switchViewport('mobile')" id="vp-btn-mobile" class="px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-400 font-semibold">Mobile (iPhone 15 Pro)</button>
                 </div>
-                <button onclick="EditorialOS.exitViewportSandbox()" class="btn-studio-secondary py-2 px-4 text-xs font-bold text-slate-900 bg-white hover:bg-slate-200">✕ Return to Editor</button>
+                <button onclick="EditorialOS.exitViewportSandbox()" class="btn-studio-secondary py-2 px-4 text-xs font-bold text-slate-900 bg-white">✕ Return to Editor</button>
             </header>
-            
             <div class="flex-1 bg-slate-900 overflow-y-auto p-6 sm:p-10 flex items-start justify-center">
-                <div id="viewport-frame-container" class="bg-white text-slate-900 rounded-2xl shadow-2xl overflow-y-auto max-w-4xl w-full p-8 sm:p-12 transition-all duration-300 border border-slate-700 min-h-[600px] font-sans">
-                    <!-- Cloned Content goes here -->
-                </div>
+                <div id="viewport-frame-container" class="bg-white text-slate-900 rounded-2xl shadow-2xl overflow-y-auto max-w-4xl w-full p-12 transition-all duration-300 border border-slate-700 min-h-[600px] font-sans"></div>
             </div>
         `;
         document.body.appendChild(sandbox);
@@ -592,19 +1218,11 @@ class EditorialOS {
         const container = document.getElementById('viewport-frame-container');
         ['desktop', 'tablet', 'mobile'].forEach(m => {
             const btn = document.getElementById(`vp-btn-${m}`);
-            if (btn) {
-                if (m === mode) btn.className = 'px-3 py-1.5 rounded-lg bg-slate-800 text-[#C3FF00] font-bold';
-                else btn.className = 'px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-400 font-semibold';
-            }
+            if (btn) btn.className = m === mode ? 'px-3 py-1.5 rounded-lg bg-slate-800 text-[#C3FF00] font-bold' : 'px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-400 font-semibold';
         });
-
-        if (mode === 'desktop') {
-            container.className = 'bg-white text-slate-900 rounded-2xl shadow-2xl overflow-y-auto max-w-4xl w-full p-12 transition-all duration-300 border border-slate-700 min-h-[700px] font-sans';
-        } else if (mode === 'tablet') {
-            container.className = 'bg-white text-slate-900 rounded-2xl shadow-2xl overflow-y-auto max-w-[640px] w-full p-8 transition-all duration-300 border border-slate-700 min-h-[800px] font-sans';
-        } else if (mode === 'mobile') {
-            container.className = 'bg-white text-slate-900 rounded-3xl shadow-2xl overflow-y-auto max-w-[390px] w-full p-5 transition-all duration-300 border-[8px] border-slate-800 min-h-[780px] font-sans';
-        }
+        container.className = mode === 'desktop' ? 'bg-white text-slate-900 rounded-2xl shadow-2xl overflow-y-auto max-w-4xl w-full p-12 transition-all duration-300 border border-slate-700 min-h-[700px]' :
+                              mode === 'tablet'  ? 'bg-white text-slate-900 rounded-2xl shadow-2xl overflow-y-auto max-w-[640px] w-full p-8 transition-all duration-300 border border-slate-700 min-h-[800px]' :
+                                                   'bg-white text-slate-900 rounded-3xl shadow-2xl overflow-y-auto max-w-[390px] w-full p-5 transition-all duration-300 border-[8px] border-slate-800 min-h-[780px]';
     }
 }
 

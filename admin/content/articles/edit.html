@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Article &bull; Editorial Workspace OS</title>
+    <title>Edit Article &bull; Gutenberg Editorial OS</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -12,119 +12,247 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/studio.css">
 </head>
-<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased">
-    <div class="min-h-screen flex flex-col bg-white">
+<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased overflow-hidden">
+    <div class="h-screen flex flex-col bg-white">
         
-        <!-- EDITORIAL TELEMETRY ACTION BAR (Low Profile) -->
-        <header class="editorial-telemetry-bar h-14 border-b border-slate-100 px-6 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-30 shrink-0">
-            <div class="flex items-center gap-4 text-xs font-semibold">
-                <a href="index.html" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 transition-colors">
-                    <i class="ph ph-arrow-left text-base"></i> <span>Studio Repository</span>
+        <!-- GUTENBERG TOP ACTION TOOLBAR (Phase 7E) -->
+        <header class="editorial-telemetry-bar h-14 border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between bg-white z-30 shrink-0">
+            <div class="flex items-center gap-3 text-xs font-semibold">
+                <a href="index.html" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors" title="Return to Article Vault">
+                    <i class="ph ph-arrow-left text-lg"></i>
                 </a>
-                <span class="text-slate-300">|</span>
+                
+                <!-- Gutenberg Block & Pattern Inserter Button -->
+                <button onclick="EditorialOS.openBlockInserterModal()" title="Add Block or Pattern [ + ]" class="w-8 h-8 rounded-lg bg-slate-900 text-[#C3FF00] flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs">
+                    <i class="ph ph-plus text-lg font-black"></i>
+                </button>
+
+                <div class="flex items-center gap-0.5 ml-1 border-l border-slate-200 pl-3 text-slate-400">
+                    <button onclick="document.execCommand('undo')" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded" title="Undo"><i class="ph ph-arrow-u-up-left text-base"></i></button>
+                    <button onclick="document.execCommand('redo')" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded" title="Redo"><i class="ph ph-arrow-u-up-right text-base"></i></button>
+                </div>
+
+                <span class="text-slate-300 ml-2 font-light">|</span>
                 <span id="vault-sync-status" class="inline-flex items-center font-mono text-slate-600 text-xs">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced
                 </span>
-                <span class="text-slate-300">|</span>
-                <span id="reading-time-meter" class="text-slate-500 font-mono text-xs hidden sm:inline-block">248 Words | 2m Read</span>
-                <span class="text-slate-300">|</span>
-                <span id="current-pub-status-badge" class="px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase">Published Live on Edge</span>
+                <span id="reading-time-meter" class="text-slate-400 font-mono text-xs hidden sm:inline-block">240 Words | 2m Read</span>
+                <span id="current-pub-status-badge" class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-800 font-mono text-[10px] font-extrabold uppercase">Draft in Vault</span>
             </div>
 
-            <div class="flex items-center gap-2.5 text-xs font-bold">
-                <button onclick="EditorialOS.openViewportSandbox()" title="Instant Multi-Viewport Preview" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
-                    <i class="ph ph-device-mobile text-base text-slate-700"></i> <span>Preview</span>
-                </button>
-                <button onclick="EditorialOS.openMetadataDrawer()" title="Metadata & SEO Inspector" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
-                    <i class="ph ph-gear-six text-base text-slate-700"></i> <span>Metadata & SEO</span>
+            <div class="flex items-center gap-2 text-xs font-bold">
+                <button onclick="EditorialOS.openViewportSandbox()" title="Instant Multi-Viewport Preview Sandbox" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
+                    <i class="ph ph-device-mobile text-base text-slate-700"></i> <span class="hidden sm:inline">Preview Viewports</span>
                 </button>
                 <button onclick="EditorialOS.openPublishModal()" class="btn-studio-primary h-8 px-4 text-[11px] bg-[#C3FF00] text-slate-900 font-black tracking-wider uppercase shadow-xs ml-1">
-                    Update Live
+                    Publish Live
+                </button>
+                <!-- Gutenberg Sidebar Inspector Toggle Button -->
+                <button onclick="toggleGutenbergSidebar()" id="btn-toggle-inspector" title="Toggle Inspector Sidebar [ ⚙️ ]" class="w-8 h-8 rounded-lg border border-slate-300 bg-slate-900 text-white flex items-center justify-center hover:bg-slate-800 transition-colors ml-2">
+                    <i class="ph ph-sidebar-simple-right text-lg"></i>
                 </button>
             </div>
         </header>
 
-        <!-- IMMACULATE ZERO-CLUTTER WRITING CANVAS (Notion / Ghost Style) -->
-        <main id="editorial-canvas-root" class="flex-1 w-full max-w-3xl mx-auto px-6 sm:px-10 py-16 sm:py-20 transition-all duration-200">
+        <!-- MAIN 3-COLUMN GUTENBERG WORKSPACE -->
+        <div class="flex flex-1 h-[calc(100vh-3.5rem)] overflow-hidden bg-white">
             
-            <!-- H1 Title -->
-            <div class="group relative mb-6">
-                <h1 contenteditable="true" class="canvas-title text-3xl sm:text-5xl font-extrabold text-slate-900 focus:outline-none font-sans tracking-tight leading-tight">Designing for Enterprise Growth & Scalability</h1>
-            </div>
+            <!-- CENTER AUTHORING CANVAS -->
+            <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-16 transition-all duration-200 no-scrollbar bg-white">
+                <div id="editorial-canvas-root" class="max-w-3xl mx-auto pb-32">
+                    
+                    <!-- Document Title H1 -->
+                    <div class="mb-8 pb-6 border-b border-slate-100">
+                        <input type="text" placeholder="Add title..." value="Step-by-Step Tutorial: Building Headless Apps with Cloudflare Workers" id="doc-title" class="canvas-title w-full text-3xl sm:text-5xl font-black text-slate-900 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-tight bg-transparent border-0 p-0">
+                    </div>
 
-            <!-- Block Editor Container with Live Storytelling Content -->
-            <div id="editorial-canvas-blocks" class="editor-canvas space-y-4 text-slate-800 font-normal text-base sm:text-lg leading-relaxed focus:outline-none">
+                    <!-- BLOCKS CONTAINER -->
+                    <div id="editorial-canvas-blocks" class="space-y-3 font-sans">
+                        
+                        <!-- Block 1: Paragraph -->
+                        <div class="block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="paragraph" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                                <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
+                            </div>
+                            <p contenteditable="true" class="focus:outline-none text-slate-700 font-medium sm:text-xl leading-relaxed m-0">In this technical tutorial, you will learn how to deploy lightning-fast serverless endpoints at the global edge without managing traditional monolithic database servers.</p>
+                        </div>
+
+                        <!-- Block 2: Heading H2 -->
+                        <div class="block-item group relative p-3 my-2 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="heading" data-level="h2" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                                <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
+                            </div>
+                            <h2 contenteditable="true" class="text-2xl sm:text-3xl font-extrabold text-slate-900 focus:outline-none m-0">1. Architectural Advantage of Edge Workers</h2>
+                        </div>
+
+                        <!-- Block 3: Syntax Code Fence -->
+                        <div class="block-item group relative p-3 my-2 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="code" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                                <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
+                            </div>
+                            <div class="rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs border border-slate-800 shadow-sm overflow-hidden my-1">
+                                <div class="px-4 py-2 bg-slate-800/80 text-[11px] font-bold text-slate-400 flex justify-between items-center border-b border-slate-700">
+                                    <span contenteditable="true" class="text-white">terminal / powershell</span>
+                                    <button onclick="StudioToast.show('Code snippet copied to clipboard.', 'success'); event.stopPropagation();" class="hover:text-white transition-colors">Copy <i class="ph ph-copy ml-1"></i></button>
+                                </div>
+                                <pre class="p-4 overflow-x-auto focus:outline-none leading-relaxed m-0" contenteditable="true">npm create cloudflare@latest bangjeje-edge-worker -- --type=simple\ncd bangjeje-edge-worker\nnpm run dev</pre>
+                            </div>
+                        </div>
+
+                        <!-- Block 4: Pro-Tip Callout -->
+                        <div class="block-item group relative p-3 my-2 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="callout" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                                <button title="Drag / Options" onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-sm flex items-start gap-4 my-1">
+                                <i class="ph ph-lightning text-2xl text-[#C3FF00] shrink-0 mt-0.5"></i>
+                                <div class="flex-1 space-y-1">
+                                    <div class="text-[11px] font-mono font-bold uppercase text-[#C3FF00] tracking-wider" contenteditable="true">PRO-TIP: ARCHITECTURAL NOTE</div>
+                                    <div class="text-xs sm:text-sm font-normal text-slate-200 focus:outline-none" contenteditable="true">Always verify that your D1 SQL query bindings use indexed columns to prevent cold-start read timeouts on Cloudflare Workers.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Block 5: CUSTOM BLOCK - DOWNLOAD TEMPLATE -->
+                        <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="download-template" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                            <div class="p-6 rounded-2xl bg-white border-2 border-slate-900 shadow-md flex items-center justify-between gap-4 my-1">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-slate-900 text-[#C3FF00] flex items-center justify-center text-2xl font-black shrink-0 shadow-xs"><i class="ph ph-package"></i></div>
+                                    <div>
+                                        <div class="flex items-center gap-2"><span contenteditable="true" class="font-extrabold text-slate-900 text-base">Cloudflare Worker Starter Bundle</span><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-black uppercase">Free Token</span></div>
+                                        <div contenteditable="true" class="text-xs text-slate-500 font-mono mt-0.5">Includes Wrangler config & TypeScript Edge routing models (1.8 MB ZIP)</div>
+                                    </div>
+                                </div>
+                                <button onclick="StudioToast.show('Downloading Starter Bundle ZIP...', 'success'); event.stopPropagation();" class="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-[#C3FF00] font-bold text-xs uppercase tracking-wider shrink-0 transition-colors shadow-xs">Download ZIP</button>
+                            </div>
+                        </div>
+
+                        <!-- Block 6: CUSTOM BLOCK - HUBSPOT CRM FORM -->
+                        <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="hubspot-form" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                            <div class="p-8 rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xl text-center space-y-4 my-1 max-w-2xl mx-auto">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-[#C3FF00] font-mono text-xs font-black uppercase"><i class="ph ph-envelope font-bold"></i> Enterprise Engineering Insights</div>
+                                <h3 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Subscribe to the bangjeje.dev Architecture Newsletter</h3>
+                                <p contenteditable="true" class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed font-normal">Receive bi-weekly technical teardowns on Cloudflare Edge velocity, custom design systems, and high-converting commercial UX patterns.</p>
+                                <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto pt-2">
+                                    <input type="email" placeholder="Enter your executive or GitHub email..." class="studio-input flex-1 h-11 px-4 text-xs bg-white text-slate-900 rounded-xl font-medium focus:outline-none">
+                                    <button onclick="StudioToast.show('Successfully subscribed! HubSpot CRM lead attributed.', 'success'); event.stopPropagation();" class="px-6 h-11 rounded-xl bg-[#C3FF00] hover:bg-white text-slate-900 font-black text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm">Join Pipeline</button>
+                                </div>
+                                <span class="text-[10px] font-mono text-slate-500 block pt-1">Zero spam. Connected directly to HubSpot CRM Edge pipeline. Unsubscribe anytime.</span>
+                            </div>
+                        </div>
+
+                        <!-- BLOCK INSERTER PLACEHOLDER TRIGGER -->
+                        <div class="pt-6">
+                            <button onclick="EditorialOS.openBlockInserterModal()" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-50 text-slate-700 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-xs">
+                                <span class="w-6 h-6 rounded-full bg-slate-900 text-[#C3FF00] flex items-center justify-center text-sm font-black">+</span> <span>Insert Block or Reusable Pattern (or Type '/')</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+
+            <!-- RIGHT INSPECTOR SIDEBAR (Gutenberg Style) -->
+            <aside id="gutenberg-inspector" class="w-80 sm:w-88 border-l border-slate-200 bg-white flex flex-col shrink-0 overflow-hidden transition-all duration-200 z-20 shadow-lg">
                 
-                <!-- Lead Paragraph -->
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-                    </div>
-                    <p contenteditable="true" class="focus:outline-none text-slate-700 font-medium sm:text-xl leading-relaxed">In modern scalable ecosystems, high-ticket digital engineering requires strict architectural boundaries between frontend presentation interfaces and persistence data models.</p>
+                <!-- Inspector Tabs -->
+                <div class="flex border-b border-slate-200 bg-slate-50/70 shrink-0">
+                    <button onclick="EditorialOS.switchInspectorTab('document')" id="tab-btn-doc" class="flex-1 py-3 text-xs font-bold font-sans text-slate-900 border-b-2 border-slate-900 bg-white transition-colors cursor-pointer">Document</button>
+                    <button onclick="EditorialOS.switchInspectorTab('block')" id="tab-btn-block" class="flex-1 py-3 text-xs font-semibold font-sans text-slate-400 hover:text-slate-700 border-b border-slate-200 bg-slate-50/60 transition-colors cursor-pointer">Block</button>
                 </div>
 
-                <!-- Section Heading H2 -->
-                <div class="block-item group relative pl-8 pr-2 py-2 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-3 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
+                <!-- DOCUMENT TAB PANE -->
+                <div id="inspector-pane-doc" class="flex-1 overflow-y-auto p-6 space-y-6 text-xs no-scrollbar font-sans">
+                    
+                    <!-- SEO HEALTH AUDIT -->
+                    <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
+                        <div class="flex justify-between items-center font-bold text-emerald-900 text-sm"><span>SEO Health Score</span><span class="font-mono bg-white px-2 py-0.5 rounded border border-emerald-300 text-emerald-700 text-xs font-black">96 / 100 Grade A</span></div>
+                        <p class="text-emerald-700 font-medium leading-relaxed">Slug length, open graph visual thumbnail, and heading hierarchy verified for Cloudflare Edge SEO.</p>
                     </div>
-                    <h2 contenteditable="true" class="text-xl sm:text-2xl font-extrabold text-slate-900 focus:outline-none mt-6">1. Abandoning Monolithic Form Friction</h2>
-                </div>
 
-                <!-- Standard Paragraph -->
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-                    </div>
-                    <p contenteditable="true" class="focus:outline-none text-slate-800">When product authors interact with traditional Content Management Systems, creative momentum is severely fractured by stacked database fields and visual administrative clutter. By quarantining SEO parameters inside an on-demand inspection drawer, authors experience uninterrupted cognitive flow.</p>
-                </div>
-
-                <!-- Pro-Tip Callout Block -->
-                <div class="block-item group relative pl-8 pr-2 py-1 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-                    </div>
-                    <div class="p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-sm flex items-start gap-4 my-2">
-                        <i class="ph ph-lightning text-2xl text-[#C3FF00] shrink-0 mt-0.5"></i>
-                        <div class="flex-1 space-y-1">
-                            <div class="text-[11px] font-mono font-black uppercase text-[#C3FF00] tracking-wider" contenteditable="true">PRO-TIP: ARCHITECTURAL ZERO TRUST</div>
-                            <div class="text-xs sm:text-sm font-normal text-slate-200 focus:outline-none" contenteditable="true">Always insulate edge publishing gateways with Cloudflare Zero Trust authentication tokens before executing real-time content broadcasts.</div>
+                    <!-- GOOGLE SERP SIMULATION -->
+                    <div class="space-y-2">
+                        <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block">Google SERP Live Simulation</label>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 font-sans space-y-1">
+                            <div class="text-[11px] text-[#202124] font-normal flex items-center gap-1"><span class="w-3.5 h-3.5 rounded bg-slate-200 inline-block font-mono text-[8px] text-center font-bold">b</span> bangjeje.dev &gt; tutorials &gt; edge-workers</div>
+                            <div class="text-sm font-medium text-[#1a0dab] hover:underline cursor-pointer">Step-by-Step Tutorial: Building Headless Apps with Cloudflare</div>
+                            <div class="text-[11px] text-[#4d5156] leading-relaxed">Learn how to deploy serverless endpoints at the global edge without managing traditional database servers.</div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Syntax Code Fence -->
-                <div class="block-item group relative pl-8 pr-2 py-1 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-                    </div>
-                    <div class="rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs border border-slate-800 shadow-sm overflow-hidden my-2">
-                        <div class="px-4 py-2 bg-slate-800/80 text-[11px] font-bold text-slate-400 flex justify-between items-center border-b border-slate-700">
-                            <span contenteditable="true" class="text-white">studio.config.ts</span>
-                            <button onclick="StudioToast.show('Snippet copied to clipboard.', 'success')" class="hover:text-white transition-colors">Copy <i class="ph ph-copy ml-1"></i></button>
+                    <!-- TAXONOMY PILLAR & SLUG -->
+                    <div class="space-y-3 pt-4 border-t border-slate-200">
+                        <div>
+                            <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Canonical URL Slug</label>
+                            <div class="flex rounded-lg border border-slate-300 overflow-hidden bg-white">
+                                <span class="bg-slate-100 px-2.5 py-2 font-mono text-slate-500 border-r border-slate-300 shrink-0">/tutorials/</span>
+                                <input type="text" value="building-headless-apps-cloudflare" class="w-full px-2 py-2 font-mono font-semibold text-slate-900 focus:outline-none">
+                            </div>
                         </div>
-                        <pre class="p-4 overflow-x-auto focus:outline-none leading-relaxed" contenteditable="true">export const editorialOS = {\n  engine: "Vanilla JS Web Components",\n  focusMode: "Ctrl + Shift + F",\n  autoSync: true,\n  theme: "White Enterprise TailAdmin"\n};</pre>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Category Pillar</label>
+                                <select class="studio-input w-full font-semibold bg-slate-50"><option>Architecture</option><option>Cloudflare Edge</option><option>Design Systems</option></select>
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Status Gate</label>
+                                <select class="studio-input w-full font-semibold bg-slate-50"><option>Draft in Vault</option><option>Live Edge Broadcast</option></select>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- FEATURED THUMBNAIL (WordPress Media Library Trigger) -->
+                    <div class="space-y-2 pt-4 border-t border-slate-200">
+                        <label class="font-bold text-slate-700 font-mono text-[11px] uppercase flex justify-between items-center"><span>Featured Thumbnail</span><span class="text-purple-600 font-bold">WebP Vault</span></label>
+                        <div onclick="EditorialOS.openMediaLibraryModal()" class="h-28 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center text-center p-3 text-slate-300 relative overflow-hidden group cursor-pointer hover:border-[#C3FF00] transition-colors">
+                            <div class="absolute inset-0 bg-gradient-to-br from-[#C3FF00]/20 to-transparent"></div>
+                            <i class="ph ph-image text-2xl text-[#C3FF00] relative z-10 mb-1"></i>
+                            <span class="font-bold text-white text-xs relative z-10 truncate w-full px-2">Cloudflare_Headless_Hero_16x9.webp</span>
+                            <span class="font-mono text-[10px] text-slate-400 relative z-10">142 KB &bull; Click Media Library to Change</span>
+                        </div>
+                    </div>
+
+                    <!-- REVISION HISTORY VAULT -->
+                    <div class="space-y-2 pt-4 border-t border-slate-200">
+                        <div class="flex justify-between items-center font-bold text-slate-700 font-mono text-[11px] uppercase">
+                            <span>Revision History Vault (3)</span>
+                            <span class="text-emerald-600 font-extrabold">Auto-Retained</span>
+                        </div>
+                        <div class="space-y-2 font-mono text-[11px]">
+                            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between hover:bg-slate-100 transition-colors">
+                                <div><span class="font-bold text-slate-800 block">Today, 14:45 WIB</span><span class="text-slate-400 text-[10px]">Current Live Working Snapshot</span></div>
+                                <span class="px-2 py-0.5 rounded bg-slate-900 text-[#C3FF00] text-[10px] font-black">ACTIVE</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between hover:bg-slate-100 transition-colors">
+                                <div><span class="font-bold text-slate-700 block">Today, 14:12 WIB</span><span class="text-slate-400 text-[10px]">Added HubSpot CRM Lead Magnet</span></div>
+                                <button onclick="StudioToast.show('Restored snapshot from Today 14:12 WIB', 'success')" class="text-blue-600 hover:underline font-bold text-[10px]">RESTORE</button>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between hover:bg-slate-100 transition-colors">
+                                <div><span class="font-bold text-slate-700 block">Today, 13:30 WIB</span><span class="text-slate-400 text-[10px]">Initial Draft Initialization</span></div>
+                                <button onclick="StudioToast.show('Restored initial draft from Today 13:30 WIB', 'success')" class="text-blue-600 hover:underline font-bold text-[10px]">RESTORE</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Empty Line for Slash Command -->
-                <div class="block-item group relative pl-8 pr-2 py-1 my-2 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-                    </div>
-                    <div contenteditable="true" class="focus:outline-none text-slate-400 focus:text-slate-800 transition-colors">Type '/' to insert storytelling blocks...</div>
+                <!-- BLOCK TAB PANE (Dynamically Managed by EditorialOS) -->
+                <div id="inspector-pane-block" class="flex-1 overflow-y-auto hidden no-scrollbar font-sans">
+                    <!-- Dynamically injected upon block selection -->
                 </div>
+            </aside>
 
-            </div>
-        </main>
-        
+        </div>
+
         <!-- TELEMETRY FOOTER BAR -->
-        <footer class="editorial-telemetry-bar h-10 border-t border-slate-100 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-white">
+        <footer class="editorial-telemetry-bar h-8 border-t border-slate-200 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/50">
             <div class="flex items-center gap-4">
                 <span>⚡ Type <strong class="text-slate-700">/</strong> for Block Library</span>
                 <span>💡 Press <strong class="text-slate-700">Ctrl + Shift + F</strong> for Zen Focus Mode</span>
             </div>
-            <div><span>bangjeje.dev Studio Editorial OS V2</span></div>
+            <div><span>bangjeje.dev Gutenberg Editorial OS V3</span></div>
         </footer>
 
     </div>
@@ -132,5 +260,22 @@
     <!-- Editorial OS Scripts -->
     <script src="../../assets/js/studio-components.js"></script>
     <script src="../../assets/js/editorial-os.js"></script>
+    <script>
+        function toggleGutenbergSidebar() {
+            const sidebar = document.getElementById('gutenberg-inspector');
+            const btn = document.getElementById('btn-toggle-inspector');
+            if (sidebar) {
+                if (sidebar.classList.contains('hidden')) {
+                    sidebar.classList.remove('hidden');
+                    btn.className = 'w-8 h-8 rounded-lg border border-slate-300 bg-slate-900 text-white flex items-center justify-center hover:bg-slate-800 transition-colors ml-2';
+                    StudioToast.show('Opened Inspector Sidebar.', 'info', 'Gutenberg OS');
+                } else {
+                    sidebar.classList.add('hidden');
+                    btn.className = 'w-8 h-8 rounded-lg border border-slate-300 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-100 transition-colors ml-2';
+                    StudioToast.show('Collapsed Inspector Sidebar to expand writing canvas.', 'info', 'Gutenberg OS');
+                }
+            }
+        }
+    </script>
 </body>
 </html>

@@ -86,3 +86,16 @@ body.focus-zen-mode main {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+/* GUTENBERG-INSPIRED EDITORIAL OS (Phase 7E) */
+.block-item[data-block-type] {
+    transition: all 0.15s ease-in-out;
+}
+.block-item:hover {
+    border-color: rgba(203, 213, 225, 0.7);
+}
+body.focus-zen-mode #gutenberg-inspector,
+body.focus-zen-mode .gutenberg-inspector {
+    display: none !important;
+}
+

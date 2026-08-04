@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Case Study &bull; Modular Storytelling OS</title>
+    <title>Edit Case Study &bull; Gutenberg Modular Builder</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -12,174 +12,206 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/studio.css">
 </head>
-<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased">
-    <div class="min-h-screen flex flex-col bg-white">
+<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased overflow-hidden">
+    <div class="h-screen flex flex-col bg-white">
         
-        <!-- EDITORIAL TELEMETRY ACTION BAR (Low Profile) -->
-        <header class="editorial-telemetry-bar h-14 border-b border-slate-100 px-6 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-30 shrink-0">
-            <div class="flex items-center gap-4 text-xs font-semibold">
-                <a href="index.html" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 transition-colors">
-                    <i class="ph ph-arrow-left text-base"></i> <span>Portfolio Vault</span>
+        <!-- GUTENBERG TOP ACTION TOOLBAR (Phase 7E) -->
+        <header class="editorial-telemetry-bar h-14 border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between bg-white z-30 shrink-0">
+            <div class="flex items-center gap-3 text-xs font-semibold">
+                <a href="index.html" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors" title="Return to Portfolio Vault">
+                    <i class="ph ph-arrow-left text-lg"></i>
                 </a>
-                <span class="text-slate-300">|</span>
+                
+                <!-- Gutenberg Block & Pattern Inserter Button -->
+                <button onclick="EditorialOS.openBlockInserterModal()" title="Add Block or Modular Pattern [ + ]" class="w-8 h-8 rounded-lg bg-slate-900 text-[#C3FF00] flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs">
+                    <i class="ph ph-plus text-lg font-black"></i>
+                </button>
+
+                <div class="flex items-center gap-0.5 ml-1 border-l border-slate-200 pl-3 text-slate-400">
+                    <button onclick="document.execCommand('undo')" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded" title="Undo"><i class="ph ph-arrow-u-up-left text-base"></i></button>
+                    <button onclick="document.execCommand('redo')" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded" title="Redo"><i class="ph ph-arrow-u-up-right text-base"></i></button>
+                </div>
+
+                <span class="text-slate-300 ml-2 font-light">|</span>
                 <span id="vault-sync-status" class="inline-flex items-center font-mono text-slate-600 text-xs">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced
                 </span>
-                <span class="text-slate-300">|</span>
-                <span class="text-slate-600 font-bold text-xs"><i class="ph ph-buildings text-blue-600"></i> Enterprise ERP Template</span>
-                <span class="text-slate-300">|</span>
+                <span class="text-slate-600 font-bold text-xs hidden sm:inline-block"><i class="ph ph-buildings text-blue-600"></i> Enterprise ERP Modular Builder</span>
                 <span id="current-pub-status-badge" class="px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase">Live on Edge</span>
             </div>
 
-            <div class="flex items-center gap-2.5 text-xs font-bold">
-                <button onclick="EditorialOS.openViewportSandbox()" title="Instant Multi-Viewport Preview" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
-                    <i class="ph ph-device-mobile text-base text-slate-700"></i> <span>Preview Viewports</span>
-                </button>
-                <button onclick="EditorialOS.openMetadataDrawer()" title="Metadata & SEO Inspector" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
-                    <i class="ph ph-gear-six text-base text-slate-700"></i> <span>Metadata & SEO</span>
+            <div class="flex items-center gap-2 text-xs font-bold">
+                <button onclick="EditorialOS.openViewportSandbox()" title="Instant Multi-Viewport Preview Sandbox" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
+                    <i class="ph ph-device-mobile text-base text-slate-700"></i> <span class="hidden sm:inline">Preview Viewports</span>
                 </button>
                 <button onclick="EditorialOS.openPublishModal()" class="btn-studio-primary h-8 px-4 text-[11px] bg-[#C3FF00] text-slate-900 font-black tracking-wider uppercase shadow-xs ml-1">
                     Update Portfolio Live
                 </button>
+                <button onclick="toggleGutenbergSidebar()" id="btn-toggle-inspector" title="Toggle Inspector Sidebar [ ⚙️ ]" class="w-8 h-8 rounded-lg border border-slate-300 bg-slate-900 text-white flex items-center justify-center hover:bg-slate-800 transition-colors ml-2">
+                    <i class="ph ph-sidebar-simple-right text-lg"></i>
+                </button>
             </div>
         </header>
 
-        <!-- MODULAR STORYTELLING CANVAS (Phase 7C/7D) -->
-        <main id="editorial-canvas-root" class="flex-1 w-full max-w-4xl mx-auto px-6 sm:px-10 py-16 transition-all duration-200">
+        <!-- MAIN 3-COLUMN GUTENBERG WORKSPACE -->
+        <div class="flex flex-1 h-[calc(100vh-3.5rem)] overflow-hidden bg-white">
             
-            <!-- Project Hero H1 -->
-            <div class="group relative mb-10 border-b border-slate-200 pb-8">
-                <span class="inline-block px-3 py-1 rounded-full bg-slate-900 text-[#C3FF00] font-mono text-xs font-black uppercase tracking-wider mb-3">Enterprise Case Study #01</span>
-                <h1 contenteditable="true" class="canvas-title text-3xl sm:text-5xl font-extrabold text-slate-900 focus:outline-none font-sans tracking-tight leading-tight mb-4">COTIT: Transforming Enterprise Logistics via Headless Cloudflare Architecture</h1>
-                <p contenteditable="true" class="text-lg text-slate-600 font-normal focus:outline-none leading-relaxed">How custom design tokens and serverless edge computing eliminated monolithic supply chain bottlenecks for a leading global logistics provider.</p>
-            </div>
+            <!-- CENTER AUTHORING CANVAS -->
+            <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-16 transition-all duration-200 no-scrollbar bg-white">
+                <div id="editorial-canvas-root" class="max-w-3xl mx-auto pb-32">
+                    
+                    <!-- Project Title H1 -->
+                    <div class="mb-8 pb-6 border-b border-slate-100">
+                        <span class="inline-block px-3 py-1 rounded-full bg-slate-900 text-[#C3FF00] font-mono text-xs font-black uppercase tracking-wider mb-3">Enterprise Case Study #01</span>
+                        <input type="text" placeholder="Add Case Study title..." value="COTIT: Transforming Enterprise Logistics via Headless Cloudflare Architecture" id="doc-title" class="canvas-title w-full text-3xl sm:text-4xl font-black text-slate-900 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-tight bg-transparent border-0 p-0">
+                        <p contenteditable="true" class="text-base sm:text-lg text-slate-600 font-normal focus:outline-none mt-3 leading-relaxed">How custom design tokens and serverless edge computing eliminated monolithic supply chain bottlenecks for a leading global logistics provider.</p>
+                    </div>
 
-            <!-- MODULAR STORYTELLING BLOCKS CONTAINER (100% Optional & Re-orderable) -->
-            <div id="editorial-canvas-blocks" class="space-y-6">
+                    <!-- BLOCKS CONTAINER -->
+                    <div id="editorial-canvas-blocks" class="space-y-4 font-sans">
+                        
+                        <!-- Block 1: Custom Block - Technology Stack Matrix -->
+                        <div class="block-item group relative p-2 my-2 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="tech-stack" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                            <div class="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 my-1 shadow-xs">
+                                <div class="text-[11px] font-mono font-bold uppercase text-slate-500 tracking-wider flex items-center gap-2"><i class="ph ph-stack text-purple-600"></i> Technology Stack Matrix (Modular Block)</div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-mono text-xs font-bold">Cloudflare Workers</span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-[#C3FF00] font-mono text-xs font-bold">Tailwind CSS V3</span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 font-mono text-xs font-bold border border-blue-200">TypeScript / ES Modules</span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-800 font-mono text-xs font-bold border border-amber-200">HubSpot CRM Edge API</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Block 2: Challenge Paragraph -->
+                        <div class="block-item group relative p-3 my-1 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="paragraph" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-3.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                            <h3 contenteditable="true" class="text-xl font-extrabold text-slate-900 m-0 pb-1">The Challenge & Legacy Bottlenecks</h3>
+                            <p contenteditable="true" class="focus:outline-none text-slate-700 font-normal text-base sm:text-lg leading-relaxed m-0">Prior to our architectural intervention, COTIT's global warehouse network relied on legacy monolithic servers that suffered from severe 8-second database lookup timeouts during peak container scheduling routines.</p>
+                        </div>
+
+                        <!-- Block 3: Empirical ROI Vitals Block -->
+                        <div class="block-item group relative p-2 my-4 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="case-study-cta" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                            <div class="p-6 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-md space-y-4 my-1">
+                                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                                    <span class="font-mono text-xs font-bold text-[#C3FF00] uppercase tracking-wider flex items-center gap-2"><i class="ph ph-chart-line-up text-lg"></i> Storytelling Module: Empirical ROI Vitals</span>
+                                    <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Recommended Vitals</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                                    <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700"><div contenteditable="true" class="text-3xl sm:text-4xl font-black text-[#C3FF00] font-mono mb-1">0.8s</div><div contenteditable="true" class="text-xs font-bold text-slate-300 uppercase font-mono">LCP Edge Velocity</div></div>
+                                    <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700"><div contenteditable="true" class="text-3xl sm:text-4xl font-black text-[#C3FF00] font-mono mb-1">100 / 100</div><div contenteditable="true" class="text-xs font-bold text-slate-300 uppercase font-mono">Lighthouse Score</div></div>
+                                    <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700"><div contenteditable="true" class="text-3xl sm:text-4xl font-black text-[#C3FF00] font-mono mb-1">+40%</div><div contenteditable="true" class="text-xs font-bold text-slate-300 uppercase font-mono">Lead Conversion</div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Block 4: Interactive Viewport Showcase Gallery -->
+                        <div class="block-item group relative p-2 my-2 rounded-xl border border-transparent hover:border-slate-200 transition-all cursor-text" data-block-type="gallery" onclick="EditorialOS.selectBlock(this)">
+                            <div class="absolute left-[-28px] top-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10"><button onclick="EditorialOS.blockActionMenu(this, event)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base">⋮⋮</button></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-1">
+                                <div onclick="EditorialOS.openMediaLibraryModal(); event.stopPropagation();" class="aspect-video bg-slate-900 text-white rounded-xl p-6 flex flex-col justify-center items-center text-center cursor-pointer border border-slate-700 hover:border-[#C3FF00] shadow-sm">
+                                    <i class="ph ph-monitor text-4xl text-[#C3FF00] mb-2"></i><div class="font-bold text-sm">MacBook Widescreen Viewport (1440p)</div><span class="text-[10px] font-mono text-slate-400 mt-1">COTIT_Portal_Desktop.webp &bull; Click Media Vault</span>
+                                </div>
+                                <div onclick="EditorialOS.openMediaLibraryModal(); event.stopPropagation();" class="aspect-video bg-slate-900 text-white rounded-xl p-6 flex flex-col justify-center items-center text-center cursor-pointer border border-slate-700 hover:border-[#C3FF00] shadow-sm">
+                                    <i class="ph ph-device-mobile text-4xl text-[#C3FF00] mb-2"></i><div class="font-bold text-sm">iPhone 15 Pro Scanner Viewport (390px)</div><span class="text-[10px] font-mono text-slate-400 mt-1">COTIT_Scanner_Mobile.webp &bull; Click Media Vault</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BLOCK INSERTER PLACEHOLDER TRIGGER -->
+                        <div class="pt-6">
+                            <button onclick="EditorialOS.openBlockInserterModal()" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-50 text-slate-700 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-xs">
+                                <span class="w-6 h-6 rounded-full bg-slate-900 text-[#C3FF00] flex items-center justify-center text-sm font-black">+</span> <span>Insert Storytelling Block or Reusable Pattern (or Type '/')</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+
+            <!-- RIGHT INSPECTOR SIDEBAR (Gutenberg Style) -->
+            <aside id="gutenberg-inspector" class="w-80 sm:w-88 border-l border-slate-200 bg-white flex flex-col shrink-0 overflow-hidden transition-all duration-200 z-20 shadow-lg">
                 
-                <!-- MODULE 1: PROJECT OVERVIEW (Optional & Collapsible) -->
-                <div class="storytelling-block relative pl-10 pr-4 py-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-400 transition-all shadow-xs group">
-                    <div class="absolute left-2 top-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
-                    </div>
+                <div class="flex border-b border-slate-200 bg-slate-50/70 shrink-0">
+                    <button onclick="EditorialOS.switchInspectorTab('document')" id="tab-btn-doc" class="flex-1 py-3 text-xs font-bold font-sans text-slate-900 border-b-2 border-slate-900 bg-white transition-colors cursor-pointer">Document</button>
+                    <button onclick="EditorialOS.switchInspectorTab('block')" id="tab-btn-block" class="flex-1 py-3 text-xs font-semibold font-sans text-slate-400 hover:text-slate-700 border-b border-slate-200 bg-slate-50/60 transition-colors cursor-pointer">Block</button>
+                </div>
+
+                <!-- DOCUMENT TAB PANE -->
+                <div id="inspector-pane-doc" class="flex-1 overflow-y-auto p-6 space-y-6 text-xs no-scrollbar font-sans">
                     
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                        <span class="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-identification-card text-blue-600 text-base"></i> Storytelling Module: Project Overview</span>
-                        <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Optional Module</span>
+                    <!-- SEO HEALTH AUDIT -->
+                    <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
+                        <div class="flex justify-between items-center font-bold text-emerald-900 text-sm"><span>SEO Health Score</span><span class="font-mono bg-white px-2 py-0.5 rounded border border-emerald-300 text-emerald-700 text-xs font-black">98 / 100 Grade A</span></div>
+                        <p class="text-emerald-700 font-medium leading-relaxed">Canonical URL slug, social Open Graph thumbnail, and meta lengths meet all Google Lighthouse edge criteria.</p>
                     </div>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-medium">
-                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="block text-[10px] font-mono text-slate-600 uppercase font-bold mb-1">Client / Industry</span>
-                            <div contenteditable="true" class="text-sm font-extrabold text-slate-900 focus:outline-none">COTIT Corp (Logistics)</div>
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="block text-[10px] font-mono text-slate-600 uppercase font-bold mb-1">Operational Roles</span>
-                            <div contenteditable="true" class="text-sm font-extrabold text-slate-900 focus:outline-none">Lead Architect & UI Lead</div>
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="block text-[10px] font-mono text-slate-600 uppercase font-bold mb-1">Execution Timeline</span>
-                            <div contenteditable="true" class="text-sm font-extrabold text-slate-900 focus:outline-none">Q2 - Q3 2025 (4 Months)</div>
+
+                    <!-- GOOGLE SERP SIMULATION -->
+                    <div class="space-y-2">
+                        <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block">Google SERP Live Simulation</label>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 font-sans space-y-1">
+                            <div class="text-[11px] text-[#202124] font-normal flex items-center gap-1"><span class="w-3.5 h-3.5 rounded bg-slate-200 inline-block font-mono text-[8px] text-center font-bold">b</span> bangjeje.dev &gt; portfolio &gt; cotit-erp-logistics</div>
+                            <div class="text-sm font-medium text-[#1a0dab] hover:underline cursor-pointer">COTIT: Transforming Enterprise Logistics via Headless Cloudflare</div>
+                            <div class="text-[11px] text-[#4d5156] leading-relaxed">How custom design tokens and serverless edge computing eliminated monolithic supply chain bottlenecks for global logistics.</div>
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2 flex-wrap">
-                        <span class="text-[11px] font-mono text-slate-600 font-bold mr-2">Tech Stack Matrix:</span>
-                        <span class="px-2.5 py-1 rounded-md bg-slate-900 text-white font-mono text-[11px] font-bold">Cloudflare Workers</span>
-                        <span class="px-2.5 py-1 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[11px] font-bold">Tailwind CSS V3</span>
-                        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] font-bold border border-slate-200">HubSpot CRM</span>
-                        <button onclick="StudioToast.show('Added tech stack badge token.', 'info')" class="px-2 py-1 rounded border border-dashed border-slate-300 text-slate-400 hover:text-slate-700 text-[11px] font-mono font-bold">+ Add Token</button>
+                    <!-- TAXONOMY & SLUG -->
+                    <div class="space-y-3 pt-4 border-t border-slate-200">
+                        <div>
+                            <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Canonical URL Slug</label>
+                            <div class="flex rounded-lg border border-slate-300 overflow-hidden bg-white">
+                                <span class="bg-slate-100 px-2.5 py-2 font-mono text-slate-500 border-r border-slate-300 shrink-0">/case-studies/</span>
+                                <input type="text" value="cotit-erp-logistics-cloudflare" class="w-full px-2 py-2 font-mono font-semibold text-slate-900 focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Domain Pillar</label>
+                                <select class="studio-input w-full font-semibold bg-slate-50"><option>Enterprise ERP</option><option>AgriTech E-Com</option><option>SaaS UI Design</option></select>
+                            </div>
+                            <div>
+                                <label class="font-bold text-slate-700 font-mono text-[11px] uppercase block mb-1">Status Gate</label>
+                                <select class="studio-input w-full font-semibold bg-slate-50"><option>Live on Edge</option><option>Draft in Vault</option></select>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- REVISION HISTORY VAULT -->
+                    <div class="space-y-2 pt-4 border-t border-slate-200">
+                        <div class="flex justify-between items-center font-bold text-slate-700 font-mono text-[11px] uppercase">
+                            <span>Revision History Vault (4)</span>
+                            <span class="text-emerald-600 font-extrabold">Auto-Retained</span>
+                        </div>
+                        <div class="space-y-2 font-mono text-[11px]">
+                            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <div><span class="font-bold text-slate-800 block">Today, 15:01 WIB</span><span class="text-slate-400 text-[10px]">Updated Empirical ROI KPIs</span></div>
+                                <span class="px-2 py-0.5 rounded bg-slate-900 text-[#C3FF00] text-[10px] font-black">ACTIVE</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <div><span class="font-bold text-slate-700 block">Today, 14:20 WIB</span><span class="text-slate-400 text-[10px]">Added Viewport Showcase Gallery</span></div>
+                                <button onclick="StudioToast.show('Restored snapshot from Today 14:20 WIB', 'success')" class="text-blue-600 hover:underline font-bold text-[10px]">RESTORE</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- MODULE 2: THE CHALLENGE & BOTTLENECKS (Optional) -->
-                <div class="storytelling-block relative pl-10 pr-6 py-5 rounded-2xl border border-slate-200 bg-white hover:border-slate-400 transition-all shadow-xs group">
-                    <div class="absolute left-2 top-5 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
-                    </div>
+                <!-- BLOCK TAB PANE (Dynamically Managed by EditorialOS) -->
+                <div id="inspector-pane-block" class="flex-1 overflow-y-auto hidden no-scrollbar font-sans"></div>
+            </aside>
 
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                        <span class="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-warning-octagon text-amber-500 text-base"></i> Storytelling Module: The Challenge & Legacy Bottlenecks</span>
-                        <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Optional Module</span>
-                    </div>
+        </div>
 
-                    <div contenteditable="true" class="text-base text-slate-700 leading-relaxed font-normal focus:outline-none space-y-3">
-                        <p>Prior to our architectural intervention, COTIT's global warehouse network relied on legacy monolithic servers that suffered from severe 8-second database lookup timeouts during peak container scheduling routines.</p>
-                        <p>Furthermore, fragmented CSS layouts caused a degraded visual experience across handheld mobile scanner devices, resulting in higher error rates for dock operators.</p>
-                    </div>
-                </div>
-
-                <!-- MODULE 3: EMPIRICAL ROI VITALS & RESULTS (Optional) -->
-                <div class="storytelling-block relative pl-10 pr-6 py-5 rounded-2xl border border-slate-200 bg-slate-900 text-white hover:border-slate-700 transition-all shadow-md group">
-                    <div class="absolute left-2 top-5 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-white p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
-                    </div>
-
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-5">
-                        <span class="font-mono text-xs font-bold text-[#C3FF00] uppercase tracking-wider flex items-center gap-2"><i class="ph ph-chart-line-up text-lg"></i> Storytelling Module: Empirical ROI Vitals & Results</span>
-                        <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Recommended Vitals</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-                        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-                            <div contenteditable="true" class="text-3xl sm:text-4xl font-black text-[#C3FF00] font-mono mb-1">0.8s</div>
-                            <div contenteditable="true" class="text-xs font-bold text-slate-300 uppercase font-mono">Global Edge LCP Velocity</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-                            <div contenteditable="true" class="text-3xl sm:text-4xl font-black text-[#C3FF00] font-mono mb-1">100 / 100</div>
-                            <div contenteditable="true" class="text-xs font-bold text-slate-300 uppercase font-mono">Lighthouse Score</div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
-                            <div contenteditable="true" class="text-3xl sm:text-4xl font-black text-[#C3FF00] font-mono mb-1">+40%</div>
-                            <div contenteditable="true" class="text-xs font-bold text-slate-300 uppercase font-mono">Enterprise Lead Conversion</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MODULE 4: INTERACTIVE VIEWPORT GALLERY (Optional) -->
-                <div class="storytelling-block relative pl-10 pr-6 py-5 rounded-2xl border border-slate-200 bg-white hover:border-slate-400 transition-all shadow-xs group">
-                    <div class="absolute left-2 top-5 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 z-10">
-                        <button title="Block Action / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-base leading-none">⋮⋮</button>
-                    </div>
-
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                        <span class="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2"><i class="ph ph-desktop text-purple-600 text-base"></i> Storytelling Module: Interactive Viewport Showcase Gallery</span>
-                        <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Optional Module</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="aspect-video rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center text-center p-6 text-slate-300 relative group/img cursor-pointer overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <i class="ph ph-monitor-play text-4xl text-[#C3FF00] relative z-10 mb-2"></i>
-                            <div class="font-bold text-white text-sm relative z-10">MacBook Widescreen Viewport (1440p)</div>
-                            <span class="font-mono text-[10px] text-slate-400 relative z-10">COTIT_Portal_Desktop.webp &bull; Click to Replace</span>
-                        </div>
-                        <div class="aspect-video rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center text-center p-6 text-slate-300 relative group/img cursor-pointer overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <i class="ph ph-device-mobile text-4xl text-[#C3FF00] relative z-10 mb-2"></i>
-                            <div class="font-bold text-white text-sm relative z-10">iPhone 15 Pro Mobile Viewport (390px)</div>
-                            <span class="font-mono text-[10px] text-slate-400 relative z-10">COTIT_Scanner_Mobile.webp &bull; Click to Replace</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- INSERT STORYTELLING MODULE TRIGGER -->
-                <div class="pt-6">
-                    <button onclick="StudioToast.show('Insert menu: Select optional block (Gallery, Before/After, Code, Deliverable, Reflection)', 'info')" class="w-full py-4 rounded-2xl border-2 border-dashed border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-50 text-slate-700 font-extrabold text-sm flex items-center justify-center gap-2 transition-all shadow-xs">
-                        <span class="w-6 h-6 rounded-full bg-slate-900 text-[#C3FF00] flex items-center justify-center text-sm font-black">+</span> <span>Insert Optional Storytelling Module (or Type '/')</span>
-                    </button>
-                </div>
-
-            </div>
-        </main>
-        
         <!-- TELEMETRY FOOTER BAR -->
-        <footer class="editorial-telemetry-bar h-10 border-t border-slate-100 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-white">
+        <footer class="editorial-telemetry-bar h-8 border-t border-slate-200 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/50">
             <div class="flex items-center gap-4">
                 <span>⚡ Type <strong class="text-slate-700">/</strong> for Block Library</span>
                 <span>💡 Press <strong class="text-slate-700">Ctrl + Shift + F</strong> for Zen Focus Mode</span>
             </div>
-            <div><span>bangjeje.dev Modular Storytelling OS V2</span></div>
+            <div><span>bangjeje.dev Gutenberg Editorial OS V3</span></div>
         </footer>
 
     </div>
@@ -187,5 +219,22 @@
     <!-- Editorial OS Scripts -->
     <script src="../../assets/js/studio-components.js"></script>
     <script src="../../assets/js/editorial-os.js"></script>
+    <script>
+        function toggleGutenbergSidebar() {
+            const sidebar = document.getElementById('gutenberg-inspector');
+            const btn = document.getElementById('btn-toggle-inspector');
+            if (sidebar) {
+                if (sidebar.classList.contains('hidden')) {
+                    sidebar.classList.remove('hidden');
+                    btn.className = 'w-8 h-8 rounded-lg border border-slate-300 bg-slate-900 text-white flex items-center justify-center hover:bg-slate-800 transition-colors ml-2';
+                    StudioToast.show('Opened Inspector Sidebar.', 'info', 'Gutenberg OS');
+                } else {
+                    sidebar.classList.add('hidden');
+                    btn.className = 'w-8 h-8 rounded-lg border border-slate-300 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-100 transition-colors ml-2';
+                    StudioToast.show('Collapsed Inspector Sidebar to expand writing canvas.', 'info', 'Gutenberg OS');
+                }
+            }
+        }
+    </script>
 </body>
 </html>
