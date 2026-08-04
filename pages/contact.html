@@ -318,84 +318,9 @@
                     <!-- The Form (Right) -->
                     <div class="lg:col-span-8 reveal-up delay-100 order-1 lg:order-2">
                         <div id="form-container" class="glass-panel p-8 md:p-12 relative overflow-hidden transition-all duration-700">
-                            
-                            <!-- Success State (Hidden initially) -->
-                            <div id="success-state" class="absolute inset-0 bg-[#0D1117] flex flex-col items-center justify-center text-center opacity-0 pointer-events-none transition-opacity duration-700 z-20 px-8">
-                                <i class="ph ph-check-circle text-accent text-[5rem] md:text-[7rem] mb-8"></i>
-                                <h2 class="text-4xl md:text-5xl font-medium tracking-tight text-white mb-4">Inquiry Received</h2>
-                                <p class="text-lg font-light text-textSecondary max-w-md">
-                                    Thank you for reaching out. We will review your details and respond within 24 hours to schedule our intro call.
-                                </p>
-                            </div>
-
-                            <form id="contact-form" class="relative z-10 space-y-12">
-                                
-                                <!-- Personal Info -->
-                                <div class="space-y-6">
-                                    <h3 class="text-2xl font-medium text-white mb-8">01. Your Details</h3>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="flex flex-col-reverse group">
-                                            <input type="text" id="name" name="name" required class="input-field peer" placeholder="John Doe">
-                                            <label for="name" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Full Name</label>
-                                        </div>
-                                        <div class="flex flex-col-reverse group">
-                                            <input type="email" id="email" name="email" required class="input-field peer" placeholder="john@company.com">
-                                            <label for="email" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Work Email</label>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col-reverse group">
-                                        <input type="text" id="company" name="company" class="input-field peer" placeholder="Acme Corp">
-                                        <label for="company" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Company Name (Optional)</label>
-                                    </div>
-                                </div>
-
-                                <!-- Project Needs -->
-                                <div class="space-y-6 pt-8 border-t border-glass">
-                                    <h3 class="text-2xl font-medium text-white mb-8">02. Project Scope</h3>
-                                    
-                                    <div>
-                                        <label class="block text-xs font-semibold uppercase tracking-widest text-textSecondary mb-4">Project Type (Select all that apply)</label>
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <!-- Pill 1 -->
-                                            <div class="relative">
-                                                <input type="checkbox" id="type-ui" name="project_type" value="uiux" class="pill-radio hidden peer">
-                                                <label for="type-ui" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">UI/UX Design</label>
-                                            </div>
-                                            <!-- Pill 2 -->
-                                            <div class="relative">
-                                                <input type="checkbox" id="type-web" name="project_type" value="web" class="pill-radio hidden peer">
-                                                <label for="type-web" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">Web Development</label>
-                                            </div>
-                                            <!-- Pill 3 -->
-                                            <div class="relative">
-                                                <input type="checkbox" id="type-brand" name="project_type" value="brand" class="pill-radio hidden peer">
-                                                <label for="type-brand" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">Brand Identity</label>
-                                            </div>
-                                            <!-- Pill 4 -->
-                                            <div class="relative">
-                                                <input type="checkbox" id="type-sys" name="project_type" value="system" class="pill-radio hidden peer">
-                                                <label for="type-sys" class="block w-full text-center border border-white/10 rounded-xl py-4 px-6 text-textSecondary font-light cursor-pointer transition-all duration-300 hover:border-white/30 hover:bg-white/5">Business Systems</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    
-                                    <div class="flex flex-col-reverse group pt-6">
-                                        <textarea id="challenge" name="challenge" required rows="4" class="input-field peer resize-none" placeholder="Briefly describe your current business challenge and what you hope to achieve..."></textarea>
-                                        <label for="challenge" class="input-label text-xs font-semibold uppercase tracking-widest text-textSecondary mb-2 transition-colors">Core Challenge</label>
-                                    </div>
-                                </div>
-
-                                <!-- Submit -->
-                                <div class="pt-8 border-t border-glass text-right">
-                                    <button type="submit" id="submit-btn" class="btn-primary w-full md:w-auto px-12 py-5 text-sm uppercase tracking-widest flex items-center justify-center gap-3 ml-auto">
-                                        <span id="btn-text">Send Inquiry</span>
-                                        <i id="btn-icon" class="ph ph-paper-plane-right text-xl"></i>
-                                    </button>
-                                </div>
-                            </form>
+                            <!-- HubSpot Embed Form -->
+                            <script src="https://js-na2.hsforms.net/forms/embed/245789760.js" defer></script>
+                            <div class="hs-form-frame" data-region="na2" data-form-id="716b6ac2-671f-4a0a-908e-2607be5266eb" data-portal-id="245789760"></div>
                         </div>
                     </div>
 
@@ -556,6 +481,5 @@
 
                 <!-- JS Interactions -->
     <script src="../scripts/main.js"></script>
-    <script src="../scripts/hubspot.js"></script>
 </body>
 </html>
