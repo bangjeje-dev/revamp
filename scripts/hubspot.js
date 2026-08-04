@@ -1,7 +1,7 @@
 // HubSpot Form Integration
 const HUBSPOT = {
     portalId: "245789760",
-    formGuid: "YOUR_FORM_GUID"
+    formGuid: "716b6ac2-671f-4a0a-908e-2607be5266eb"
 };
 
 document.addEventListener('DOMContentLoaded', () => {
