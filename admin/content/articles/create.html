@@ -1,176 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Writer & SEO Inspector | bangjeje.dev Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>New Article &bull; Editorial Workspace OS</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/studio.css">
-    <script src="../../assets/js/studio-components.js" defer></script>
-    <script src="../../assets/js/studio.js" defer></script>
 </head>
-<body class="min-h-screen bg-white text-slate-900 font-['Outfit'] flex overflow-x-hidden antialiased">
-    
-    <!-- Unified Vanilla Web Component Sidebar -->
-    <studio-sidebar active="articles"></studio-sidebar>
-
-    <!-- Main Wrapper -->
-    <div class="flex-1 lg:pl-64 flex flex-col min-h-screen">
+<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased">
+    <div class="min-h-screen flex flex-col bg-white">
         
-        <!-- Zen Header -->
-        <header class="h-20 bg-white/90 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-30 shadow-sm">
-            <div class="flex items-center gap-4">
-                <button id="sidebar-toggle" class="lg:hidden text-slate-500 hover:text-slate-900 text-2xl"><i class="ph ph-list"></i></button>
-                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                    <a href="index.html" class="hover:text-slate-900 transition-colors">Articles</a>
-                    <span>/</span>
-                    <span class="text-slate-900 font-bold flex items-center gap-1.5"><i class="ph ph-feather text-emerald-600"></i> Zen Distraction-Free Writer</span>
-                </div>
+        <!-- EDITORIAL TELEMETRY ACTION BAR (Low Profile) -->
+        <header class="editorial-telemetry-bar h-14 border-b border-slate-100 px-6 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-30 shrink-0">
+            <div class="flex items-center gap-4 text-xs font-semibold">
+                <a href="index.html" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 transition-colors">
+                    <i class="ph ph-arrow-left text-base"></i> <span>Studio Repository</span>
+                </a>
+                <span class="text-slate-300">|</span>
+                <span id="vault-sync-status" class="inline-flex items-center font-mono text-slate-600 text-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced
+                </span>
+                <span class="text-slate-300">|</span>
+                <span id="reading-time-meter" class="text-slate-500 font-mono text-xs hidden sm:inline-block">0 Words | 1m Read</span>
             </div>
-            
-            <div class="flex items-center gap-3">
-                <button id="trigger-cmd-palette" title="Command Palette (Ctrl + K)" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold transition-colors">
-                    <i class="ph ph-magnifying-glass text-slate-500"></i>
-                    <span>Quick Actions...</span>
-                    <kbd class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded shadow-sm text-slate-500">Ctrl+K</kbd>
+
+            <div class="flex items-center gap-2.5 text-xs font-bold">
+                <button onclick="EditorialOS.openViewportSandbox()" title="Instant Multi-Viewport Preview" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
+                    <i class="ph ph-device-mobile text-base text-slate-700"></i> <span>Preview</span>
                 </button>
-                
-                <!-- Toggle SEO Drawer Button -->
-                <button type="button" onclick="document.getElementById('seo-zen-drawer').classList.remove('translate-x-full'); document.getElementById('drawer-backdrop').classList.remove('hidden', 'opacity-0');" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-md transition-all">
-                    <i class="ph ph-graph text-[#C3FF00] text-base"></i>
-                    <span>SEO Inspector</span>
-                    <span class="px-2 py-0.5 rounded bg-white/20 text-[#C3FF00] font-mono text-[11px] font-extrabold">95/100</span>
+                <button onclick="EditorialOS.openMetadataDrawer()" title="Metadata & SEO Inspector" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
+                    <i class="ph ph-gear-six text-base text-slate-700"></i> <span>Metadata & SEO</span>
                 </button>
-                
-                <a href="preview.html" class="btn-studio-secondary px-4 py-2.5 text-xs uppercase tracking-wider font-semibold inline-flex items-center gap-2"><i class="ph ph-eye text-base"></i> Preview</a>
-                <button type="button" onclick="StudioToast.show('Article successfully published! Schema.org JSON-LD and XML Sitemap updated automatically.', 'success', 'Published Live');" class="btn-studio-primary px-6 py-2.5 text-xs uppercase tracking-wider font-extrabold">Publish Live</button>
+                <button onclick="EditorialOS.openPublishModal()" class="btn-studio-primary h-8 px-4 text-[11px] bg-[#C3FF00] text-slate-900 font-black tracking-wider uppercase shadow-xs ml-1">
+                    Publish Live
+                </button>
             </div>
         </header>
 
-        <!-- ZEN DISTRACTION-FREE WRITING AREA -->
-        <main class="flex-1 max-w-4xl w-full mx-auto px-6 py-16 space-y-8">
-            <form onsubmit="event.preventDefault(); StudioToast.show('All changes synchronized to local draft.', 'info', 'Auto-Saved');">
-                
-                <!-- Top Meta Bar in Zen -->
-                <div class="flex items-center justify-between text-xs text-slate-400 font-mono pb-6 border-b border-slate-100">
-                    <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> Auto-saving draft in background...</span>
-                    <span>Estimated Reading Time: ~5 minutes (1,240 words)</span>
-                </div>
+        <!-- IMMACULATE ZERO-CLUTTER WRITING CANVAS (Notion / Ghost Style) -->
+        <main id="editorial-canvas-root" class="flex-1 w-full max-w-3xl mx-auto px-6 sm:px-10 py-16 sm:py-24 transition-all duration-200">
+            
+            <!-- H1 Untitled Placeholder -->
+            <div class="group relative">
+                <h1 contenteditable="true" class="canvas-title text-3xl sm:text-5xl font-extrabold text-slate-900 focus:outline-none placeholder:text-slate-300 font-sans tracking-tight mb-8 leading-tight" placeholder="Untitled">Untitled</h1>
+            </div>
 
-                <!-- Main Editorial Title -->
-                <div class="space-y-4 pt-4">
-                    <input type="text" id="main-title-input" placeholder="Enter high-impact editorial essay title..." required class="w-full text-4xl md:text-5xl font-extrabold text-slate-900 border-none focus:outline-none focus:ring-0 p-0 placeholder:text-slate-300 leading-tight">
-                    
-                    <div class="flex flex-wrap items-center gap-4 text-xs font-mono pt-2">
-                        <div class="flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-lg">
-                            <span class="text-slate-400">slug:</span>
-                            <input type="text" id="seo-slug" placeholder="designing-for-enterprise-growth" class="bg-transparent font-mono font-bold text-slate-700 focus:outline-none">
-                        </div>
-                        <div class="flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-lg">
-                            <span class="text-slate-400">category:</span>
-                            <select class="bg-transparent font-bold text-slate-800 focus:outline-none cursor-pointer"><option>UX Strategy</option><option>Engineering & Performance</option><option>Business Growth</option></select>
-                        </div>
+            <!-- Block Editor Container with Slash Commands -->
+            <div id="editorial-canvas-blocks" class="editor-canvas space-y-4 text-slate-800 font-normal text-base sm:text-lg leading-relaxed focus:outline-none min-h-[400px]">
+                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
+                    <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
+                        <button title="Block Actions / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
                     </div>
+                    <div contenteditable="true" class="focus:outline-none text-slate-400 focus:text-slate-800 transition-colors">Start writing, or type '/' for commands...</div>
                 </div>
-
-                <!-- Excerpt Subtitle -->
-                <div class="pt-6">
-                    <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">Executive Excerpt (Summary)</label>
-                    <textarea rows="2" placeholder="Write a brief, high-level 2-3 sentence executive takeaway for SERP metadata and top article hero..." class="w-full text-lg font-normal text-slate-600 border-l-4 border-[#C3FF00] bg-slate-50 p-4 rounded-r-xl focus:outline-none"></textarea>
-                </div>
-
-                <!-- DISTRACTION-FREE MARKDOWN WRITER -->
-                <div class="pt-8">
-                    <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-100 text-slate-400 font-mono">
-                        <span>Zen Editorial Workspace &bull; Supports Markdown, Tables, and Fenced Code Blocks</span>
-                        <div class="flex gap-2">
-                            <button type="button" class="text-slate-700 font-bold hover:underline">Write Mode</button>
-                            <span>/</span>
-                            <a href="preview.html" class="hover:underline">Split Render</a>
-                        </div>
-                    </div>
-                    <textarea rows="22" class="w-full mt-4 text-base md:text-lg font-mono leading-relaxed text-slate-800 focus:outline-none resize-y bg-transparent" placeholder="## 1. Zero-Friction Performance & Aesthetics&#10;&#10;In enterprise SaaS environments, visual ambiguity correlates directly to conversion loss. By adopting a high-contrast editorial white theme backed by micro-second Vanilla CSS tokens, engineering teams drive significant increases in prolonged user engagement...&#10;&#10;### Core Principles:&#10;- Uncompromising typography hierarchy using Outfit and Inter&#10;- Schema.org JSON-LD mapping for rapid SERP indexing&#10;- Frost glassmorphic interfaces without DOM bloat"></textarea>
-                </div>
-
-                <div class="pt-10 border-t border-slate-200 flex justify-between items-center text-xs font-mono text-slate-400">
-                    <span>Press Ctrl+K for command actions</span>
-                    <button type="button" onclick="StudioToast.show('Manual draft checkpoint saved to disk.', 'info', 'Saved');" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition-colors">Save Draft Now</button>
-                </div>
-
-            </form>
+            </div>
         </main>
         
-        <footer class="mt-auto h-16 border-t border-slate-200 bg-white flex items-center justify-between px-6 text-xs text-slate-500"><p>&copy; 2026 bangjeje.dev Studio.</p><p class="font-mono">Zen Editor &bull; /admin/content/articles/create</p></footer>
+        <!-- TELEMETRY FOOTER BAR (Focus Mode Tip) -->
+        <footer class="editorial-telemetry-bar h-10 border-t border-slate-100 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-white">
+            <div class="flex items-center gap-4">
+                <span>⚡ Type <strong class="text-slate-700">/</strong> for Block Library</span>
+                <span>💡 Press <strong class="text-slate-700">Ctrl + Shift + F</strong> for Zen Focus Mode</span>
+            </div>
+            <div><span>bangjeje.dev Studio Editorial OS V2</span></div>
+        </footer>
+
     </div>
 
-    <!-- RIGHT-HAND SLIDE-OUT SEO & PUBLISHING INSPECTOR DRAWER -->
-    <div id="drawer-backdrop" onclick="document.getElementById('seo-zen-drawer').classList.add('translate-x-full'); this.classList.add('hidden', 'opacity-0');" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 hidden opacity-0 transition-opacity duration-300"></div>
-    
-    <aside id="seo-zen-drawer" class="fixed top-0 right-0 h-full w-full max-w-xl bg-white shadow-2xl border-l border-slate-200 z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between overflow-y-auto">
-        <div class="p-6 border-b border-slate-200 flex items-center justify-between bg-slate-900 text-white sticky top-0 z-10 shadow-sm">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-white/10 text-[#C3FF00] flex items-center justify-center font-bold text-lg"><i class="ph ph-graph"></i></div>
-                <div><h3 class="font-bold text-sm text-white">Professional SEO & Publishing Inspector</h3><span class="text-[10px] font-mono text-slate-400 uppercase">Live SERP & Schema.org Simulator</span></div>
-            </div>
-            <button onclick="document.getElementById('seo-zen-drawer').classList.add('translate-x-full'); document.getElementById('drawer-backdrop').classList.add('hidden', 'opacity-0');" class="p-1 text-slate-400 hover:text-white font-mono text-lg">✕</button>
-        </div>
-
-        <div class="p-6 space-y-6 flex-1 text-sm">
-            <!-- SEO Score & Checklist -->
-            <div class="p-4 rounded-xl bg-green-50 border border-green-200 flex items-center justify-between">
-                <div class="flex items-center gap-2.5"><i class="ph ph-check-circle text-2xl text-green-600"></i><div><div class="font-bold text-green-900 text-xs uppercase font-mono">SEO Optimization Health</div><div class="text-xs text-green-700">All key ranking parameters are in optimal ranges.</div></div></div>
-                <span class="text-lg font-black text-green-700 font-mono">95/100</span>
-            </div>
-
-            <!-- Real-time SERP Preview Tabs -->
-            <div class="space-y-3">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-700">Live Google SERP Simulation</label>
-                <div class="flex gap-2">
-                    <button type="button" data-target="serp-desktop" class="serp-tab-btn px-3 py-1 rounded-lg bg-slate-900 text-white font-semibold text-xs">Desktop View</button>
-                    <button type="button" data-target="serp-mobile" class="serp-tab-btn px-3 py-1 rounded-lg bg-slate-100 text-slate-600 font-semibold text-xs">Mobile Card</button>
-                </div>
-
-                <div id="serp-desktop" class="serp-view-panel p-4 bg-white border border-slate-200 rounded-xl shadow-inner space-y-1">
-                    <div class="font-mono text-[11px] text-emerald-700">https://bangjeje.dev/insights/designing-enterprise-growth</div>
-                    <div class="text-base font-normal text-blue-700 hover:underline">Designing for Enterprise Growth | bangjeje.dev Insights</div>
-                    <div class="text-xs text-slate-600 font-normal leading-relaxed">How enterprise tech leaders integrate headless architecture and glassmorphic design systems to drive measurable conversion metrics.</div>
-                </div>
-            </div>
-
-            <!-- Form fields -->
-            <div class="space-y-4 pt-4 border-t border-slate-200 text-xs">
-                <div>
-                    <label class="block font-bold uppercase text-slate-600 mb-1">Focus Keyword *</label>
-                    <input type="text" value="Headless Architecture" class="studio-input w-full font-mono font-bold text-xs">
-                </div>
-                <div>
-                    <div class="flex justify-between font-bold text-slate-600 mb-1"><span>Meta Title Override</span><span class="font-mono text-slate-400">48/60</span></div>
-                    <input type="text" placeholder="SEO custom title..." class="studio-input w-full text-xs">
-                </div>
-                <div>
-                    <div class="flex justify-between font-bold text-slate-600 mb-1"><span>Meta Description</span><span class="font-mono text-slate-400">148/160</span></div>
-                    <textarea rows="3" placeholder="Write compelling snippet..." class="studio-input w-full text-xs"></textarea>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div><label class="block font-bold text-slate-600 mb-1">Robots Indexing</label><select class="studio-input w-full text-xs font-bold"><option>index, follow</option><option>noindex, nofollow</option></select></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">Author</label><select class="studio-input w-full text-xs font-bold"><option>Jajang (Owner)</option></select></div>
-                </div>
-            </div>
-
-            <!-- Schema.org Protocol confirmation -->
-            <div class="p-4 rounded-xl bg-slate-900 text-white space-y-2 text-xs">
-                <div class="flex items-center gap-2 font-bold text-[#C3FF00]"><i class="ph ph-cpu text-lg"></i> Automated Protocols Ready</div>
-                <p class="text-[11px] text-slate-300 font-normal">Upon publication, bangjeje.dev Studio automatically compiles and embeds valid Schema.org Article JSON-LD, updates sitemap.xml, and triggers Open Graph card rendering.</p>
-            </div>
-        </div>
-
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
-            <span class="text-xs text-slate-500 font-mono">Status: Draft</span>
-            <button onclick="document.getElementById('seo-zen-drawer').classList.add('translate-x-full'); document.getElementById('drawer-backdrop').classList.add('hidden', 'opacity-0'); StudioToast.show('SEO parameters saved to draft.', 'success', 'SEO Updated');" class="btn-studio-primary px-6 py-2 text-xs uppercase font-extrabold">Save & Close Inspector</button>
-        </div>
-    </aside>
-
+    <!-- Editorial OS Scripts -->
+    <script src="../../assets/js/studio-components.js"></script>
+    <script src="../../assets/js/editorial-os.js"></script>
 </body>
 </html>

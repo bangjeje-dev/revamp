@@ -45,6 +45,39 @@
   }
 }
 
+/* EDITORIAL OPERATING SYSTEM TOKENS (Phase 7C / 7D) */
+/* Focus Mode / Zen Immersion (Ctrl + Shift + F) */
+body.focus-zen-mode #studio-sidebar,
+body.focus-zen-mode studio-sidebar,
+body.focus-zen-mode header,
+body.focus-zen-mode studio-header,
+body.focus-zen-mode footer,
+body.focus-zen-mode .editorial-telemetry-bar {
+    display: none !important;
+}
+
+body.focus-zen-mode .flex-1 {
+    padding-left: 0 !important;
+}
+
+body.focus-zen-mode main {
+    max-width: 800px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-top: 5rem !important;
+    padding-bottom: 8rem !important;
+}
+
+/* Storytelling Block & Slash Block Hover Grips */
+.storytelling-block,
+.block-item {
+    transition: all 0.15s ease;
+}
+
+.storytelling-block:hover {
+    border-color: rgba(148, 163, 184, 0.4);
+}
+
 /* Custom Utilities & No Scrollbar */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
