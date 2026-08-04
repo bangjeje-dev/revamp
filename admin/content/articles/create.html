@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Article &bull; Editorial Workspace OS</title>
+    <title>New Article Workspace &bull; Editorial OS</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -12,68 +12,124 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/studio.css">
 </head>
-<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased">
-    <div class="min-h-screen flex flex-col bg-white">
-        
-        <!-- EDITORIAL TELEMETRY ACTION BAR (Low Profile) -->
-        <header class="editorial-telemetry-bar h-14 border-b border-slate-100 px-6 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-xs z-30 shrink-0">
-            <div class="flex items-center gap-4 text-xs font-semibold">
-                <a href="index.html" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 transition-colors">
-                    <i class="ph ph-arrow-left text-base"></i> <span>Studio Repository</span>
-                </a>
-                <span class="text-slate-300">|</span>
-                <span id="vault-sync-status" class="inline-flex items-center font-mono text-slate-600 text-xs">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Vault Synced
-                </span>
-                <span class="text-slate-300">|</span>
-                <span id="reading-time-meter" class="text-slate-500 font-mono text-xs hidden sm:inline-block">0 Words | 1m Read</span>
-            </div>
+<body class="bg-slate-50 font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased min-h-screen flex items-center justify-center p-6">
 
-            <div class="flex items-center gap-2.5 text-xs font-bold">
-                <button onclick="EditorialOS.openViewportSandbox()" title="Instant Multi-Viewport Preview" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
-                    <i class="ph ph-device-mobile text-base text-slate-700"></i> <span>Preview</span>
-                </button>
-                <button onclick="EditorialOS.openMetadataDrawer()" title="Metadata & SEO Inspector" class="btn-studio-secondary h-8 px-3 text-[11px] gap-1.5 font-bold shadow-none border-slate-200">
-                    <i class="ph ph-gear-six text-base text-slate-700"></i> <span>Metadata & SEO</span>
-                </button>
-                <button onclick="EditorialOS.openPublishModal()" class="btn-studio-primary h-8 px-4 text-[11px] bg-[#C3FF00] text-slate-900 font-black tracking-wider uppercase shadow-xs ml-1">
-                    Publish Live
-                </button>
-            </div>
-        </header>
-
-        <!-- IMMACULATE ZERO-CLUTTER WRITING CANVAS (Notion / Ghost Style) -->
-        <main id="editorial-canvas-root" class="flex-1 w-full max-w-3xl mx-auto px-6 sm:px-10 py-16 sm:py-24 transition-all duration-200">
-            
-            <!-- H1 Untitled Placeholder -->
-            <div class="group relative">
-                <h1 contenteditable="true" class="canvas-title text-3xl sm:text-5xl font-extrabold text-slate-900 focus:outline-none placeholder:text-slate-300 font-sans tracking-tight mb-8 leading-tight" placeholder="Untitled">Untitled</h1>
-            </div>
-
-            <!-- Block Editor Container with Slash Commands -->
-            <div id="editorial-canvas-blocks" class="editor-canvas space-y-4 text-slate-800 font-normal text-base sm:text-lg leading-relaxed focus:outline-none min-h-[400px]">
-                <div class="block-item group relative pl-8 pr-2 py-1 my-1 border-l-2 border-transparent hover:border-slate-200 transition-all">
-                    <div class="absolute left-1 top-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 z-10">
-                        <button title="Block Actions / Grip" onclick="EditorialOS.blockActionMenu(this)" class="text-slate-400 hover:text-slate-900 p-1 cursor-grab font-mono text-sm leading-none">⋮⋮</button>
-                    </div>
-                    <div contenteditable="true" class="focus:outline-none text-slate-400 focus:text-slate-800 transition-colors">Start writing, or type '/' for commands...</div>
+    <!-- LIGHTWEIGHT ARTICLE CREATION DIALOG (Phase 7C/7D) -->
+    <div class="max-w-5xl w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-8 sm:p-10 space-y-8">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-slate-900 text-[#C3FF00] flex items-center justify-center text-2xl shadow-sm"><i class="ph ph-pen-nib font-bold"></i></div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Initialize New Article Workspace</h1>
+                    <p class="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">Choose an editorial starting template to preload your narrative structure, or begin with a blank canvas:</p>
                 </div>
             </div>
-        </main>
-        
-        <!-- TELEMETRY FOOTER BAR (Focus Mode Tip) -->
-        <footer class="editorial-telemetry-bar h-10 border-t border-slate-100 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-white">
-            <div class="flex items-center gap-4">
-                <span>⚡ Type <strong class="text-slate-700">/</strong> for Block Library</span>
-                <span>💡 Press <strong class="text-slate-700">Ctrl + Shift + F</strong> for Zen Focus Mode</span>
-            </div>
-            <div><span>bangjeje.dev Studio Editorial OS V2</span></div>
-        </footer>
+            <a href="index.html" class="text-slate-400 hover:text-slate-900 font-mono text-base p-2 transition-colors" title="Close & Return">✕</a>
+        </div>
 
+        <!-- 9 EDITORIAL STARTING TEMPLATES GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            
+            <!-- 1. Blank Article -->
+            <div onclick="window.location.href='edit.html?template=blank'" class="group p-5 rounded-xl border border-slate-300 bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-md">
+                <div class="w-10 h-10 rounded-lg bg-[#C3FF00] text-slate-900 flex items-center justify-center text-xl font-black group-hover:scale-110 transition-transform"><i class="ph ph-file-plus"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-white text-sm">Blank Article</h3>
+                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">Immaculate open canvas with zero preconceptions. Starts strictly with 'Untitled' & 'Start writing...'.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-[#C3FF00] flex items-center gap-1">Open Zero-Clutter Canvas <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 2. Technical Tutorial -->
+            <div onclick="window.location.href='edit.html?template=tutorial'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-code-block"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Technical Tutorial</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads numbered execution sequences, syntax-highlighted code fences, and prerequisite checklists.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 3. Editorial Opinion -->
+            <div onclick="window.location.href='edit.html?template=opinion'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-quotes"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Editorial Opinion / Manifesto</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">High-contrast typography layouts leveraging oversized pull-quotes and conversational prose styling.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 4. Industry Listicle -->
+            <div onclick="window.location.href='edit.html?template=listicle'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-list-numbers"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Industry Listicle</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads repeatable H2 numbered item structures, pro-tip callouts, and dynamic bullet checklists.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 5. Framework Comparison -->
+            <div onclick="window.location.href='edit.html?template=comparison'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-scales"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Framework Comparison</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads structured Pro/Con comparative matrices, architecture trade-offs, and benchmark evaluation tables.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 6. Business & Strategy -->
+            <div onclick="window.location.href='edit.html?template=business'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-chart-bar font-bold"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Business & Strategy</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads executive market trend analyses, commercial growth takeaways, and HubSpot CRM lead capture prompts.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 7. Deep Development -->
+            <div onclick="window.location.href='edit.html?template=dev'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-terminal-window"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Deep Development</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads serverless Cloudflare Workers breakdowns, GitHub repository linkers, and schema code blocks.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 8. UI/UX Design System -->
+            <div onclick="window.location.href='edit.html?template=uiux'" class="group p-5 rounded-xl border border-slate-200 hover:border-slate-900 bg-white hover:bg-slate-50/70 transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-palette"></i></div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">UI/UX Design System</h3>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Preloads Figma token structure tables, visual interface showcases, and responsive typography hierarchies.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-slate-400 group-hover:text-slate-900 flex items-center gap-1">Launch Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+            <!-- 9. AI Assisted (Future Hook) -->
+            <div onclick="window.location.href='edit.html?template=ai'" class="group p-5 rounded-xl border-2 border-dashed border-slate-300 hover:border-slate-900 bg-slate-50 hover:bg-white transition-all cursor-pointer space-y-3 relative overflow-hidden shadow-xs">
+                <div class="w-10 h-10 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph ph-magic-wand font-black"></i></div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h3 class="font-extrabold text-slate-900 text-sm">AI Assisted</h3>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-extrabold bg-purple-100 text-purple-800 uppercase">Future Hook</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">Architectural placeholder for intelligent LLM outlining, research scaffolding, and automated FAQ generation.</p>
+                </div>
+                <div class="text-[11px] font-mono font-bold text-purple-700 flex items-center gap-1">Preview AI Scaffold <i class="ph ph-arrow-right"></i></div>
+            </div>
+
+        </div>
+
+        <div class="pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+            <div class="flex items-center gap-2 font-mono"><i class="ph ph-info text-slate-500"></i> <span>All templates provide structural guidance only. Nothing is mandatory.</span></div>
+            <a href="index.html" class="font-bold text-slate-600 hover:text-slate-900 uppercase tracking-wider">Cancel & Return</a>
+        </div>
     </div>
 
-    <!-- Editorial OS Scripts -->
-    <script src="../../assets/js/studio-components.js"></script>
-    <script src="../../assets/js/editorial-os.js"></script>
 </body>
 </html>
