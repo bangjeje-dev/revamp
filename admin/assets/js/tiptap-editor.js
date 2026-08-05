@@ -1,12 +1,13 @@
 /**
- * bangjeje.dev Studio V2 — Sprint 1.5: Editorial UX Polish (Tiptap Engine)
- * Production-ready Vanilla JavaScript ES Module implementation of Tiptap.
- * Focus: Delightful typography, ambient auto-save (no toasts), filtered slash commands, and keyboard-first fluidity.
+ * bangjeje.dev Studio V2 — Sprint 2: Media Library Integration (Tiptap Engine)
+ * Production-ready Vanilla JavaScript ES Module implementation of Tiptap with Reusable R2 Media Vault.
+ * Focus: Seamless image block insertion via StudioMediaLibrary modal instead of native browser file pickers.
  */
 
 import { Editor } from 'https://esm.sh/@tiptap/core@2.10.4';
 import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.10.4';
 import Placeholder from 'https://esm.sh/@tiptap/extension-placeholder@2.10.4';
+import Image from 'https://esm.sh/@tiptap/extension-image@2.10.4';
 
 class StudioArticleEditorV2 {
     constructor() {
@@ -18,11 +19,14 @@ class StudioArticleEditorV2 {
         this.lastSaveTime = null;
         this.tickerInterval = null;
 
-        // Categorized & searchable Slash Command block library
+        // Categorized & searchable Slash Command block library with Sprint 2 Media & Vault integration
         this.slashCatalog = [
             { category: 'Typography', title: 'Heading 1', keywords: 'h1 heading one large title section headline', desc: 'Large document headline or section break', icon: 'ph-text-h-one', action: () => this.editor.chain().focus().toggleHeading({ level: 1 }).run() },
             { category: 'Typography', title: 'Heading 2', keywords: 'h2 heading two medium chapter section', desc: 'Medium chapter heading for structured breaks', icon: 'ph-text-h-two', action: () => this.editor.chain().focus().toggleHeading({ level: 2 }).run() },
             { category: 'Typography', title: 'Heading 3', keywords: 'h3 heading three small subsection header', desc: 'Small subsection header', icon: 'ph-text-h-three', action: () => this.editor.chain().focus().toggleHeading({ level: 3 }).run() },
+            
+            { category: 'Media & Vault', title: 'Image Asset', keywords: 'image media photo picture asset r2 cloudflare vault webp', desc: 'Insert high-res WebP asset from R2 Vault', icon: 'ph-image', action: () => this.openMediaLibraryVault() },
+            { category: 'Media & Vault', title: 'Media Library Vault', keywords: 'vault library r2 assets existing pictures gallery storage', desc: 'Browse Studio V2 Media Library attachments', icon: 'ph-images-square', action: () => this.openMediaLibraryVault() },
             
             { category: 'Lists & Structure', title: 'Bullet List', keywords: 'ul bullet list points unordered item dots', desc: 'Create a simple bulleted item list', icon: 'ph-list-bullets', action: () => this.editor.chain().focus().toggleBulletList().run() },
             { category: 'Lists & Structure', title: 'Numbered List', keywords: 'ol number ordered list sequential numbers 1 2', desc: 'Create a numbered sequential array', icon: 'ph-list-numbers', action: () => this.editor.chain().focus().toggleOrderedList().run() },
@@ -65,12 +69,19 @@ class StudioArticleEditorV2 {
                     code: { HTMLAttributes: { class: 'tiptap-code bg-slate-100 text-rose-600 font-mono text-xs sm:text-sm font-extrabold px-2 py-0.5 rounded border border-slate-200/80' } },
                     horizontalRule: { HTMLAttributes: { class: 'my-10 border-t-2 border-slate-200' } }
                 }),
+                Image.configure({
+                    inline: false,
+                    allowBase64: true,
+                    HTMLAttributes: {
+                        class: 'tiptap-image rounded-2xl border border-slate-200/80 shadow-md my-8 max-w-full h-auto cursor-pointer block hover:shadow-xl transition-all'
+                    }
+                }),
                 Placeholder.configure({
                     placeholder: ({ node }) => {
                         if (node.type.name === 'heading') {
                             return `Heading level ${node.attrs.level}...`;
                         }
-                        return "Press '/' for commands, or just start writing your narrative...";
+                        return "Press '/' for commands (e.g. /image for Media Vault), or just start typing...";
                     },
                     emptyEditorClass: 'tiptap-empty-canvas',
                     emptyNodeClass: 'tiptap-empty-node'
@@ -87,6 +98,31 @@ class StudioArticleEditorV2 {
             },
             onSelectionUpdate: ({ editor }) => {
                 this.updateToolbarState(editor);
+            }
+        });
+    }
+
+    // --- SPRINT 2 REUSABLE MEDIA LIBRARY VAULT INTEGRATION ---
+    openMediaLibraryVault() {
+        if (!window.StudioMediaLibrary) {
+            console.error('StudioMediaLibrary singleton not detected in DOM.');
+            StudioToast?.show('Media Library engine not loaded.', 'error', 'Studio V2');
+            return;
+        }
+
+        window.StudioMediaLibrary.open({
+            onSelect: (asset) => {
+                if (!this.editor) return;
+                
+                // Insert crisp WebP image node into Tiptap with WCAG Alt text and Caption title
+                this.editor.chain().focus().setImage({
+                    src: asset.url,
+                    alt: asset.alt || asset.filename,
+                    title: asset.caption || asset.alt
+                }).run();
+
+                StudioToast?.show(`Inserted "${asset.filename}" from Studio V2 Media Library!`, 'success', 'Media Vault');
+                this.handleContentUpdate();
             }
         });
     }
@@ -111,23 +147,22 @@ class StudioArticleEditorV2 {
 
         if (!this.editor.getText().trim()) {
             this.editor.commands.setContent(`
-                <p>Writing in Studio V2 has been refined to feel as light, fast, and delightful as Notion, Ghost, and Gutenberg.</p>
-                <h2>1. Production-Grade Editorial Typography</h2>
-                <p>We have calibrated reading line lengths, paragraph margins, and vertical heading rhythms for optimal eye scanning across 1440px and compact desktop viewports. Notice the airy line heights and high-contrast electric green selections.</p>
-                <blockquote>"The editor should adapt to the author. The author should never adapt to the editor. Writing always comes first."</blockquote>
-                <h3>Keyboard-First Workflow:</h3>
+                <p>Writing in Studio V2 now includes complete integration with our single source of truth: the <strong>Studio V2 Reusable Media Library</strong>.</p>
+                <h2>1. Cloudflare R2 Media Vault Integration</h2>
+                <p>Instead of relying on disconnected, rudimentary operating system file pickers, selecting an Image block or typing <code>/image</code> instantaneously launches the centralized Media Vault.</p>
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1440&q=80" alt="COTIT Enterprise ERP Supply Chain Dashboard Preview on MacBook" title="Figure 1.1: COTIT Real-Time Factory Floor Telemetry & Edge Logistics Hub" />
+                <p>Within the Media Library modal, authors gain real-time controls over WebP compression, WCAG Alt text editing, editorial caption attributions, and dynamic searching across recently uploaded and used assets.</p>
+                <blockquote>"A design system is only as powerful as its centralized asset pipeline. Studio V2 brings cloud storage directly to the cursor."</blockquote>
+                <h3>How to Test Media Insertion:</h3>
                 <ul>
-                    <li><strong>Ctrl + B / I:</strong> Toggle bold and italic emphasis instantaneously.</li>
-                    <li><strong>Ctrl + Shift + 7 / 8:</strong> Quickly scaffold ordered and bulleted arrays.</li>
-                    <li><strong>Ctrl + /:</strong> Trigger the categorized block library from any position.</li>
-                    <li><strong>Ctrl + S:</strong> Secure local revisions without disruptive popups or toast notifications.</li>
+                    <li><strong>Sticky Toolbar:</strong> Click the new 🖼️ Image icon directly between Heading and List buttons.</li>
+                    <li><strong>Slash Commands:</strong> Type <code>/image</code> or <code>/media</code> on any new blank line.</li>
+                    <li><strong>Drag & Drop Vault:</strong> Drop local files into the modal to compress and save directly into your local vault foundation.</li>
                 </ul>
-                <pre><code>// Production Code Block Styling\nexport const studioEditor = {\n  engine: "Tiptap / ProseMirror",\n  typography: "Outfit + JetBrains Mono",\n  autoSave: "Ambient & LocalStorage-Driven"\n};</code></pre>
-                <p>Start drafting your story below...</p>
+                <p>Continue drafting below...</p>
             `, false);
         }
 
-        // Auto-focus behavior: if title is empty, focus title; otherwise focus editor
         setTimeout(() => {
             this.updateWordCount();
             if (titleInput && (!titleInput.value || titleInput.value === 'Untitled Article...')) {
@@ -157,6 +192,7 @@ class StudioArticleEditorV2 {
         toggleBtn('tb-h1', editor.isActive('heading', { level: 1 }));
         toggleBtn('tb-h2', editor.isActive('heading', { level: 2 }));
         toggleBtn('tb-h3', editor.isActive('heading', { level: 3 }));
+        toggleBtn('tb-image', editor.isActive('image'));
         toggleBtn('tb-bullet', editor.isActive('bulletList'));
         toggleBtn('tb-ordered', editor.isActive('orderedList'));
         toggleBtn('tb-quote', editor.isActive('blockquote'));
@@ -171,7 +207,7 @@ class StudioArticleEditorV2 {
     bindToolbarEvents() {
         const bind = (id, fn) => {
             const el = document.getElementById(id);
-            if (el) el.addEventListener('click', (e) => { e.preventDefault(); fn(); this.editor.focus(); });
+            if (el) el.addEventListener('click', (e) => { e.preventDefault(); fn(); this.editor?.focus(); });
         };
 
         bind('tb-bold', () => this.editor.chain().focus().toggleBold().run());
@@ -180,6 +216,10 @@ class StudioArticleEditorV2 {
         bind('tb-h1', () => this.editor.chain().focus().toggleHeading({ level: 1 }).run());
         bind('tb-h2', () => this.editor.chain().focus().toggleHeading({ level: 2 }).run());
         bind('tb-h3', () => this.editor.chain().focus().toggleHeading({ level: 3 }).run());
+        
+        // SPRINT 2: Bind Image button to Reusable Media Library Modal
+        bind('tb-image', () => this.openMediaLibraryVault());
+
         bind('tb-bullet', () => this.editor.chain().focus().toggleBulletList().run());
         bind('tb-ordered', () => this.editor.chain().focus().toggleOrderedList().run());
         bind('tb-quote', () => this.editor.chain().focus().toggleBlockquote().run());
@@ -190,29 +230,20 @@ class StudioArticleEditorV2 {
         bind('tb-redo', () => this.editor.chain().focus().redo().run());
     }
 
-    // --- KEYBOARD-FIRST ACCELERATORS ---
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
             const ctrl = e.ctrlKey || e.metaKey;
-            
-            // Ctrl+Shift+7: Numbered List
             if (ctrl && e.shiftKey && (e.key === '7' || e.code === 'Digit7')) {
                 e.preventDefault();
                 this.editor.chain().focus().toggleOrderedList().run();
-            }
-            // Ctrl+Shift+8: Bullet List
-            else if (ctrl && e.shiftKey && (e.key === '8' || e.code === 'Digit8')) {
+            } else if (ctrl && e.shiftKey && (e.key === '8' || e.code === 'Digit8')) {
                 e.preventDefault();
                 this.editor.chain().focus().toggleBulletList().run();
-            }
-            // Ctrl+/ : Trigger Slash Menu directly at cursor
-            else if (ctrl && (e.key === '/' || e.code === 'Slash')) {
+            } else if (ctrl && (e.key === '/' || e.code === 'Slash')) {
                 e.preventDefault();
                 this.editor.commands.insertContent('/');
                 setTimeout(() => this.checkSlashTrigger(), 20);
-            }
-            // Ctrl+S : Force Save Draft
-            else if (ctrl && e.key.toLowerCase() === 's') {
+            } else if (ctrl && e.key.toLowerCase() === 's') {
                 e.preventDefault();
                 this.executeLocalSave();
             }
@@ -342,7 +373,6 @@ class StudioArticleEditorV2 {
             return;
         }
 
-        // Group by category
         let currentCategory = '';
         list.innerHTML = this.filteredItems.map((item, index) => {
             const isSelected = index === this.selectedIndex;
@@ -372,7 +402,6 @@ class StudioArticleEditorV2 {
         const item = this.filteredItems[index];
         if (!item || !this.editor) return;
 
-        // Delete trailing / and query string before inserting block
         const deleteLen = 1 + (this.slashQuery ? this.slashQuery.length : 0);
         const { from } = this.editor.state.selection;
         this.editor.chain().focus().deleteRange({ from: from - deleteLen, to: from }).run();
@@ -381,13 +410,11 @@ class StudioArticleEditorV2 {
         this.closeSlashMenu();
     }
 
-    // --- AMBIENT AUTO-SAVE UX (NO TOASTS) & BEHAVIORS ---
+    // --- AMBIENT AUTO-SAVE UX (NO TOASTS) ---
     bindTitleAndSave() {
         const titleInput = document.getElementById('doc-title-input');
-        
         if (titleInput) {
             titleInput.addEventListener('input', () => this.handleContentUpdate());
-            // Auto focus Tiptap canvas when hitting Enter on Title!
             titleInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();

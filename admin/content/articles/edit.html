@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Workspace &bull; Studio V2 Editorial Engine</title>
+    <title>Article Workspace &bull; Studio V2 Media Library Active</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/studio.css">
     <style>
-        /* SPRINT 1.5: PRODUCTION-GRADE EDITORIAL TYPOGRAPHY POLISH */
+        /* SPRINT 1.5 & SPRINT 2: EDITORIAL TYPOGRAPHY & MEDIA ASSET STYLING */
         .tiptap-empty-node::before {
             content: attr(data-placeholder);
             float: left;
@@ -21,12 +21,11 @@
             height: 0;
             font-style: italic;
         }
-        /* Optimal Reading Line Lengths & Rhythms (700-800px sweet spot) */
         #tiptap-canvas-root .ProseMirror {
             font-family: 'Outfit', sans-serif;
             color: #1e293b;
             font-size: 1.25rem; /* 20px body font */
-            line-height: 1.8; /* Comfortable editorial line-height */
+            line-height: 1.8;
         }
         #tiptap-canvas-root .ProseMirror p {
             margin-bottom: 1.6rem;
@@ -60,6 +59,24 @@
             margin-bottom: 0.75rem;
             letter-spacing: -0.01em;
         }
+        /* SPRINT 2: MEDIA VAULT EMBEDED IMAGES IN CANVAS */
+        #tiptap-canvas-root .ProseMirror img {
+            border-radius: 1.25rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        #tiptap-canvas-root .ProseMirror img.ProseMirror-selectednode {
+            outline: 3px solid #C3FF00;
+            outline-offset: 3px;
+            border-color: #0f172a;
+            transform: scale(1.01);
+        }
         #tiptap-canvas-root .ProseMirror ul, 
         #tiptap-canvas-root .ProseMirror ol {
             padding-left: 1.75rem;
@@ -86,7 +103,6 @@
             font-size: 1.35rem;
             color: #1e293b;
             line-height: 1.65;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.02);
         }
         #tiptap-canvas-root .ProseMirror pre {
             background-color: #0f172a;
@@ -100,7 +116,7 @@
             margin-bottom: 2rem;
             overflow-x: auto;
             border: 1px solid #1e293b;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         #tiptap-canvas-root .ProseMirror code {
             background-color: #f1f5f9;
@@ -126,7 +142,6 @@
             border-top-width: 2px;
             border-color: #e2e8f0;
         }
-        /* High contrast selection across all editor blocks */
         ::selection {
             background-color: rgba(195, 255, 0, 0.45) !important;
             color: #020617 !important;
@@ -136,7 +151,7 @@
 <body class="bg-white font-['Outfit'] text-slate-900 antialiased overflow-hidden">
     <div class="h-screen flex flex-col bg-white">
         
-        <!-- SPRINT 1.5 COMPACT STICKY TOOLBAR (Optimized for 1440px, 1280px, 1024px, 768px) -->
+        <!-- STICKY TOOLBAR WITH REUSABLE MEDIA VAULT TRIGGER -->
         <header class="sticky top-0 z-40 h-16 border-b border-slate-200 px-4 sm:px-8 bg-white/95 backdrop-blur-md flex items-center justify-between shrink-0 shadow-2xs">
             <div class="flex items-center gap-3 sm:gap-5">
                 <a href="index.html" class="inline-flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors border border-slate-200/80 shadow-2xs" title="Return to Articles Vault">
@@ -145,11 +160,11 @@
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-[#C3FF00] inline-block border border-slate-900/15 shadow-xs"></span>
                     <span class="font-extrabold text-slate-900 text-sm tracking-tight font-sans hidden sm:inline-block">Studio V2 Editorial Engine</span>
-                    <span class="px-2 py-0.5 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase tracking-wider">Sprint 1.5</span>
+                    <span class="px-2 py-0.5 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase tracking-wider">Sprint 2 Media Vault</span>
                 </div>
             </div>
 
-            <!-- COMPACT STICKY FORMATTING TOOLBAR WITH SHORTCUT HINTS -->
+            <!-- COMPACT STICKY FORMATTING TOOLBAR WITH IMAGE / MEDIA VAULT ICON -->
             <div class="flex items-center gap-0.5 bg-slate-50/90 border border-slate-200/90 p-1 rounded-xl text-xs font-semibold text-slate-700 shadow-xs">
                 <!-- History -->
                 <div class="flex items-center gap-0.5 px-1 border-r border-slate-200/80">
@@ -171,8 +186,10 @@
                     <button id="tb-h3" class="px-2.5 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs border border-transparent transition-all cursor-pointer" title="Heading 3 (/h3)">H3</button>
                 </div>
 
-                <!-- Lists & Blocks -->
+                <!-- SPRINT 2 MEDIA VAULT & LISTS -->
                 <div class="flex items-center gap-0.5 px-1">
+                    <button id="tb-image" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-700 border border-transparent transition-all cursor-pointer hover:text-emerald-600 font-extrabold mr-1" title="Open Studio V2 Media Library (/image)"><i class="ph ph-images-square text-lg"></i></button>
+                    
                     <button id="tb-bullet" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Bullet List (Ctrl+Shift+8)"><i class="ph ph-list-bullets text-base"></i></button>
                     <button id="tb-ordered" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Numbered List (Ctrl+Shift+7)"><i class="ph ph-list-numbers text-base"></i></button>
                     <button id="tb-quote" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Blockquote (/quote)"><i class="ph ph-quotes text-base"></i></button>
@@ -181,11 +198,10 @@
                 </div>
             </div>
 
-            <!-- Right Actions & Ambient Auto-Save Indicator (No Toasts!) -->
+            <!-- Right Actions & Ambient Auto-Save Indicator -->
             <div class="flex items-center gap-4 sm:gap-6">
                 <span id="reading-word-meter" class="text-slate-400 font-mono text-xs font-semibold hidden xl:inline-block">0 Words | 1m Read</span>
                 
-                <!-- AMBIENT STATUS (Saving... / Saved / Last saved X seconds ago) -->
                 <div id="ambient-save-status" class="font-mono text-xs text-slate-500 font-semibold flex items-center shrink-0">
                     <span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Saved
                 </div>
@@ -198,10 +214,8 @@
 
         <!-- DISTRACTION-FREE WRITING CANVAS (Optimal Reading Width: 768px) -->
         <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-20 bg-white no-scrollbar">
-            <!-- Centered Editorial Box (max-w-3xl = 768px, exact 700-800px specification) -->
             <div class="max-w-3xl mx-auto space-y-8 pb-32">
                 
-                <!-- DISTRACTION-FREE TITLE INPUT WITH NO SHADOWS OR BORDERS -->
                 <div class="pb-6 border-b border-slate-200/60">
                     <input type="text" 
                            id="doc-title-input" 
@@ -210,7 +224,6 @@
                            class="w-full text-4xl sm:text-[48px] font-extrabold text-slate-950 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-[1.15] bg-transparent border-0 p-0 selection:bg-[#C3FF00]/40">
                 </div>
 
-                <!-- TIPTAP WRITING CANVAS -->
                 <div id="tiptap-canvas-root" class="w-full text-slate-800 font-sans min-h-[550px]">
                     <!-- Tiptap initializes directly inside this clean DOM root -->
                 </div>
@@ -218,21 +231,21 @@
             </div>
         </main>
 
-        <!-- SPRINT 1.5 KEYBOARD-FIRST TELEMETRY BAR -->
         <footer class="h-9 border-t border-slate-200/80 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/90">
             <div class="flex items-center gap-5 overflow-x-auto no-scrollbar py-1">
-                <span>⚡ Type <strong class="text-slate-700 font-bold">/</strong> for block commands</span>
+                <span>⚡ Type <strong class="text-slate-700 font-bold">/image</strong> for Media Vault</span>
                 <span>💡 <strong class="text-slate-700 font-bold">Ctrl + B / I</strong> for typography</span>
                 <span>📋 <strong class="text-slate-700 font-bold">Ctrl + Shift + 7 / 8</strong> for list arrays</span>
                 <span>💾 <strong class="text-slate-700 font-bold">Ctrl + S</strong> to save draft</span>
             </div>
-            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Sprint 1.5 UX Polish</span></div>
+            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Sprint 2 Media Library</span></div>
         </footer>
 
     </div>
 
-    <!-- Toast Component File (Not invoked for Save Draft in Sprint 1.5 to maintain undisturbed writing flow) -->
+    <!-- Studio Toast & Reusable Media Library Vault Engine -->
     <script src="../../assets/js/studio-components.js"></script>
+    <script src="../../assets/js/media-library.js"></script>
     <!-- Studio V2 Vanilla Tiptap Editorial Engine (ES Module) -->
     <script type="module" src="../../assets/js/tiptap-editor.js"></script>
 </body>
