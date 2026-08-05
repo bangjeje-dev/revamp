@@ -427,7 +427,7 @@ class StudioArticleEditorV2 {
         if (saveBtn) {
             saveBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.executeLocalSave();
+                this.executeLocalSave(true);
             });
         }
     }
@@ -438,11 +438,11 @@ class StudioArticleEditorV2 {
         
         clearTimeout(this.saveTimer);
         this.saveTimer = setTimeout(() => {
-            this.executeLocalSave();
+            this.executeLocalSave(false);
         }, 1200);
     }
 
-    executeLocalSave() {
+    executeLocalSave(isExplicit = false) {
         const titleInput = document.getElementById('doc-title-input');
         const title = titleInput ? titleInput.value : 'Untitled Article';
         const html = this.editor ? this.editor.getHTML() : '';
@@ -450,6 +450,11 @@ class StudioArticleEditorV2 {
 
         localStorage.setItem('bangjeje_studio_v2_draft', JSON.stringify({ title, content: html, timestamp }));
         
+        if (window.StudioArticleWorkflow && isExplicit) {
+            window.StudioArticleWorkflow.saveMetadata(true, 'Explicit author revision checkpoint');
+            StudioToast?.show('Saved document & editorial metadata checkpoint!', 'success', 'Revision Vault');
+        }
+
         this.lastSaveTime = new Date();
         this.renderSaveStatus('saved');
     }

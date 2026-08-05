@@ -199,37 +199,59 @@
             </div>
 
             <!-- Right Actions & Ambient Auto-Save Indicator -->
-            <div class="flex items-center gap-4 sm:gap-6">
-                <span id="reading-word-meter" class="text-slate-400 font-mono text-xs font-semibold hidden xl:inline-block">0 Words | 1m Read</span>
+            <div class="flex items-center gap-2.5 sm:gap-3 lg:gap-4">
+                <span id="reading-word-meter" class="text-slate-400 font-mono text-xs font-semibold hidden 2xl:inline-block">0 Words | 1m Read</span>
                 
                 <div id="ambient-save-status" class="font-mono text-xs text-slate-500 font-semibold flex items-center shrink-0">
                     <span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Saved
                 </div>
 
-                <button id="btn-save-draft" title="Force Local Revision (Ctrl+S)" class="btn-studio-primary h-10 px-5 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white text-xs font-black tracking-wider uppercase shadow-md transition-all cursor-pointer shrink-0">
-                    <i class="ph ph-floppy-disk text-base sm:mr-1.5"></i> <span class="hidden sm:inline">Save Draft</span>
+                <!-- Preview Command -->
+                <button onclick="StudioArticleWorkflow.openPreview()" title="Open Reader Sanctuary Preview" class="h-9 sm:h-10 px-3 rounded-xl font-bold text-xs text-slate-700 hover:bg-slate-100 transition-colors flex items-center gap-1 border border-slate-200/80 shadow-2xs cursor-pointer shrink-0">
+                    <i class="ph ph-eye text-base"></i> <span class="hidden lg:inline">Preview</span>
+                </button>
+
+                <!-- Save Draft Command -->
+                <button id="btn-save-draft" title="Force Local Revision (Ctrl+S)" class="h-9 sm:h-10 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-800 font-extrabold text-xs transition-all flex items-center gap-1 cursor-pointer shrink-0 border border-slate-200/80">
+                    <i class="ph ph-floppy-disk text-base"></i> <span class="hidden xl:inline">Draft</span>
+                </button>
+
+                <!-- Publish to Edge Command -->
+                <button onclick="StudioArticleWorkflow.executePublishToEdge()" title="Publish to Cloudflare Edge Network" class="h-9 sm:h-10 px-3.5 sm:px-5 rounded-xl bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white text-xs font-black tracking-wider uppercase shadow-md transition-all flex items-center gap-1.5 cursor-pointer shrink-0">
+                    <i class="ph ph-rocket-launch font-bold text-base"></i> <span class="hidden sm:inline">Publish 🚀</span>
+                </button>
+
+                <!-- Document Inspector Toggle Command -->
+                <button id="btn-toggle-inspector" onclick="StudioArticleWorkflow.toggleInspector()" title="Toggle Document Inspector Sidebar" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 text-[#C3FF00] font-extrabold flex items-center justify-center shadow-md transition-all cursor-pointer shrink-0 ml-1">
+                    <i class="ph ph-sidebar-simple text-lg font-bold"></i>
                 </button>
             </div>
         </header>
 
-        <!-- DISTRACTION-FREE WRITING CANVAS (Optimal Reading Width: 768px) -->
-        <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-20 bg-white no-scrollbar">
-            <div class="max-w-3xl mx-auto space-y-8 pb-32">
-                
-                <div class="pb-6 border-b border-slate-200/60">
-                    <input type="text" 
-                           id="doc-title-input" 
-                           placeholder="Type a title..." 
-                           value="Why Simplicity & Speed Always Win: Building Studio V2 with Tiptap" 
-                           class="w-full text-4xl sm:text-[48px] font-extrabold text-slate-950 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-[1.15] bg-transparent border-0 p-0 selection:bg-[#C3FF00]/40">
-                </div>
+        <!-- DUAL-COLUMN WORKSPACE: WRITING CANVAS & DOCUMENT INSPECTOR -->
+        <div class="flex-1 flex overflow-hidden bg-white">
+            <!-- DISTRACTION-FREE WRITING CANVAS (Optimal Reading Width: 768px) -->
+            <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-20 bg-white no-scrollbar">
+                <div class="max-w-3xl mx-auto space-y-8 pb-32">
+                    
+                    <div class="pb-6 border-b border-slate-200/60">
+                        <input type="text" 
+                               id="doc-title-input" 
+                               placeholder="Type a title..." 
+                               value="Why Simplicity & Speed Always Win: Building Studio V2 with Tiptap" 
+                               class="w-full text-4xl sm:text-[48px] font-extrabold text-slate-950 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-[1.15] bg-transparent border-0 p-0 selection:bg-[#C3FF00]/40">
+                    </div>
 
-                <div id="tiptap-canvas-root" class="w-full text-slate-800 font-sans min-h-[550px]">
-                    <!-- Tiptap initializes directly inside this clean DOM root -->
-                </div>
+                    <div id="tiptap-canvas-root" class="w-full text-slate-800 font-sans min-h-[550px]">
+                        <!-- Tiptap initializes directly inside this clean DOM root -->
+                    </div>
 
-            </div>
-        </main>
+                </div>
+            </main>
+
+            <!-- SPRINT 4: DOCUMENT INSPECTOR RIGHT SIDEBAR (GUTENBERG / NOTION WORKFLOW) -->
+            <aside id="doc-inspector-sidebar" class="w-80 lg:w-[360px] border-l border-slate-200 bg-slate-50/80 flex flex-col justify-between overflow-y-auto shrink-0 transition-all duration-200 no-scrollbar font-sans"></aside>
+        </div>
 
         <footer class="h-9 border-t border-slate-200/80 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/90">
             <div class="flex items-center gap-5 overflow-x-auto no-scrollbar py-1">
@@ -238,7 +260,7 @@
                 <span>📋 <strong class="text-slate-700 font-bold">Ctrl + Shift + 7 / 8</strong> for list arrays</span>
                 <span>💾 <strong class="text-slate-700 font-bold">Ctrl + S</strong> to save draft</span>
             </div>
-            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Sprint 2 Media Library</span></div>
+            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Sprint 4 Production Workflow</span></div>
         </footer>
 
     </div>
@@ -246,6 +268,7 @@
     <!-- Studio Toast & Reusable Media Library Vault Engine -->
     <script src="../../assets/js/studio-components.js"></script>
     <script src="../../assets/js/media-library.js"></script>
+    <script src="../../assets/js/article-workflow.js"></script>
     <!-- Studio V2 Vanilla Tiptap Editorial Engine (ES Module) -->
     <script type="module" src="../../assets/js/tiptap-editor.js"></script>
 </body>
