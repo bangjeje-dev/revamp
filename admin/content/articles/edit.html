@@ -233,15 +233,20 @@
             <!-- DISTRACTION-FREE WRITING CANVAS (Optimal Reading Width: 768px) -->
             <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-20 bg-white no-scrollbar">
                 <div class="max-w-3xl mx-auto space-y-8 pb-32">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-200/60">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-slate-200/60">
                         <input type="text" 
                                id="doc-title-input" 
                                placeholder="Type a title..." 
                                value="Why Simplicity & Speed Always Win: Building Studio V2 with Tiptap" 
                                class="flex-1 text-4xl sm:text-[48px] font-extrabold text-slate-950 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-[1.15] bg-transparent border-0 p-0 selection:bg-[#C3FF00]/40">
-                        <button type="button" onclick="window.StudioEditor && window.StudioEditor.openBlockLibraryModal()" title="Open Universal Editorial Block Library (9 Basic & 11 Custom Blocks)" class="shrink-0 h-11 px-4 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white rounded-2xl font-mono text-xs font-black uppercase tracking-wider shadow-lg transition-all flex items-center gap-2 cursor-pointer">
-                            <i class="ph ph-squares-four text-lg font-bold"></i> <span>+ Block Library</span>
-                        </button>
+                        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap">
+                            <button type="button" onclick="window.StudioContentTemplates && window.StudioContentTemplates.openTemplateSelectorModal()" title="Select Content Type & Preload Architectural Blocks (10 Templates)" class="h-11 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300/80 rounded-2xl font-mono text-xs font-black uppercase tracking-wider shadow-sm transition-all flex items-center gap-2 cursor-pointer">
+                                <i class="ph ph-copy-simple text-base font-bold text-[#C3FF00] bg-slate-900 px-1 py-0.5 rounded"></i> <span>Templates (10)</span>
+                            </button>
+                            <button type="button" onclick="window.StudioEditor && window.StudioEditor.openBlockLibraryModal()" title="Open Universal Editorial Block Library (9 Basic & 11 Custom Blocks)" class="h-11 px-4 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white rounded-2xl font-mono text-xs font-black uppercase tracking-wider shadow-lg transition-all flex items-center gap-2 cursor-pointer">
+                                <i class="ph ph-squares-four text-lg font-bold"></i> <span>+ Block Library</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div id="tiptap-canvas-root" class="w-full text-slate-800 font-sans min-h-[550px]">
@@ -273,6 +278,8 @@
     <script src="../../assets/js/article-workflow.js"></script>
     <!-- Sprint 7 Reusable Universal Block System Engine -->
     <script src="../../assets/js/block-system-engine.js"></script>
+    <!-- Sprint 8 Universal Content Templates Engine -->
+    <script src="../../assets/js/content-templates-engine.js"></script>
     <!-- Studio V2 Vanilla Tiptap Editorial Engine (ES Module) -->
     <script type="module" src="../../assets/js/tiptap-editor.js"></script>
 </body>

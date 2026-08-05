@@ -139,10 +139,15 @@ class StudioArticleEditorV2 {
     }
 
     restoreOrInitDraft() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTemplate = urlParams.get('template');
         const saved = localStorage.getItem('bangjeje_studio_v2_draft');
         const titleInput = document.getElementById('doc-title-input');
         
-        if (saved) {
+        // Sprint 8: If author opened editor with an explicit Content Type template parameter (e.g. ?template=case-study)
+        if (urlTemplate && window.StudioContentTemplates) {
+            window.StudioContentTemplates.applyTemplate(urlTemplate, false);
+        } else if (saved) {
             try {
                 const data = JSON.parse(saved);
                 if (data.title && titleInput) titleInput.value = data.title;
@@ -156,22 +161,12 @@ class StudioArticleEditorV2 {
             }
         }
 
-        if (!this.editor.getText().trim()) {
-            this.editor.commands.setContent(`
-                <p>Writing in Studio V2 now includes complete integration with our single source of truth: the <strong>Studio V2 Reusable Media Library</strong>.</p>
-                <h2>1. Cloudflare R2 Media Vault Integration</h2>
-                <p>Instead of relying on disconnected, rudimentary operating system file pickers, selecting an Image block or typing <code>/image</code> instantaneously launches the centralized Media Vault.</p>
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1440&q=80" alt="COTIT Enterprise ERP Supply Chain Dashboard Preview on MacBook" title="Figure 1.1: COTIT Real-Time Factory Floor Telemetry & Edge Logistics Hub" />
-                <p>Within the Media Library modal, authors gain real-time controls over WebP compression, WCAG Alt text editing, editorial caption attributions, and dynamic searching across recently uploaded and used assets.</p>
-                <blockquote>"A design system is only as powerful as its centralized asset pipeline. Studio V2 brings cloud storage directly to the cursor."</blockquote>
-                <h3>How to Test Media Insertion:</h3>
-                <ul>
-                    <li><strong>Sticky Toolbar:</strong> Click the new 🖼️ Image icon directly between Heading and List buttons.</li>
-                    <li><strong>Slash Commands:</strong> Type <code>/image</code> or <code>/media</code> on any new blank line.</li>
-                    <li><strong>Drag & Drop Vault:</strong> Drop local files into the modal to compress and save directly into your local vault foundation.</li>
-                </ul>
-                <p>Continue drafting below...</p>
-            `, false);
+        if (!this.editor.getText().trim() && !urlTemplate) {
+            if (window.StudioContentTemplates) {
+                window.StudioContentTemplates.applyTemplate('tutorial', false);
+            } else {
+                this.editor.commands.setContent(`<p>Start writing in Studio V2 or press <code>/</code> for modular blocks...</p>`, false);
+            }
         }
 
         setTimeout(() => {
