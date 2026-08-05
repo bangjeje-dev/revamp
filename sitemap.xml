@@ -1,63 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://bangjeje.dev/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <loc>https://bangjeje.dev/index.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://bangjeje.dev/articles.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bangjeje.dev/articles/why-simplicity-and-speed-always-win-building-studio-v2-with-tiptap.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bangjeje.dev/articles/view.html?slug=the-cost-of-monolithic-architecture-in-2026</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bangjeje.dev/articles/view.html?slug=designing-high-frequency-executive-dashboards-with-glassmorphism</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://bangjeje.dev/pages/about.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/case-studies.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/contact.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/industries.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/insights.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/privacy.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://bangjeje.dev/pages/services.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/terms.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://bangjeje.dev/pages/case-studies/bazartani.html</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bangjeje.dev/pages/case-studies/cotit.html</loc>
-    <lastmod>2026-07-30</lastmod>
+    <loc>https://bangjeje.dev/pages/case-studies.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bangjeje.dev/pages/case-studies/kawan-pasang.html</loc>
-    <lastmod>2026-07-30</lastmod>
-    <priority>0.8</priority>
+    <loc>https://bangjeje.dev/pages/contact.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

@@ -169,7 +169,7 @@ const editorialTypography = {
         ];
     }
 
-    // --- STATIC CONTENT REGISTER (CALL FROM STUDIO V2 PUBLISHER) ---
+    // --- STATIC CONTENT REGISTER & SPRINT 6 SEO SYNC ---
     registerPublishedArticle(newArticle) {
         this.loadOrSeedIndex();
         
@@ -186,7 +186,8 @@ const editorialTypography = {
         }
 
         this.saveIndexToStorage();
-        console.log(`🚀 Successfully published "${newArticle.title}" to Public Static Index!`);
+        this.generateAndStoreFeeds();
+        console.log(`🚀 Successfully published "${newArticle.title}" to Public Static Index & SEO Feeds!`);
     }
 
     // --- CLIENT-SIDE SEARCH, FILTERS & PAGINATION ---
@@ -504,12 +505,30 @@ const editorialTypography = {
             return;
         }
 
-        // Set document SEO tags dynamically
-        document.title = `${article.title} | bangjeje.dev`;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.content = article.subtitle || '';
+        // Set document SEO tags & Google JSON-LD structured data dynamically (Sprint 6)
+        if (window.BangjejeSEO) {
+            window.BangjejeSEO.injectArticleSEO(article);
+        } else {
+            document.title = `${article.title} | bangjeje.dev`;
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.content = article.subtitle || '';
+        }
 
-        // Populate article header sanctuary
+        // Populate article header sanctuary & Breadcrumb Navigation (Sprint 6)
+        const breadcrumbEl = document.getElementById('detail-breadcrumb-nav');
+        if (breadcrumbEl) {
+            const primaryCat = (article.categories && article.categories[0]) || 'Insights';
+            breadcrumbEl.innerHTML = `
+                <a href="../index.html" class="hover:text-white transition-colors flex items-center gap-1.5 font-sans"><i class="ph ph-house text-[#C3FF00]"></i> Home</a>
+                <span class="text-white/20">/</span>
+                <a href="../articles.html" class="hover:text-white transition-colors">Knowledge Hub</a>
+                <span class="text-white/20">/</span>
+                <a href="../articles.html?category=${encodeURIComponent(primaryCat)}" class="hover:text-[#C3FF00] transition-colors font-bold text-[#C3FF00]">${primaryCat}</a>
+                <span class="text-white/20">/</span>
+                <span class="text-white font-semibold truncate max-w-[240px] sm:max-w-md font-sans">${article.title}</span>
+            `;
+        }
+
         document.getElementById('detail-title').textContent = article.title;
         document.getElementById('detail-subtitle').textContent = article.subtitle;
         document.getElementById('detail-categories').innerHTML = article.categories.map(c => `<a href="../articles.html?category=${encodeURIComponent(c)}" class="bg-surface border border-white/10 hover:border-[#C3FF00] px-3.5 py-1.5 rounded-full text-xs font-mono font-bold text-[#C3FF00] tracking-widest uppercase transition-colors inline-block">${c}</a>`).join('');
@@ -541,7 +560,7 @@ const editorialTypography = {
             tagsEl.innerHTML = article.tags.map(t => `<a href="../articles.html?tag=${encodeURIComponent(t)}" class="bg-surface/80 border border-white/10 hover:border-[#C3FF00]/60 text-white hover:text-[#C3FF00] font-mono text-xs px-4 py-1.5 rounded-xl transition-all block font-bold">#${t}</a>`).join('');
         }
 
-        // Automatically Generate Sticky Table of Contents (TOC) from H2 and H3 tags
+        // Automatically Generate Sticky Table of Contents (TOC) with Valid SEO Keyword Slugs (Sprint 6)
         this.generateTableOfContents(contentEl);
 
         // Render Related Articles Cards
@@ -561,12 +580,20 @@ const editorialTypography = {
 
         let tocHTML = '';
         headings.forEach((heading, idx) => {
-            const id = `heading-toc-${idx}`;
-            heading.id = id;
+            // Sprint 6: Ensure generated headings create clean, SEO-friendly keyword anchors rather than numeric indexes
+            let anchorId = heading.textContent
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            if (!anchorId) anchorId = `section-${idx + 1}`;
+            
+            heading.id = anchorId;
             const isH3 = heading.tagName.toLowerCase() === 'h3';
             tocHTML += `
                 <li>
-                    <a href="#${id}" class="block py-1.5 px-3 rounded-lg text-xs font-sans transition-all text-textSecondary hover:text-[#C3FF00] hover:bg-white/5 truncate ${isH3 ? 'pl-6 font-normal border-l border-white/10 ml-2' : 'font-semibold font-mono border-l-2 border-transparent hover:border-[#C3FF00]'}">
+                    <a href="#${anchorId}" class="block py-1.5 px-3 rounded-lg text-xs font-sans transition-all text-textSecondary hover:text-[#C3FF00] hover:bg-white/5 truncate ${isH3 ? 'pl-6 font-normal border-l border-white/10 ml-2' : 'font-semibold font-mono border-l-2 border-transparent hover:border-[#C3FF00]'}">
                         ${heading.textContent}
                     </a>
                 </li>
@@ -620,6 +647,70 @@ const editorialTypography = {
                 </a>
             `;
         }).join('');
+    }
+
+    // --- SPRINT 6: AUTOMATED SITEMAP & RSS FEED GENERATION ENGINE ---
+    generateAndStoreFeeds() {
+        try {
+            const sitemapXml = this.generateSitemapXML();
+            const rssXml = this.generateRSSFeed();
+            localStorage.setItem('bangjeje_sitemap_xml', sitemapXml);
+            localStorage.setItem('bangjeje_rss_xml', rssXml);
+            console.log('📡 Sprint 6: Automatically refreshed sitemap.xml and rss.xml manifests for Cloudflare Edge static indexing.');
+        } catch (e) {
+            console.error('Failed to generate SEO XML manifests:', e);
+        }
+    }
+
+    generateSitemapXML() {
+        const domain = 'https://bangjeje.dev';
+        const now = new Date().toISOString().split('T')[0];
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+        
+        // Static routes
+        const pages = ['/', '/index.html', '/articles.html', '/pages/about.html', '/pages/services.html', '/pages/case-studies.html', '/pages/industries.html', '/pages/contact.html'];
+        pages.forEach(p => {
+            xml += `  <url>\n    <loc>${domain}${p}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>${p === '/articles.html' ? 'daily' : 'weekly'}</changefreq>\n    <priority>${p === '/' || p === '/index.html' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
+        });
+
+        // Published Article slug routes
+        this.articles.forEach(art => {
+            const modDate = (art.updatedAt || art.publishedAt || now).split('T')[0];
+            xml += `  <url>\n    <loc>${domain}/articles/${art.slug}.html</loc>\n    <lastmod>${modDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+        });
+
+        xml += `</urlset>`;
+        return xml;
+    }
+
+    generateRSSFeed() {
+        const domain = 'https://bangjeje.dev';
+        const now = new Date().toUTCString();
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n`;
+        xml += `    <title>bangjeje.dev &bull; Executive Systems Intelligence &amp; Cloud Architecture</title>\n`;
+        xml += `    <link>${domain}/articles.html</link>\n`;
+        xml += `    <description>Dissecting modern enterprise software architecture, composable edge computing, and high-frequency digital product design.</description>\n`;
+        xml += `    <language>en-us</language>\n`;
+        xml += `    <lastBuildDate>${now}</lastBuildDate>\n`;
+        xml += `    <atom:link href="${domain}/rss.xml" rel="self" type="application/rss+xml"/>\n\n`;
+
+        this.articles.slice(0, 20).forEach(art => {
+            const artDate = art.publishedAt ? new Date(art.publishedAt).toUTCString() : now;
+            const link = `${domain}/articles/${art.slug}.html`;
+            const coverUrl = art.cover?.url || 'https://cdn.bangjeje.dev/vault/COTIT_Enterprise_Hero_V2.webp';
+            xml += `    <item>\n`;
+            xml += `      <title><![CDATA[${art.title}]]></title>\n`;
+            xml += `      <link>${link}</link>\n`;
+            xml += `      <guid isPermaLink="true">${link}</guid>\n`;
+            xml += `      <pubDate>${artDate}</pubDate>\n`;
+            xml += `      <author><![CDATA[bangjeje@bangjeje.dev (${art.author?.name || 'bangjeje'})]]></author>\n`;
+            xml += `      <description><![CDATA[${art.subtitle || 'Executive architecture study.'}]]></description>\n`;
+            xml += `      <enclosure url="${coverUrl}" length="102400" type="image/webp"/>\n`;
+            xml += `    </item>\n`;
+        });
+
+        xml += `  </channel>\n</rss>`;
+        return xml;
     }
 
     // --- SHARE BUTTONS INTERACTION ---

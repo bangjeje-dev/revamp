@@ -681,9 +681,15 @@ class StudioArticleWorkflowEngine {
                 pubIndex.unshift(articlePayload);
             }
             localStorage.setItem('bangjeje_public_articles_index', JSON.stringify(pubIndex));
-            console.log('⚡ Synchronized published article payload with Cloudflare Pages Static Registry:', articlePayload.slug);
+            
+            // Sprint 6: Automatically trigger SEO sitemap.xml and rss.xml feed rebuilds on edge deployment
+            if (window.BangjejePublicArticles) {
+                window.BangjejePublicArticles.generateAndStoreFeeds();
+            }
+
+            console.log('⚡ Synchronized published article payload with Cloudflare Pages Static Registry & SEO Feeds:', articlePayload.slug);
         } catch (syncErr) {
-            console.error('Error synchronizing with Public Content Index:', syncErr);
+            console.error('Error synchronizing with Public Content Index & SEO Feeds:', syncErr);
         }
 
         this.saveMetadata(true, '🚀 Published article document directly to Cloudflare Edge CDN & Public Hub!');
