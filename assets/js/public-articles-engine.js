@@ -550,8 +550,15 @@ const editorialTypography = {
 
         // Tiptap Content Output Sanctuary
         const contentEl = document.getElementById('detail-content-body');
-        if (contentEl) {
             contentEl.innerHTML = article.content;
+            
+            // Sprint 7 Universal Block System: Clean editorial handlebars, drag triggers, and force expanded read state in public view
+            contentEl.querySelectorAll('.block-toolbar, .block-collapsed-summary, button[onclick*="triggerMediaReplace"]').forEach(el => el.remove());
+            contentEl.querySelectorAll('.studio-block, .block-content-body').forEach(el => {
+                el.classList.remove('is-collapsed', 'hidden');
+                el.removeAttribute('draggable');
+            });
+            contentEl.querySelectorAll('[contenteditable="true"], [contenteditable="false"]').forEach(el => el.removeAttribute('contenteditable'));
         }
 
         // Render Footer Tags

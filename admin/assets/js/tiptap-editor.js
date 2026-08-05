@@ -19,21 +19,32 @@ class StudioArticleEditorV2 {
         this.lastSaveTime = null;
         this.tickerInterval = null;
 
-        // Categorized & searchable Slash Command block library with Sprint 2 Media & Vault integration
+        // Sprint 7 Universal Editorial Block System Catalog (9 Basic + 11 bangjeje.dev custom blocks)
         this.slashCatalog = [
-            { category: 'Typography', title: 'Heading 1', keywords: 'h1 heading one large title section headline', desc: 'Large document headline or section break', icon: 'ph-text-h-one', action: () => this.editor.chain().focus().toggleHeading({ level: 1 }).run() },
-            { category: 'Typography', title: 'Heading 2', keywords: 'h2 heading two medium chapter section', desc: 'Medium chapter heading for structured breaks', icon: 'ph-text-h-two', action: () => this.editor.chain().focus().toggleHeading({ level: 2 }).run() },
-            { category: 'Typography', title: 'Heading 3', keywords: 'h3 heading three small subsection header', desc: 'Small subsection header', icon: 'ph-text-h-three', action: () => this.editor.chain().focus().toggleHeading({ level: 3 }).run() },
-            
-            { category: 'Media & Vault', title: 'Image Asset', keywords: 'image media photo picture asset r2 cloudflare vault webp', desc: 'Insert high-res WebP asset from R2 Vault', icon: 'ph-image', action: () => this.openMediaLibraryVault() },
-            { category: 'Media & Vault', title: 'Media Library Vault', keywords: 'vault library r2 assets existing pictures gallery storage', desc: 'Browse Studio V2 Media Library attachments', icon: 'ph-images-square', action: () => this.openMediaLibraryVault() },
-            
-            { category: 'Lists & Structure', title: 'Bullet List', keywords: 'ul bullet list points unordered item dots', desc: 'Create a simple bulleted item list', icon: 'ph-list-bullets', action: () => this.editor.chain().focus().toggleBulletList().run() },
-            { category: 'Lists & Structure', title: 'Numbered List', keywords: 'ol number ordered list sequential numbers 1 2', desc: 'Create a numbered sequential array', icon: 'ph-list-numbers', action: () => this.editor.chain().focus().toggleOrderedList().run() },
-            { category: 'Lists & Structure', title: 'Divider Rule', keywords: 'hr divider line separator horizontal break', desc: 'Horizontal separation rule between topics', icon: 'ph-minus', action: () => this.editor.chain().focus().setHorizontalRule().run() },
-            
-            { category: 'Callouts & Syntax', title: 'Quote Box', keywords: 'quote blockquote citation executive emphasis', desc: 'Capture an executive citation or emphasis quote', icon: 'ph-quotes', action: () => this.editor.chain().focus().toggleBlockquote().run() },
-            { category: 'Callouts & Syntax', title: 'Code Fence', keywords: 'code fence syntax block developer javascript typescript pre', desc: 'Syntax highlighting code block for developers', icon: 'ph-code', action: () => this.editor.chain().focus().toggleCodeBlock().run() }
+            // --- 9 BASIC BLOCKS ---
+            { category: 'Basic Blocks', title: 'Paragraph', keywords: 'paragraph text body plain writing normal', desc: 'Standard clean typography reading paragraph', icon: 'ph-text-aa', action: () => this.insertStudioBlock('paragraph') },
+            { category: 'Basic Blocks', title: 'Heading 2', keywords: 'heading h2 chapter subtitle headline h1', desc: 'Major document chapter header', icon: 'ph-text-h-two', action: () => this.insertStudioBlock('heading-2') },
+            { category: 'Basic Blocks', title: 'Heading 3', keywords: 'heading h3 subsection header small title', desc: 'Subsection technical break', icon: 'ph-text-h-three', action: () => this.insertStudioBlock('heading-3') },
+            { category: 'Basic Blocks', title: 'Quote Block', keywords: 'quote blockquote executive statement citation', desc: 'High-contrast executive citation box', icon: 'ph-quotes', action: () => this.insertStudioBlock('quote') },
+            { category: 'Basic Blocks', title: 'Image Vault Asset', keywords: 'image photo asset r2 picture upload media', desc: 'Insert single Cloudflare R2 media vault image', icon: 'ph-image', action: () => this.insertStudioBlock('image') },
+            { category: 'Basic Blocks', title: 'Gallery Vault Grid', keywords: 'gallery pictures collage grid media multi r2', desc: 'Multi-image responsive media gallery', icon: 'ph-images', action: () => this.insertStudioBlock('gallery') },
+            { category: 'Basic Blocks', title: 'Code Syntax Fence', keywords: 'code syntax script javascript ts worker pre dev', desc: 'Dark syntax-highlighted code block', icon: 'ph-code', action: () => this.insertStudioBlock('code') },
+            { category: 'Basic Blocks', title: 'Divider Rule', keywords: 'divider rule line hr sep separator horizontal', desc: 'Architectural visual separator rule', icon: 'ph-minus', action: () => this.insertStudioBlock('divider') },
+            { category: 'Basic Blocks', title: 'Table Matrix', keywords: 'table matrix comparative columns grid cells', desc: 'Responsive comparative architecture matrix', icon: 'ph-table', action: () => this.insertStudioBlock('table') },
+            { category: 'Basic Blocks', title: 'Advisory Callout', keywords: 'callout alert notice warning tip note info', desc: 'Architectural advisory or pro-tip notice', icon: 'ph-lightbulb', action: () => this.insertStudioBlock('callout') },
+
+            // --- 11 BANGJEJE.DEV CUSTOM BLOCKS ---
+            { category: 'bangjeje.dev Blocks', title: 'Technology Stack', keywords: 'tech stack matrix architecture tokens r2 tiptap', desc: 'Interactive architectural stack badge cloud', icon: 'ph-stack', action: () => this.insertStudioBlock('tech-stack') },
+            { category: 'bangjeje.dev Blocks', title: 'Download CTA Banner', keywords: 'download cta zip package asset blueprint release', desc: 'High-impact resource download card', icon: 'ph-download-simple', action: () => this.insertStudioBlock('download-cta') },
+            { category: 'bangjeje.dev Blocks', title: 'Related Articles', keywords: 'related articles stories reading recommendations', desc: 'Dynamic internal knowledge hub story showcase', icon: 'ph-books', action: () => this.insertStudioBlock('related-articles') },
+            { category: 'bangjeje.dev Blocks', title: 'Related Vault Assets', keywords: 'related assets vault figma ui kit design tokens', desc: 'Digital vault asset promotion card', icon: 'ph-vault', action: () => this.insertStudioBlock('related-assets') },
+            { category: 'bangjeje.dev Blocks', title: 'Author Bio Credential', keywords: 'author bio founder bangjeje credentials profile', desc: 'Executive author profile verified badge', icon: 'ph-user-focus', action: () => this.insertStudioBlock('author-bio') },
+            { category: 'bangjeje.dev Blocks', title: 'Newsletter Capture', keywords: 'newsletter email subscribe capture update form', desc: 'Executive systems briefing email capture box', icon: 'ph-envelope-open', action: () => this.insertStudioBlock('newsletter') },
+            { category: 'bangjeje.dev Blocks', title: 'GitHub Repository Card', keywords: 'github repository repo git opensource code stars', desc: 'Live repository activity card with stars', icon: 'ph-github-logo', action: () => this.insertStudioBlock('github-repo') },
+            { category: 'bangjeje.dev Blocks', title: 'Live Demo Launcher', keywords: 'live demo application sandbox external link interactive', desc: 'Interactive external application launcher card', icon: 'ph-play-circle', action: () => this.insertStudioBlock('live-demo') },
+            { category: 'bangjeje.dev Blocks', title: 'Case Study Metrics', keywords: 'case study metrics kpi telemetry stats speed ttfb gains', desc: '3-col high-frequency KPI performance grid', icon: 'ph-chart-line-up', action: () => this.insertStudioBlock('case-study-metrics') },
+            { category: 'bangjeje.dev Blocks', title: 'Before / After Columns', keywords: 'before after comparative monolith vs composable transformation', desc: 'Comparative architecture transformation columns', icon: 'ph-columns', action: () => this.insertStudioBlock('before-after') },
+            { category: 'bangjeje.dev Blocks', title: 'Executive Testimonial', keywords: 'testimonial review client quote endorsement star cto', desc: 'Client endorsement and rating showcase card', icon: 'ph-star-fill', action: () => this.insertStudioBlock('testimonial') }
         ];
 
         this.filteredItems = [...this.slashCatalog];
@@ -503,6 +514,89 @@ class StudioArticleEditorV2 {
         const meter = document.getElementById('reading-word-meter');
         if (meter) {
             meter.textContent = `${words} Words | ${Math.max(1, Math.ceil(words / 200))}m Read`;
+        }
+    }
+
+    // --- SPRINT 7 UNIVERSAL BLOCK SYSTEM HELPER METHODS ---
+    insertStudioBlock(blockType) {
+        if (!window.StudioBlockEngine) {
+            console.warn('StudioBlockEngine is initializing...');
+            return;
+        }
+        const htmlPayload = window.StudioBlockEngine.generateBlockHTML(blockType);
+        if (this.editor) {
+            this.editor.chain().focus().insertContent(htmlPayload).run();
+        }
+        StudioToast?.show(`✨ Inserted Studio V2 Block: "${blockType.toUpperCase()}"`, 'success', 'Editorial Block System');
+        this.handleContentUpdate();
+    }
+
+    openBlockLibraryModal() {
+        let modal = document.getElementById('studio-block-library-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'studio-block-library-modal';
+            modal.className = 'fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6';
+            
+            // Build tabbed block selection cards
+            const buildBlockCards = (category) => {
+                return this.slashCatalog
+                    .filter(item => item.category === category)
+                    .map((item, idx) => `
+                        <div onclick="StudioEditor.insertStudioBlock('${item.action.toString().match(/insertStudioBlock\(['"]([^'"]+)['"]\)/) ? item.action.toString().match(/insertStudioBlock\(['"]([^'"]+)['"]\)/)[1] : 'paragraph'}'); document.getElementById('studio-block-library-modal').remove();" class="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#C3FF00]/60 transition-all cursor-pointer group shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-[#C3FF00] flex items-center justify-center text-xl mb-3 shadow-md group-hover:scale-110 transition-transform">
+                                    <i class="ph ${item.icon}"></i>
+                                </div>
+                                <h5 class="text-sm font-black text-white m-0 tracking-tight">${item.title}</h5>
+                                <p class="text-[11px] text-slate-400 m-0 pt-1 leading-normal font-normal">${item.desc}</p>
+                            </div>
+                            <span class="mt-3 text-[10px] font-mono text-[#C3FF00] uppercase tracking-widest font-extrabold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                                + Insert Block <i class="ph ph-arrow-right"></i>
+                            </span>
+                        </div>
+                    `).join('');
+            };
+
+            modal.innerHTML = `
+                <div class="bg-slate-900 border border-white/10 rounded-3xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl text-white">
+                    <div class="px-6 py-5 bg-slate-950 border-b border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <i class="ph ph-squares-four text-[#C3FF00] text-2xl bg-white/5 p-2 rounded-xl"></i>
+                            <div>
+                                <h3 class="font-black text-base text-white m-0 tracking-tight font-sans">Universal Editorial Block Library</h3>
+                                <span class="text-xs font-mono text-slate-400 block">Sprint 7 Modular Architecture Foundation &bull; 20 Production Blocks</span>
+                            </div>
+                        </div>
+                        <button onclick="document.getElementById('studio-block-library-modal').remove();" class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors flex items-center justify-center text-lg"><i class="ph ph-x-bold"></i></button>
+                    </div>
+                    <div class="p-6 overflow-y-auto flex-1 space-y-8 no-scrollbar">
+                        <!-- Basic Blocks Section -->
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-mono font-extrabold uppercase text-[#C3FF00] mb-4 pb-2 border-b border-white/10">
+                                <i class="ph ph-cube"></i> Basic Editorial Blocks (9)
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                                ${buildBlockCards('Basic Blocks')}
+                            </div>
+                        </div>
+                        <!-- bangjeje.dev Custom Blocks Section -->
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-mono font-extrabold uppercase text-[#C3FF00] mb-4 pb-2 border-b border-white/10">
+                                <i class="ph ph-lightning"></i> Exclusive bangjeje.dev Architecture Blocks (11)
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                                ${buildBlockCards('bangjeje.dev Blocks')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-3.5 bg-slate-950 border-t border-white/10 text-xs font-mono text-slate-400 flex items-center justify-between">
+                        <span>💡 Tip: Type <strong class="text-[#C3FF00]">/</strong> directly inside the writing canvas for instant keyboard block insertion!</span>
+                        <span>Drag, duplicate &amp; collapse supported</span>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
         }
     }
 }
