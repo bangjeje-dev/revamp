@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth antialiased selection:bg-[#C3FF00] selection:text-[#050505]">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5KVFF84ZZC');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Architectural Article | bangjeje.dev</title>
+    <meta name="description" content="Read executive software architecture insights from bangjeje.dev Studio V2 and Cloudflare Edge deployments.">
+
+    <!-- Favicons -->
+    <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        mono: ['Courier New', 'monospace']
+                    },
+                    colors: {
+                        dark: '#050505',
+                        surface: '#0D1117',
+                        card: '#111827',
+                        accent: '#C3FF00',
+                        accentHover: '#D7FF4D',
+                        textPrimary: '#F8FAFC',
+                        textSecondary: '#94A3B8'
+                    },
+                    maxWidth: { '8xl': '1440px' }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body { background-color: #050505; color: #F8FAFC; font-family: 'Outfit', sans-serif; }
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.5);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.4);
+            backdrop-filter: blur(16px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-primary {
+            background: #C3FF00;
+            color: #050505;
+            box-shadow: 0 0 25px rgba(195, 255, 0, 0.25);
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            font-weight: 700;
+        }
+        .btn-primary:hover {
+            background: #D7FF4D;
+            box-shadow: 0 0 35px rgba(195, 255, 0, 0.45);
+            transform: translateY(-2px);
+        }
+
+        /* PREMIUM EDITORIAL ARTICLE TYPOGRAPHY SYSTEM */
+        .editorial-content p {
+            font-size: 1.25rem;
+            line-height: 1.85;
+            color: #E2E8F0;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+        @media (max-width: 640px) {
+            .editorial-content p { font-size: 1.125rem; line-height: 1.75; }
+        }
+        .editorial-content h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: -0.03em;
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.25;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .editorial-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #F8FAFC;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .editorial-content blockquote {
+            padding: 1.75rem 2rem;
+            margin: 2.5rem 0;
+            border-left: 4px solid #C3FF00;
+            background: rgba(195, 255, 0, 0.05);
+            border-radius: 0 1.25rem 1.25rem 0;
+            font-size: 1.35rem;
+            font-weight: 400;
+            font-style: italic;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+        .editorial-content ul, .editorial-content ol {
+            padding-left: 1.5rem;
+            margin-bottom: 2.25rem;
+            space-y: 1rem;
+        }
+        .editorial-content ul li, .editorial-content ol li {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: #CBD5E1;
+            margin-bottom: 0.85rem;
+            list-style-type: square;
+            color: #C3FF00;
+        }
+        .editorial-content ul li span, .editorial-content ol li span { color: #E2E8F0; }
+        .editorial-content pre {
+            background: #0D1117;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 2.5rem 0;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+        }
+        .editorial-content code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #A3E635;
+        }
+        .editorial-content p code, .editorial-content li code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.45rem;
+            border-radius: 0.4rem;
+            font-size: 0.88em;
+            color: #F87171;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-dark text-textPrimary overflow-x-hidden">
+
+    <!-- GLOBAL NAVIGATION SANCTUARY -->
+    <nav class="fixed w-full z-50 bg-dark/60 backdrop-blur-xl border-b border-white/10 transition-all duration-500" id="navbar">
+        <div class="max-w-8xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-4 group">
+                <img width="34" height="34" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 md:w-9 md:h-9 object-contain group-hover:scale-110 transition-transform" />
+                <span class="text-white text-xl md:text-2xl font-[900] tracking-tight uppercase">BANGJEJE.DEV</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 bg-surface/80 px-7 py-2 rounded-full border border-white/10 shadow-lg">
+                <a href="../pages/services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
+                <a href="../pages/industries.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Industries</a>
+                <a href="../pages/case-studies.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                <a href="../articles.html" class="text-sm font-black text-accent hover:text-white transition-colors flex items-center gap-1.5">
+                    <i class="ph ph-lightning font-bold text-accent"></i> <span>Articles</span>
+                </a>
+                <a href="../pages/about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-3">
+                <a href="../articles.html" class="h-10 px-4 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white font-mono font-bold text-xs flex items-center gap-1.5 transition-all">
+                    <i class="ph ph-arrow-left text-accent font-bold"></i> <span>Knowledge Hub</span>
+                </a>
+                <a href="../pages/contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
+                    <span>Initiate Project</span> <i class="ph ph-arrow-up-right text-base font-black"></i>
+                </a>
+            </div>
+
+            <button aria-label="Toggle Menu" class="md:hidden text-textSecondary p-2 hover:text-white transition-colors text-2xl">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main id="article-main-container" class="min-h-screen relative pt-28 pb-32">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-[#C3FF00]/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
+
+        <!-- 1. ARTICLE HERO HEADER -->
+        <header class="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 pt-10 sm:pt-16 pb-12">
+            <!-- Categories -->
+            <div id="detail-categories" class="flex flex-wrap gap-2 mb-6">
+                <span class="inline-block bg-white/5 px-3 py-1 rounded-full text-xs font-mono font-bold text-[#C3FF00] tracking-widest uppercase">Loading...</span>
+            </div>
+
+            <!-- H1 Title & Subtitle -->
+            <h1 id="detail-title" class="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.12] mb-6 font-sans">
+                Loading Architectural Article...
+            </h1>
+            <p id="detail-subtitle" class="text-lg sm:text-2xl text-textSecondary font-light leading-relaxed mb-10">
+                Please wait while Cloudflare Edge static rendering prepares the document...
+            </p>
+
+            <!-- Author Byline & Metrics Bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-6 border-y border-white/10">
+                <div class="flex items-center gap-4">
+                    <img id="detail-author-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#C3FF00]/40 shadow-md">
+                    <div>
+                        <div id="detail-author-name" class="text-white font-bold text-base">bangjeje</div>
+                        <div id="detail-author-title" class="text-textSecondary font-mono text-xs">Principal Architect &amp; Founder</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-xs font-mono font-bold text-textSecondary tracking-widest uppercase">
+                    <span id="detail-date" class="text-white">Oct 20, 2026</span>
+                    <span class="w-1.5 h-1.5 bg-[#C3FF00] rounded-full"></span>
+                    <span id="detail-reading-time" class="text-[#C3FF00]">6 Min Read</span>
+                    <span class="w-1.5 h-1.5 bg-white/20 rounded-full hidden sm:inline-block"></span>
+                    <span class="hidden sm:inline-block text-slate-400">Edge verified ⚡</span>
+                </div>
+            </div>
+
+            <!-- Share Buttons Toolbar -->
+            <div class="flex items-center justify-between pt-6">
+                <span class="text-xs font-mono text-textSecondary uppercase tracking-widest">Share Executive Research:</span>
+                <div class="flex items-center gap-2">
+                    <button onclick="BangjejePublicArticles.shareArticle('copy')" title="Copy Permanent Link" class="h-9 px-3.5 rounded-xl bg-surface hover:bg-white/10 text-white text-xs font-mono font-bold flex items-center gap-1.5 border border-white/10 transition-all cursor-pointer shadow-2xs">
+                        <i class="ph ph-link text-sm text-[#C3FF00]"></i> <span>Copy Permalink</span>
+                    </button>
+                    <button onclick="BangjejePublicArticles.shareArticle('twitter')" title="Share on Twitter / X" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#C3FF00] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
+                        <i class="ph ph-x-logo font-bold"></i>
+                    </button>
+                    <button onclick="BangjejePublicArticles.shareArticle('linkedin')" title="Share on LinkedIn" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#C3FF00] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
+                        <i class="ph ph-linkedin-logo font-bold"></i>
+                    </button>
+                    <button onclick="BangjejePublicArticles.shareArticle('threads')" title="Share on Threads" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#C3FF00] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
+                        <i class="ph ph-threads font-bold"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. FEATURED COVER PHOTOGRAPHY -->
+        <section class="relative z-10 max-w-6xl mx-auto px-6 sm:px-12 mb-16">
+            <div class="rounded-3xl overflow-hidden border border-white/15 bg-dark shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] max-h-[560px]">
+                <img id="detail-cover-image" src="" alt="Featured Cover Asset" class="w-full h-auto object-cover object-center max-h-[560px]">
+            </div>
+        </section>
+
+        <!-- 3. DUAL-COLUMN SANCTUARY: ARTICLE BODY & STICKY TABLE OF CONTENTS -->
+        <section class="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 mb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                
+                <!-- LEFT COLUMN: TIPTAP EDITORIAL CONTENT (SPAN 8) -->
+                <article class="lg:col-span-8 editorial-content">
+                    <div id="detail-content-body">
+                        <!-- Hydrated by public-articles-engine.js -->
+                    </div>
+
+                    <!-- Article Footer & Tags -->
+                    <div class="mt-16 pt-10 border-t border-white/15">
+                        <h5 class="text-xs font-mono font-bold text-textSecondary uppercase tracking-widest mb-4">Document Tag Categorization:</h5>
+                        <div id="detail-tags" class="flex flex-wrap gap-2.5"></div>
+                    </div>
+                </article>
+
+                <!-- RIGHT COLUMN: STICKY TABLE OF CONTENTS SIDEBAR (SPAN 4) -->
+                <aside id="sticky-toc-sidebar" class="lg:col-span-4 space-y-8">
+                    <!-- Table of Contents Panel -->
+                    <div class="glass-panel p-7 sticky top-28 border border-white/10 space-y-5">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                            <h4 class="text-sm font-mono font-black text-white uppercase tracking-widest flex items-center gap-2">
+                                <i class="ph ph-list-numbers text-[#C3FF00] text-lg"></i> <span>Table of Contents</span>
+                            </h4>
+                            <span class="text-[10px] font-mono font-black uppercase bg-[#C3FF00] text-dark px-2 py-0.5 rounded-md">Live Sync</span>
+                        </div>
+                        <ul id="sticky-toc-list" class="space-y-2 text-xs">
+                            <!-- Populated with H2 and H3 anchors by public-articles-engine.js -->
+                        </ul>
+
+                        <!-- Executive Consultation Callout -->
+                        <div class="pt-6 border-t border-white/10 space-y-3.5">
+                            <div class="flex items-center gap-2 text-white font-bold text-xs">
+                                <i class="ph ph-chat-circle-dots text-[#C3FF00] text-base"></i>
+                                <span>Require custom cloud architecture?</span>
+                            </div>
+                            <p class="text-xs text-textSecondary leading-relaxed font-light">
+                                Our systems architects design high-frequency applications for ambitious enterprises globally.
+                            </p>
+                            <a href="../pages/contact.html" class="w-full h-10 rounded-xl bg-white/10 hover:bg-[#C3FF00] hover:text-dark text-white text-xs font-mono font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm block text-center">
+                                <span>Initiate Discovery</span> <i class="ph ph-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </section>
+
+        <!-- 4. RELATED ARTICLES RECOMMENDATIONS SECTION -->
+        <section id="related-articles-section" class="relative z-10 max-w-8xl mx-auto px-6 sm:px-12 border-t border-white/10 pt-20 mb-20">
+            <div class="flex items-center justify-between mb-10">
+                <div>
+                    <span class="text-[#C3FF00] font-mono text-xs font-black uppercase tracking-widest block mb-1">Continued Research</span>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight font-sans">Related Architectural Intelligence</h3>
+                </div>
+                <a href="../articles.html" class="text-xs font-mono text-white hover:text-[#C3FF00] font-extrabold flex items-center gap-1 uppercase tracking-widest transition-colors">
+                    <span>View Knowledge Hub</span> <i class="ph ph-arrow-right font-bold"></i>
+                </a>
+            </div>
+            <div id="related-articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Hydrated by public-articles-engine.js -->
+            </div>
+        </section>
+
+        <!-- 5. EXECUTIVE NEWSLETTER CTA CARD -->
+        <section class="relative z-10 px-6 sm:px-12 max-w-6xl mx-auto">
+            <div class="glass-panel p-8 sm:p-14 relative overflow-hidden border border-white/15 rounded-[2rem]">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#C3FF00]/10 blur-[100px] rounded-full pointer-events-none"></div>
+                <div class="max-w-2xl relative z-10 space-y-5">
+                    <span class="px-3.5 py-1.5 rounded-full bg-[#C3FF00]/15 border border-[#C3FF00]/30 text-[#C3FF00] text-xs font-mono font-black uppercase tracking-widest inline-block">
+                        Executive Briefing
+                    </span>
+                    <h3 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-[1.15] font-sans">
+                        Receive systems engineering briefs directly to your inbox.
+                    </h3>
+                    <form onsubmit="event.preventDefault(); alert('🚀 Thank you for subscribing to bangjeje.dev Executive Briefing!'); this.reset();" class="flex flex-col sm:flex-row gap-3.5 pt-2">
+                        <input type="email" required placeholder="Enter your business email..." class="flex-1 bg-dark/80 border border-white/20 rounded-2xl px-5 py-3 text-white placeholder:text-textSecondary/60 focus:outline-none focus:border-[#C3FF00] text-sm sm:text-base">
+                        <button type="submit" class="btn-primary px-7 py-3 text-sm font-bold tracking-wider uppercase shrink-0 cursor-pointer flex items-center justify-center gap-2">
+                            <span>Subscribe</span> <i class="ph ph-paper-plane-tilt font-bold"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BRAND FOOTER -->
+    <footer class="bg-dark border-t border-white/10 pt-20 pb-16 px-6 sm:px-12 relative z-10 mt-20">
+        <div class="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="md:col-span-2 space-y-6">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <img width="28" height="28" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="Icon" class="w-7 h-7">
+                    <span class="text-white text-xl font-black uppercase tracking-tight">BANGJEJE.DEV</span>
+                </a>
+                <p class="text-textSecondary font-light text-base max-w-md leading-relaxed">
+                    Engineering intelligence and digital systems architecture for ambitious global brands. Engineered with Cloudflare Edge & Studio V2.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-mono text-xs font-black uppercase tracking-widest mb-5">Architecture Hub</h4>
+                <ul class="space-y-3.5 text-sm text-textSecondary font-medium">
+                    <li><a href="../articles.html?category=Engineering" class="hover:text-[#C3FF00] transition-colors">Engineering &amp; Performance</a></li>
+                    <li><a href="../articles.html?category=Cloud+Architecture" class="hover:text-[#C3FF00] transition-colors">Cloud Architecture</a></li>
+                    <li><a href="../articles.html?category=Editorial+OS" class="hover:text-[#C3FF00] transition-colors">Studio V2 Editorial OS</a></li>
+                    <li><a href="../articles.html?category=Design+Systems" class="hover:text-[#C3FF00] transition-colors">Design Systems &amp; UI/UX</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-mono text-xs font-black uppercase tracking-widest mb-5">Corporate Operations</h4>
+                <ul class="space-y-3.5 text-sm text-textSecondary font-medium">
+                    <li><a href="../pages/about.html" class="hover:text-white transition-colors">Executive Team</a></li>
+                    <li><a href="../pages/case-studies.html" class="hover:text-white transition-colors">Client Case Studies</a></li>
+                    <li><a href="../pages/contact.html" class="hover:text-[#C3FF00] transition-colors font-bold text-white">Initiate Project &rarr;</a></li>
+                    <li><a href="../admin/content/articles/index.html" class="text-slate-500 hover:text-slate-400 font-mono text-xs block pt-2">🔒 Studio V2 CMS Login</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-8xl mx-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-textSecondary font-mono">
+            <span>&copy; 2026 bangjeje.dev. All rights reserved. Powered by Studio V2 Editorial OS on Cloudflare Pages.</span>
+            <div class="flex items-center gap-6 mt-4 sm:mt-0">
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-[#C3FF00] transition-colors font-bold">Status: All Edge Nodes Operational 🟢</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sprint 5 Public Articles Engine -->
+    <script src="../assets/js/public-articles-engine.js"></script>
+</body>
+</html>

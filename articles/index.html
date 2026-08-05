@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Executive Articles & Systems Intelligence | bangjeje.dev</title>
     <meta name="description" content="Dissecting modern enterprise application architecture, Cloudflare edge computing, and composable editorial operating systems.">
-    <link rel="canonical" href="https://bangjeje.dev/articles.html">
+    <link rel="canonical" href="https://bangjeje.dev/articles">
 
     <!-- Favicons -->
     <link rel="icon" href="https://cdn.bangjeje.dev/bangjejedev.svg" type="image/svg+xml">
@@ -96,26 +96,26 @@
     <!-- GLOBAL NAVIGATION SANCTUARY -->
     <nav class="fixed w-full z-50 bg-dark/60 backdrop-blur-xl border-b border-white/10 transition-all duration-500" id="navbar">
         <div class="max-w-8xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-4 group">
+            <a href="../index.html" class="flex items-center gap-4 group">
                 <img width="34" height="34" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="BANGJEJE.DEV Icon" class="w-8 h-8 md:w-9 md:h-9 object-contain group-hover:scale-110 transition-transform" />
                 <span class="text-white text-xl md:text-2xl font-[900] tracking-tight uppercase">BANGJEJE.DEV</span>
             </a>
             
             <div class="hidden md:flex items-center space-x-8 bg-surface/80 px-7 py-2 rounded-full border border-white/10 shadow-lg">
-                <a href="pages/services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
-                <a href="pages/industries.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Industries</a>
-                <a href="pages/case-studies.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Case Studies</a>
-                <a href="articles.html" class="text-sm font-black text-accent hover:text-white transition-colors flex items-center gap-1.5">
+                <a href="../pages/services.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Services</a>
+                <a href="../pages/industries.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Industries</a>
+                <a href="../pages/case-studies.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">Case Studies</a>
+                <a href="../articles.html" class="text-sm font-black text-accent hover:text-white transition-colors flex items-center gap-1.5">
                     <i class="ph ph-lightning font-bold text-accent"></i> <span>Articles</span>
                 </a>
-                <a href="pages/about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
+                <a href="../pages/about.html" class="text-sm font-medium text-textSecondary hover:text-white transition-colors">About</a>
             </div>
             
             <div class="hidden md:flex items-center gap-3">
-                <a href="admin/content/articles/index.html" title="Access Studio V2 Editorial Operating System" class="h-10 px-4 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white font-mono font-bold text-xs flex items-center gap-1.5 transition-all">
+                <a href="../admin/content/articles/index.html" title="Access Studio V2 Editorial Operating System" class="h-10 px-4 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white font-mono font-bold text-xs flex items-center gap-1.5 transition-all">
                     <i class="ph ph-cpu text-accent font-bold text-base"></i> <span>Studio V2</span>
                 </a>
-                <a href="pages/contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
+                <a href="../pages/contact.html" class="btn-primary text-sm px-6 py-2.5 flex items-center gap-2">
                     <span>Initiate Project</span> <i class="ph ph-arrow-up-right text-base font-black"></i>
                 </a>
             </div>
@@ -165,18 +165,12 @@
         <!-- 2. MULTI-DIMENSIONAL CATEGORY & TAGS FILTER BAR -->
         <section class="relative z-10 px-6 sm:px-12 max-w-8xl mx-auto mb-16">
             <div class="border-y border-white/10 py-6 space-y-5">
-                <!-- Categories Tabs -->
-                <div id="categories-tab-bar" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3">
-                    <!-- Populated dynamically by public-articles-engine.js -->
-                </div>
-                <!-- Popular Tags Cloud -->
-                <div id="popular-tags-bar" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-2 border-t border-white/5">
-                    <!-- Populated dynamically by public-articles-engine.js -->
-                </div>
+                <div id="categories-tab-bar" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3"></div>
+                <div id="popular-tags-bar" class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-2 border-t border-white/5"></div>
             </div>
         </section>
 
-        <!-- 3. ARTICLES CONTENT SHOWCASE (FEATURED + LATEST GRID) -->
+        <!-- 3. ARTICLES CONTENT SHOWCASE -->
         <section class="relative z-10 px-6 sm:px-12 max-w-8xl mx-auto">
             <div id="articles-index-container">
                 <div class="py-24 text-center">
@@ -184,8 +178,6 @@
                     <p class="text-textSecondary font-mono text-sm uppercase tracking-widest">Hydrating Cloudflare Edge Static Index...</p>
                 </div>
             </div>
-
-            <!-- PAGINATION CONTROLS -->
             <div id="articles-pagination" class="mt-12"></div>
         </section>
 
@@ -219,7 +211,7 @@
     <footer class="bg-dark border-t border-white/10 pt-20 pb-16 px-6 sm:px-12 relative z-10">
         <div class="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div class="md:col-span-2 space-y-6">
-                <a href="index.html" class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3">
                     <img width="28" height="28" src="https://cdn.bangjeje.dev/bangjejedev.svg" alt="Icon" class="w-7 h-7">
                     <span class="text-white text-xl font-black uppercase tracking-tight">BANGJEJE.DEV</span>
                 </a>
@@ -230,19 +222,19 @@
             <div>
                 <h4 class="text-white font-mono text-xs font-black uppercase tracking-widest mb-5">Architecture Hub</h4>
                 <ul class="space-y-3.5 text-sm text-textSecondary font-medium">
-                    <li><a href="articles.html?category=Engineering" class="hover:text-[#C3FF00] transition-colors">Engineering &amp; Performance</a></li>
-                    <li><a href="articles.html?category=Cloud+Architecture" class="hover:text-[#C3FF00] transition-colors">Cloud Architecture</a></li>
-                    <li><a href="articles.html?category=Editorial+OS" class="hover:text-[#C3FF00] transition-colors">Studio V2 Editorial OS</a></li>
-                    <li><a href="articles.html?category=Design+Systems" class="hover:text-[#C3FF00] transition-colors">Design Systems &amp; UI/UX</a></li>
+                    <li><a href="../articles.html?category=Engineering" class="hover:text-[#C3FF00] transition-colors">Engineering &amp; Performance</a></li>
+                    <li><a href="../articles.html?category=Cloud+Architecture" class="hover:text-[#C3FF00] transition-colors">Cloud Architecture</a></li>
+                    <li><a href="../articles.html?category=Editorial+OS" class="hover:text-[#C3FF00] transition-colors">Studio V2 Editorial OS</a></li>
+                    <li><a href="../articles.html?category=Design+Systems" class="hover:text-[#C3FF00] transition-colors">Design Systems &amp; UI/UX</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="text-white font-mono text-xs font-black uppercase tracking-widest mb-5">Corporate Operations</h4>
                 <ul class="space-y-3.5 text-sm text-textSecondary font-medium">
-                    <li><a href="pages/about.html" class="hover:text-white transition-colors">Executive Team</a></li>
-                    <li><a href="pages/case-studies.html" class="hover:text-white transition-colors">Client Case Studies</a></li>
-                    <li><a href="pages/contact.html" class="hover:text-[#C3FF00] transition-colors font-bold text-white">Initiate Project &rarr;</a></li>
-                    <li><a href="admin/content/articles/index.html" class="text-slate-500 hover:text-slate-400 font-mono text-xs block pt-2">🔒 Studio V2 CMS Login</a></li>
+                    <li><a href="../pages/about.html" class="hover:text-white transition-colors">Executive Team</a></li>
+                    <li><a href="../pages/case-studies.html" class="hover:text-white transition-colors">Client Case Studies</a></li>
+                    <li><a href="../pages/contact.html" class="hover:text-[#C3FF00] transition-colors font-bold text-white">Initiate Project &rarr;</a></li>
+                    <li><a href="../admin/content/articles/index.html" class="text-slate-500 hover:text-slate-400 font-mono text-xs block pt-2">🔒 Studio V2 CMS Login</a></li>
                 </ul>
             </div>
         </div>
@@ -257,6 +249,6 @@
     </footer>
 
     <!-- Sprint 5 Public Articles Engine -->
-    <script src="assets/js/public-articles-engine.js"></script>
+    <script src="../assets/js/public-articles-engine.js"></script>
 </body>
 </html>

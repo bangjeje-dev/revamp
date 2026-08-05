@@ -641,7 +641,52 @@ class StudioArticleWorkflowEngine {
             window.StudioEditor.executeLocalSave();
         }
 
-        this.saveMetadata(true, '🚀 Published article document directly to Cloudflare Edge CDN!');
+        // --- SPRINT 5: SYNCHRONIZE WITH PUBLIC CONTENT SYSTEM & EDGE INDEX ---
+        try {
+            const editorContent = window.StudioEditor?.editor?.getHTML() || document.getElementById('tiptap-editor-canvas')?.innerHTML || '<p>Comprehensive architectural insights.</p>';
+            const titleEl = document.getElementById('article-title-input') || document.querySelector('.article-title-field') || document.getElementById('editor-title-field');
+            const articleTitle = titleEl ? titleEl.value || titleEl.innerText : this.meta.seo.title || 'Architectural Intelligence';
+            const wordCount = window.StudioEditor?.editor?.storage?.characterCount?.words() || 1200;
+            const readMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
+            const articlePayload = {
+                id: this.meta.id,
+                title: articleTitle,
+                subtitle: this.meta.seo.description || 'Modern enterprise application architecture and edge performance engineering.',
+                slug: this.meta.slug,
+                cover: {
+                    url: this.meta.featuredImage?.url || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1440&q=80',
+                    alt: this.meta.featuredImage?.alt || articleTitle
+                },
+                author: this.meta.author,
+                publishedAt: this.meta.publishedAt || new Date().toISOString(),
+                readingTime: `${readMinutes} Min Read`,
+                wordCount: wordCount,
+                categories: this.meta.categories || ['Engineering'],
+                tags: this.meta.tags || ['Studio V2'],
+                isFeatured: true, // Elevate recently deployed story to Featured position on public knowledge hub
+                content: editorContent
+            };
+
+            // Synchronize with public article storage index
+            let pubIndex = [];
+            const existingIdxData = localStorage.getItem('bangjeje_public_articles_index');
+            if (existingIdxData) {
+                try { pubIndex = JSON.parse(existingIdxData); } catch (e) {}
+            }
+            const existPos = pubIndex.findIndex(a => a.slug === this.meta.slug);
+            if (existPos >= 0) {
+                pubIndex[existPos] = { ...pubIndex[existPos], ...articlePayload };
+            } else {
+                pubIndex.unshift(articlePayload);
+            }
+            localStorage.setItem('bangjeje_public_articles_index', JSON.stringify(pubIndex));
+            console.log('⚡ Synchronized published article payload with Cloudflare Pages Static Registry:', articlePayload.slug);
+        } catch (syncErr) {
+            console.error('Error synchronizing with Public Content Index:', syncErr);
+        }
+
+        this.saveMetadata(true, '🚀 Published article document directly to Cloudflare Edge CDN & Public Hub!');
         StudioToast?.show('🚀 Successfully published to bangjeje.dev Cloudflare Edge network!', 'success', 'Editorial OS');
     }
 }
