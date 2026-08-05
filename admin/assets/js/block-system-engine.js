@@ -10,12 +10,25 @@ class StudioBlockSystemEngine {
         this.draggedBlock = null;
         this.init();
         window.StudioBlockEngine = this;
+        // Bind static methods to instance for resilient invocation across DOM handlers
+        Object.getOwnPropertyNames(StudioBlockSystemEngine).forEach(prop => {
+            if (typeof StudioBlockSystemEngine[prop] === 'function') {
+                this[prop] = StudioBlockSystemEngine[prop];
+            }
+        });
     }
 
     init() {
         this.injectBlockControlsStyles();
         this.setupBlockObserver();
         this.setupMediaLibraryCallback();
+
+        // SPRINT 9: Dismiss touch active states when tapping outside of editorial blocks
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.studio-block') && !e.target.closest('.block-toolbar')) {
+                document.querySelectorAll('.studio-block.active-touch-block').forEach(b => b.classList.remove('active-touch-block'));
+            }
+        });
     }
 
     /**
@@ -29,8 +42,8 @@ class StudioBlockSystemEngine {
             'heading-2': 'Section Heading (H2)',
             'heading-3': 'Subsection Heading (H3)',
             'quote': 'Executive Citation (Quote)',
-            'image': 'Single Image Vault Asset',
-            'gallery': 'Multi-Image Vault Gallery',
+            'image': 'Media Library Image',
+            'gallery': 'Media Library Gallery',
             'code': 'Syntax Highlighted Code Fence',
             'divider': 'Architectural Divider Rule',
             'table': 'Comparative Data Table',
@@ -38,7 +51,7 @@ class StudioBlockSystemEngine {
             'tech-stack': 'Technology Stack Matrix',
             'download-cta': 'Asset Download CTA Banner',
             'related-articles': 'Related Articles Showcase',
-            'related-assets': 'Related Vault Assets Card',
+            'related-assets': 'Related Assets Card',
             'author-bio': 'Executive Author Credential Box',
             'newsletter': 'Executive Briefing Newsletter Capture',
             'github-repo': 'GitHub Repository Preview Card',
@@ -52,25 +65,30 @@ class StudioBlockSystemEngine {
         const innerContent = this.getBlockTemplate(blockType, customData);
 
         return `
-            <div class="studio-block group relative my-6 rounded-2xl border border-transparent hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300 p-2 sm:p-4 bg-white/50 hover:bg-white dark:bg-transparent dark:hover:bg-[#0A0D14]" 
+            <div class="studio-block group relative my-6 rounded-2xl border border-transparent hover:border-slate-300 focus-within:border-slate-300 dark:hover:border-white/20 transition-all duration-300 p-2 sm:p-4 bg-white/50 hover:bg-white focus-within:bg-white dark:bg-transparent dark:hover:bg-[#0A0D14]" 
                  data-studio-block="${blockType}" 
                  data-block-id="${blockId}"
                  draggable="true"
+                 tabindex="0"
+                 role="region"
+                 aria-label="${blockName}"
+                 onclick="StudioBlockEngine.activateBlockTouch(this, event)"
+                 onfocus="StudioBlockEngine.activateBlockTouch(this, event)"
                  ondragstart="StudioBlockEngine.handleDragStart(event)"
                  ondragover="StudioBlockEngine.handleDragOver(event)"
                  ondrop="StudioBlockEngine.handleDrop(event)"
                  ondragend="StudioBlockEngine.handleDragEnd(event)">
                 
-                <!-- BLOCK CONTROLS HANDLEBAR (Visible on hover/focus) -->
-                <div class="block-toolbar absolute -top-4 right-4 z-30 flex items-center gap-1 bg-slate-900 text-white rounded-xl px-2.5 py-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-xs font-mono select-none">
-                    <span class="text-[#C3FF00] font-bold pr-1.5 border-r border-slate-700 flex items-center gap-1 cursor-grab" title="Drag to reorder">
+                <!-- BLOCK CONTROLS HANDLEBAR (Visible on hover/focus/touch) -->
+                <div class="block-toolbar absolute -top-4 right-4 z-30 flex items-center gap-1 bg-slate-900 text-white rounded-xl px-2.5 py-1 shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 text-xs font-mono select-none" role="toolbar" aria-label="${blockName} actions toolbar">
+                    <span class="text-[#C3FF00] font-bold pr-1.5 border-r border-slate-700 flex items-center gap-1 cursor-grab" title="Drag to reorder" role="button" aria-label="Drag ${blockName} to reorder" tabindex="0">
                         <i class="ph ph-dots-six-vertical text-sm"></i> <span class="hidden sm:inline">${blockName}</span>
                     </span>
-                    <button type="button" onclick="StudioBlockEngine.reorderBlock(this, 'up'); event.stopPropagation();" class="hover:text-[#C3FF00] p-1 transition-colors" title="Move Up"><i class="ph ph-arrow-up text-sm font-bold"></i></button>
-                    <button type="button" onclick="StudioBlockEngine.reorderBlock(this, 'down'); event.stopPropagation();" class="hover:text-[#C3FF00] p-1 transition-colors" title="Move Down"><i class="ph ph-arrow-down text-sm font-bold"></i></button>
-                    <button type="button" onclick="StudioBlockEngine.duplicateBlock(this); event.stopPropagation();" class="hover:text-cyan-400 p-1 transition-colors ml-0.5" title="Duplicate Block"><i class="ph ph-copy text-sm font-bold"></i></button>
-                    <button type="button" onclick="StudioBlockEngine.toggleCollapseBlock(this); event.stopPropagation();" class="hover:text-amber-400 p-1 transition-colors ml-0.5 block-collapse-btn" title="Collapse / Expand"><i class="ph ph-caret-up text-sm font-bold"></i></button>
-                    <button type="button" onclick="StudioBlockEngine.deleteBlock(this); event.stopPropagation();" class="hover:text-rose-500 p-1 transition-colors ml-0.5 border-l border-slate-700 pl-2" title="Delete Block"><i class="ph ph-trash text-sm font-bold"></i></button>
+                    <button type="button" onclick="StudioBlockEngine.reorderBlock(this, 'up'); event.stopPropagation();" class="hover:text-[#C3FF00] p-1 transition-colors focus:outline-none focus:text-[#C3FF00]" title="Move Up" aria-label="Move ${blockName} up" tabindex="0"><i class="ph ph-arrow-up text-sm font-bold"></i></button>
+                    <button type="button" onclick="StudioBlockEngine.reorderBlock(this, 'down'); event.stopPropagation();" class="hover:text-[#C3FF00] p-1 transition-colors focus:outline-none focus:text-[#C3FF00]" title="Move Down" aria-label="Move ${blockName} down" tabindex="0"><i class="ph ph-arrow-down text-sm font-bold"></i></button>
+                    <button type="button" onclick="StudioBlockEngine.duplicateBlock(this); event.stopPropagation();" class="hover:text-cyan-400 p-1 transition-colors ml-0.5 focus:outline-none focus:text-cyan-400" title="Duplicate Block" aria-label="Duplicate ${blockName}" tabindex="0"><i class="ph ph-copy text-sm font-bold"></i></button>
+                    <button type="button" onclick="StudioBlockEngine.toggleCollapseBlock(this); event.stopPropagation();" class="hover:text-amber-400 p-1 transition-colors ml-0.5 block-collapse-btn focus:outline-none focus:text-amber-400" title="Collapse / Expand" aria-label="Collapse or expand ${blockName}" tabindex="0"><i class="ph ph-caret-up text-sm font-bold"></i></button>
+                    <button type="button" onclick="StudioBlockEngine.deleteBlock(this); event.stopPropagation();" class="hover:text-rose-500 p-1 transition-colors ml-0.5 border-l border-slate-700 pl-2 focus:outline-none focus:text-rose-500" title="Delete Block" aria-label="Delete ${blockName}" tabindex="0"><i class="ph ph-trash text-sm font-bold"></i></button>
                 </div>
 
                 <!-- COLLAPSED ACCORDION HEADER (Shown when collapsed) -->
@@ -122,7 +140,7 @@ class StudioBlockSystemEngine {
                     <figure class="my-8 rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-xl bg-slate-900 text-center relative group/img">
                         <img src="${data.url || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1440&q=80'}" alt="${data.alt || 'Architectural System Showcase'}" class="w-full h-auto max-h-[560px] object-cover mx-auto transition-transform duration-700 group-hover/img:scale-101">
                         <button type="button" onclick="StudioBlockEngine.triggerMediaReplace(this)" class="absolute top-4 left-4 z-20 bg-slate-950/90 text-[#C3FF00] font-mono text-xs font-bold px-4 py-2 rounded-xl border border-white/10 opacity-0 group-hover/img:opacity-100 transition-opacity shadow-lg flex items-center gap-2">
-                            <i class="ph ph-images text-base"></i> <span>Replace from Media Vault</span>
+                            <i class="ph ph-images text-base"></i> <span>Replace from Media Library</span>
                         </button>
                         <figcaption class="bg-slate-950 text-xs text-slate-400 font-mono py-3 border-t border-white/10 tracking-wider flex items-center justify-center gap-2" contenteditable="true">
                             <i class="ph ph-info text-[#C3FF00]"></i> Figure 1.0 &mdash; High-frequency cloud routing architecture running across Cloudflare edge workers.
@@ -134,9 +152,9 @@ class StudioBlockSystemEngine {
                 return `
                     <div class="my-8 rounded-3xl p-6 bg-slate-950 border border-slate-800 text-white shadow-2xl">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-                            <span class="text-xs font-mono font-bold text-[#C3FF00] tracking-widest uppercase flex items-center gap-2"><i class="ph ph-grid-four text-lg"></i> Executive Vault Gallery (3x Mesh)</span>
+                            <span class="text-xs font-mono font-bold text-[#C3FF00] tracking-widest uppercase flex items-center gap-2"><i class="ph ph-grid-four text-lg"></i> Media Library Gallery (3x Mesh)</span>
                             <button type="button" onclick="StudioBlockEngine.triggerMediaReplace(this, 'gallery')" class="text-xs font-mono font-extrabold text-white hover:text-[#C3FF00] transition-colors flex items-center gap-1.5">
-                                <i class="ph ph-plus-circle font-bold text-base"></i> <span>Add Media Vault Item</span>
+                                <i class="ph ph-plus-circle font-bold text-base"></i> <span>Add Media Library Item</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -166,8 +184,8 @@ class StudioBlockSystemEngine {
                                 <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                                 <span class="ml-2 font-extrabold text-[#C3FF00] font-mono uppercase text-[11px]" contenteditable="true">studio-v2-tiptap-edge-sync.js</span>
                             </div>
-                            <button type="button" onclick="navigator.clipboard.writeText(this.closest('.studio-block').querySelector('code').innerText); StudioToast?.show('Copied syntax block to clipboard!', 'success', 'Developer Tooling');" class="text-slate-400 hover:text-white flex items-center gap-1 font-bold text-[11px] bg-white/5 px-2.5 py-1 rounded-lg border border-white/5">
-                                <i class="ph ph-copy"></i> Copy Code
+                            <button type="button" onclick="StudioBlockEngine.copyCodeBlock(this);" class="text-slate-400 hover:text-white flex items-center gap-1 font-bold text-[11px] bg-white/5 px-2.5 py-1 rounded-lg border border-white/5 transition-all">
+                                <i class="ph ph-copy"></i> <span>Copy Code</span>
                             </button>
                         </div>
                         <pre class="p-6 overflow-x-auto leading-relaxed m-0 text-slate-300"><code contenteditable="true">// Complete edge rendering optimization protocol
@@ -223,7 +241,7 @@ export default {
                                     <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors" contenteditable="true">
                                         <td class="p-4 font-semibold font-mono">Media Storage Pipeline</td>
                                         <td class="p-4">Local server uploads / Slow disk bandwidth</td>
-                                        <td class="p-4 font-extrabold text-[#C3FF00] dark:text-white">Cloudflare R2 Object Storage Vault</td>
+                                        <td class="p-4 font-extrabold text-[#C3FF00] dark:text-white">Cloudflare R2 Object Storage Engine</td>
                                     </tr>
                                     <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors" contenteditable="true">
                                         <td class="p-4 font-semibold font-mono">Database Queries</td>
@@ -249,7 +267,7 @@ export default {
                         </div>
                         <div class="flex-1">
                             <h4 class="font-mono font-black text-xs uppercase tracking-widest text-[#C3FF00] mb-1.5" contenteditable="true">Executive Pro-Tip &bull; Zero-Trust Asset Security</h4>
-                            <p class="text-sm font-light text-slate-300 leading-relaxed m-0" contenteditable="true">When configuring Cloudflare R2 custom domain mapping, ensure CORS rules explicitly authorize only your Studio V2 canonical domain to prevent cross-origin bandwidth leeching and protect digital asset vaults.</p>
+                            <p class="text-sm font-light text-slate-300 leading-relaxed m-0" contenteditable="true">When configuring Cloudflare R2 custom domain mapping, ensure CORS rules explicitly authorize only your Studio V2 canonical domain to prevent cross-origin bandwidth leeching and protect digital assets in your Media Library.</p>
                         </div>
                     </div>
                 `;
@@ -268,7 +286,7 @@ export default {
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
                             <div class="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2.5 text-white font-bold" contenteditable="true">
-                                <i class="ph ph-lightning text-[#C3FF00] text-base"></i> Cloudflare R2 Vault
+                                <i class="ph ph-lightning text-[#C3FF00] text-base"></i> Cloudflare R2 Media Library
                             </div>
                             <div class="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all flex items-center gap-2.5 text-white font-bold" contenteditable="true">
                                 <i class="ph ph-code text-cyan-400 text-base"></i> Tiptap Editor Engine
@@ -339,7 +357,7 @@ export default {
                     <div class="my-8 p-8 rounded-3xl bg-[#080B11] border border-cyan-500/30 text-white shadow-2xl relative overflow-hidden">
                         <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-cyan-500/10 blur-[70px] pointer-events-none"></div>
                         <div class="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
-                            <span class="text-xs font-mono font-extrabold text-cyan-400 uppercase tracking-widest flex items-center gap-2"><i class="ph ph-vault text-base"></i> bangjeje.dev Digital Vault Asset</span>
+                            <span class="text-xs font-mono font-extrabold text-cyan-400 uppercase tracking-widest flex items-center gap-2"><i class="ph ph-folder-star text-base"></i> bangjeje.dev Digital Asset</span>
                             <span class="bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold px-3 py-0.5 rounded-full uppercase">Verified Blueprint</span>
                         </div>
                         <div class="flex flex-col sm:flex-row items-center gap-6">
@@ -351,7 +369,7 @@ export default {
                                 <p class="text-xs text-slate-400 font-light m-0 leading-relaxed" contenteditable="true">Production design system built with Figma tokens, dark mode HSL contrast algorithms, and responsive mobile breakpoints.</p>
                                 <div class="pt-2 flex items-center justify-center sm:justify-start gap-4">
                                     <a href="https://github.com/bangjeje-dev/revamp" target="_blank" class="px-5 py-2.5 bg-cyan-400 text-slate-950 hover:bg-white font-mono font-bold text-xs uppercase rounded-xl transition-all inline-flex items-center gap-2 shadow-sm">
-                                        <i class="ph ph-arrow-square-out text-base"></i> <span>Open in Vault &rarr;</span>
+                                        <i class="ph ph-arrow-square-out text-base"></i> <span>View Digital Asset &rarr;</span>
                                     </a>
                                     <span class="text-xs font-mono text-slate-500">License: MIT Executive</span>
                                 </div>
@@ -442,7 +460,7 @@ export default {
                                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Edge Environment Online
                             </div>
                             <h3 class="text-2xl font-black text-white font-sans m-0 tracking-tight" contenteditable="true">Studio V2 Interactive Editor Sandbox</h3>
-                            <p class="text-xs text-slate-300 font-light m-0 leading-relaxed" contenteditable="true">Test our custom Tiptap slash commands, modular block pattern library, and simulated Cloudflare R2 media vault directly in your browser with zero sign-up required.</p>
+                            <p class="text-xs text-slate-300 font-light m-0 leading-relaxed" contenteditable="true">Test our custom Tiptap slash commands, modular block pattern library, and production Cloudflare R2 Media Library directly in your browser with zero sign-up required.</p>
                             <div class="pt-3">
                                 <a href="../articles.html" target="_blank" class="px-6 py-3 bg-[#C3FF00] text-slate-950 hover:bg-white font-mono font-black text-xs uppercase rounded-xl tracking-wider transition-all inline-flex items-center gap-2 shadow-lg">
                                     <span>Launch Live Sanctuary Demo 🚀</span> <i class="ph ph-arrow-right font-bold"></i>
@@ -673,22 +691,49 @@ export default {
 
     static triggerMediaReplace(btn, type = 'image') {
         if (!window.StudioMediaLibrary) {
-            alert('StudioMediaLibrary is initializing. Please upload via R2 Vault.');
+            alert('StudioMediaLibrary is initializing. Please upload via Media Library.');
             return;
         }
         window.StudioMediaLibrary.open({
             mode: 'insert',
-            title: type === 'gallery' ? 'Select Media Vault Asset for Gallery' : 'Select Replacement Media Vault Asset',
+            title: type === 'gallery' ? 'Select Media Library Asset for Gallery' : 'Select Replacement Media Library Asset',
             onSelect: (item) => {
                 const img = btn.closest(type === 'gallery' ? '.my-8' : 'figure')?.querySelector('img') || btn.closest('.studio-block').querySelector('img');
                 if (img) {
                     img.src = item.url;
-                    img.alt = item.alt || item.filename || 'Vault Asset';
-                    StudioToast?.show('📸 Vault asset updated successfully!', 'success', 'Media Vault');
+                    img.alt = item.alt || item.filename || 'Media Asset';
+                    StudioToast?.show('📸 Media asset updated successfully!', 'success', 'Media Library');
                     if (window.StudioEditor) window.StudioEditor.handleContentUpdate();
                 }
             }
         });
+    }
+
+    static activateBlockTouch(el, event) {
+        if (event && event.type === 'click' && event.target && event.target.closest('.block-toolbar, button')) return;
+        document.querySelectorAll('.studio-block.active-touch-block').forEach(b => {
+            if (b !== el) b.classList.remove('active-touch-block');
+        });
+        if (el) el.classList.add('active-touch-block');
+    }
+
+    static copyCodeBlock(btn) {
+        const block = btn.closest('.studio-block');
+        const codeEl = block ? block.querySelector('code') : null;
+        if (!codeEl) return;
+        
+        navigator.clipboard.writeText(codeEl.innerText || codeEl.textContent);
+        StudioToast?.show('Copied syntax block to clipboard!', 'success', 'Developer Tooling');
+        
+        const originalHTML = btn.innerHTML;
+        const originalClass = btn.className;
+        btn.innerHTML = `<i class="ph ph-check font-bold"></i> <span>Copied! ✓</span>`;
+        btn.className = 'text-emerald-400 flex items-center gap-1 font-extrabold text-[11px] bg-emerald-500/15 px-2.5 py-1 rounded-lg border border-emerald-500/30 transition-all';
+        
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.className = originalClass;
+        }, 2500);
     }
 
     // --- AUTOMATIC OBSERVER TO ATTACH HANDLEBARS TO EXISTING CONTENT ---
@@ -701,10 +746,27 @@ export default {
         const style = document.createElement('style');
         style.id = 'studio-block-system-styles';
         style.textContent = `
-            .studio-block { transition: opacity 0.2s, transform 0.2s, border-color 0.2s; }
+            .studio-block { transition: opacity 0.2s, transform 0.2s, border-color 0.2s, background-color 0.2s; }
             .studio-block[draggable="true"]:hover { cursor: default; }
-            .studio-block .block-toolbar { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.5); }
+            .studio-block .block-toolbar { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.5); transition: opacity 0.2s ease, transform 0.2s ease; }
             .studio-block.is-collapsed { padding: 0 !important; margin-top: 10px; margin-bottom: 10px; border: none !important; }
+            
+            /* SPRINT 9: Touch-First & Keyboard Accessibility */
+            .studio-block:hover, .studio-block:focus-within, .studio-block.active-touch-block {
+                border-color: rgba(203, 213, 225, 0.8) !important;
+                background-color: rgb(255, 255, 255) !important;
+            }
+            .studio-block:hover .block-toolbar, .studio-block:focus-within .block-toolbar, .studio-block.active-touch-block .block-toolbar {
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+            .studio-block:focus-visible {
+                outline: 2px solid #C3FF00 !important;
+                outline-offset: 2px;
+            }
+            .studio-block:hover button[onclick*="triggerMediaReplace"], .studio-block.active-touch-block button[onclick*="triggerMediaReplace"], .studio-block:focus-within button[onclick*="triggerMediaReplace"] {
+                opacity: 1 !important;
+            }
         `;
         document.head.appendChild(style);
     }

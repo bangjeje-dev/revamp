@@ -1,6 +1,6 @@
 /**
  * bangjeje.dev Studio V2 — Sprint 4: Editorial Production Workflow Engine
- * Manages Document Inspector, Featured Image (Media Vault), Categories, Tags, Slugification, Revisions, Basic SEO, and Reader Previews.
+ * Manages Document Inspector, Featured Image (Media Library), Categories, Tags, Slugification, Revisions, Basic SEO, and Reader Previews.
  * Focus: End-to-end article publishing workflow without bloating the core writing sanctuary.
  */
 
@@ -35,7 +35,7 @@ class StudioArticleWorkflowEngine {
                 description: 'Explore how bangjeje.dev Studio V2 replaces heavy CMS frameworks with a lightweight Vanilla Tiptap and Cloudflare R2 Editorial Operating System.'
             },
             revisions: [
-                { rev: 'Rev 1.2', desc: 'Cover media asset bound via Sprint 2 Vault', timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), status: 'Draft' },
+                { rev: 'Rev 1.2', desc: 'Cover media asset bound via Media Library', timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), status: 'Draft' },
                 { rev: 'Rev 1.1', desc: 'Editorial typography scale & spacing refined', timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(), status: 'Draft' },
                 { rev: 'Rev 1.0', desc: 'Initial article document scaffolded in Studio', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), status: 'Draft' }
             ],
@@ -74,9 +74,7 @@ class StudioArticleWorkflowEngine {
         }
     }
 
-    saveMetadata(recordRevision = false, revNote = null) {
-        this.meta.updatedAt = new Date().toISOString();
-
+    saveMetadata(recordRevision = false, revNote = '', silentNoRender = false) {
         if (recordRevision) {
             const nextRevNum = `Rev ${Math.max(1, this.meta.revisions.length * 0.2 + 1).toFixed(1)}`;
             this.meta.revisions.unshift({
@@ -90,7 +88,9 @@ class StudioArticleWorkflowEngine {
 
         const payload = { ...this.meta, slugManuallyModified: this.slugManuallyModified };
         localStorage.setItem(this.storageKey, JSON.stringify(payload));
-        this.renderInspector();
+        if (!silentNoRender) {
+            this.renderInspector();
+        }
     }
 
     // --- DOCUMENT INSPECTOR (RIGHT SIDEBAR) RENDERING ---
@@ -113,7 +113,7 @@ class StudioArticleWorkflowEngine {
         const seoDescVal = this.meta.seo.description || '';
 
         sidebar.innerHTML = `
-            <!-- TOP TAB SWITCHER: DOCUMENT VS BLOCK (GUTENBERG / NOTION WORKFLOW) -->
+            <!-- TOP TAB SWITCHER: DOCUMENT VS BLOCK (STUDIO V2 WORKFLOW) -->
             <div class="h-14 border-b border-slate-200 px-4 flex items-center justify-between bg-white shrink-0 sticky top-0 z-10 shadow-2xs">
                 <div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl w-full">
                     <button onclick="StudioArticleWorkflow.setTab('document')" class="flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${this.activeTab === 'document' ? 'bg-slate-900 text-[#C3FF00] shadow-sm' : 'text-slate-600 hover:text-slate-900'}">
@@ -142,6 +142,16 @@ class StudioArticleWorkflowEngine {
     }
 
     renderDocumentSettingsHTML(seoTitleVal, seoDescVal, dateFormatted) {
+        const tLen = (seoTitleVal || '').length;
+        const tPct = Math.min(100, Math.round((tLen / 60) * 100));
+        const tColor = tLen > 60 ? 'text-rose-600 font-bold' : (tLen >= 40 ? 'text-emerald-700 font-bold' : (tLen > 0 ? 'text-amber-600 font-bold' : 'text-slate-400'));
+        const tBarColor = tLen > 60 ? 'bg-rose-500' : (tLen >= 40 ? 'bg-emerald-500' : (tLen > 0 ? 'bg-amber-400' : 'bg-slate-200'));
+
+        const dLen = (seoDescVal || '').length;
+        const dPct = Math.min(100, Math.round((dLen / 160) * 100));
+        const dColor = dLen > 160 ? 'text-rose-600 font-bold' : (dLen >= 120 ? 'text-emerald-700 font-bold' : (dLen > 0 ? 'text-amber-600 font-bold' : 'text-slate-400'));
+        const dBarColor = dLen > 160 ? 'bg-rose-500' : (dLen >= 120 ? 'bg-emerald-500' : (dLen > 0 ? 'bg-amber-400' : 'bg-slate-200'));
+
         return `
             <!-- 1. ARTICLE STATUS & REVISIONS ACCORDION -->
             <section class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
@@ -183,7 +193,7 @@ class StudioArticleWorkflowEngine {
                             <span class="text-emerald-600">Sync Active ⚡</span>
                         </div>
                         <div class="space-y-2 max-h-44 overflow-y-auto pr-1 no-scrollbar text-[11px]">
-                            ${this.meta.revisions.map((r, i) => {
+                            ${this.meta.revisions.length ? this.meta.revisions.map((r, i) => {
                                 const rDate = new Date(r.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                                 return `
                                     <div class="p-2 rounded-xl bg-slate-50 border border-slate-200/60 flex flex-col gap-0.5 hover:bg-slate-100 transition-colors">
@@ -194,7 +204,13 @@ class StudioArticleWorkflowEngine {
                                         <div class="text-[10px] text-slate-600 truncate">${r.desc}</div>
                                     </div>
                                 `;
-                            }).join('')}
+                            }).join('') : `
+                                <div class="p-4 rounded-xl bg-slate-50/70 border border-dashed border-slate-200 text-center text-slate-400 space-y-1">
+                                    <i class="ph ph-clock-counter-clockwise text-lg"></i>
+                                    <p class="text-[11px] font-medium text-slate-500 m-0">No revision history yet</p>
+                                    <span class="text-[10px] text-slate-400 block">Changes will be automatically checkpointed here as you write.</span>
+                                </div>
+                            `}
                         </div>
                     </div>
                 </div>
@@ -238,23 +254,25 @@ class StudioArticleWorkflowEngine {
                         <div class="relative w-full h-44 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 group">
                             <img src="${this.meta.featuredImage.url}" alt="${this.meta.featuredImage.alt}" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-4">
-                                <button onclick="StudioArticleWorkflow.openMediaVaultForCover()" class="px-3 py-1.5 rounded-lg bg-[#C3FF00] text-slate-950 font-black font-mono text-[10px] uppercase tracking-wider shadow-md hover:bg-white transition-all cursor-pointer">Replace Cover</button>
-                                <button onclick="StudioArticleWorkflow.removeFeaturedImage()" class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-bold shadow-md hover:bg-rose-700 transition-all cursor-pointer" title="Remove Cover"><i class="ph ph-trash"></i></button>
+                                <button onclick="StudioArticleWorkflow.openMediaLibraryForCover()" class="px-3 py-1.5 rounded-lg bg-[#C3FF00] text-slate-950 font-black font-mono text-[10px] uppercase tracking-wider shadow-md hover:bg-white transition-all cursor-pointer">Replace Cover</button>
+                                <button onclick="StudioArticleWorkflow.removeCoverImage()" class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-bold shadow-md hover:bg-rose-700 transition-all cursor-pointer" title="Remove Cover"><i class="ph ph-trash"></i></button>
                             </div>
                         </div>
-                        <div class="space-y-1 text-[11px] font-mono text-slate-600">
-                            <div class="font-bold text-slate-900 truncate" title="${this.meta.featuredImage.filename}">${this.meta.featuredImage.filename}</div>
-                            <div class="flex items-center justify-between text-slate-400">
-                                <span>${this.meta.featuredImage.dimensions || '1920x1080'}</span>
-                                <span class="text-emerald-600 font-bold">WebP &bull; Vault Sync</span>
+                        <div class="p-2.5 bg-slate-50 border-t border-slate-200/80 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                            <span class="truncate max-w-[180px]" title="${this.meta.featuredImage.alt || 'Cover image'}"><i class="ph ph-image text-slate-600 mr-1.5"></i>${this.meta.featuredImage.alt || 'Cover image'}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-emerald-600 font-bold">WebP &bull; Cloudflare CDN</span>
+                                <button onclick="StudioArticleWorkflow.removeCoverImage()" class="text-rose-600 hover:text-rose-700 font-bold ml-1" title="Remove cover">Remove</button>
                             </div>
                         </div>
                     ` : `
-                        <button onclick="StudioArticleWorkflow.openMediaVaultForCover()" class="w-full h-36 border-2 border-dashed border-slate-300 hover:border-slate-900 rounded-2xl bg-slate-50/50 hover:bg-slate-100/60 transition-all flex flex-col items-center justify-center gap-2 p-6 group cursor-pointer text-slate-500 hover:text-slate-900">
-                            <div class="w-10 h-10 rounded-xl bg-white shadow-2xs flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-transform text-slate-700"><i class="ph ph-images-square"></i></div>
-                            <span class="text-xs font-extrabold">Set Featured Image</span>
-                            <span class="text-[10px] font-mono text-slate-400">Connect directly from Studio V2 Media Library</span>
-                        </button>
+                        <div class="space-y-3">
+                            <button onclick="StudioArticleWorkflow.openMediaLibraryForCover()" class="w-full h-36 border-2 border-dashed border-slate-300 hover:border-slate-900 rounded-2xl bg-slate-50/50 hover:bg-slate-100/60 transition-all flex flex-col items-center justify-center gap-2 p-6 group cursor-pointer text-slate-500 hover:text-slate-900">
+                                <div class="w-10 h-10 rounded-xl bg-white shadow-2xs flex items-center justify-center text-xl font-bold group-hover:scale-110 transition-transform text-slate-700"><i class="ph ph-images-square"></i></div>
+                                <span class="text-xs font-extrabold">Set Featured Image</span>
+                                <span class="text-[10px] font-mono text-slate-400">Connect directly from Studio V2 Media Library</span>
+                            </button>
+                        </div>
                     `}
                 </div>
             </section>
@@ -298,51 +316,62 @@ class StudioArticleWorkflowEngine {
                                class="w-full bg-transparent font-semibold text-slate-900 focus:outline-none">
                     </div>
                     <div class="flex flex-wrap gap-1.5 pt-1">
-                        ${this.meta.tags.map(tag => `
+                        ${this.meta.tags.length ? this.meta.tags.map(tag => `
                             <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-rose-50 text-slate-800 hover:text-rose-700 font-mono text-[11px] font-bold border border-slate-200/80 transition-colors group">
                                 <span>#${tag}</span>
                                 <button onclick="StudioArticleWorkflow.removeTag('${tag}')" class="w-4 h-4 rounded-md flex items-center justify-center text-slate-400 group-hover:text-rose-600 font-extrabold cursor-pointer" title="Remove tag">&times;</button>
                             </span>
-                        `).join('')}
+                        `).join('') : `
+                            <div class="w-full p-3 rounded-xl bg-slate-50 border border-dashed border-slate-200 text-center text-slate-400">
+                                <p class="text-[11px] font-medium m-0">No tags assigned</p>
+                                <span class="text-[10px] text-slate-400">Press Enter after typing above to add tags</span>
+                            </div>
+                        `}
                     </div>
                 </div>
             </section>
 
-            <!-- 6. BASIC SEO METADATA SANCTUARY (STRICT: NO ADVANCED SCORING YET) -->
+            <!-- 6. BASIC SEO METADATA SANCTUARY -->
             <section class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
                 <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                     <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="ph ph-google-logo text-base text-slate-600"></i> <span>Basic SEO Metadata</span>
                     </h4>
-                    <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black bg-emerald-100 text-emerald-800">Sprint 4 Basic</span>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black bg-emerald-100 text-emerald-800">Studio V2 SEO</span>
                 </div>
                 
                 <div class="p-4 space-y-4 text-xs font-sans">
                     <!-- SEO Title -->
-                    <div class="space-y-1">
+                    <div class="space-y-1.5">
                         <div class="flex items-center justify-between font-extrabold text-slate-800">
                             <span>SEO Meta Title</span>
-                            <span id="seo-title-counter" class="text-[10px] font-mono ${seoTitleVal.length > 60 ? 'text-rose-600 font-bold' : 'text-slate-400'}">${seoTitleVal.length} / 60</span>
+                            <span id="seo-title-counter" class="text-[10px] font-mono ${tColor}">${tLen} / 60</span>
                         </div>
                         <input type="text" 
                                id="seo-title-input" 
                                value="${seoTitleVal}" 
                                oninput="StudioArticleWorkflow.updateSeoTitle(this.value)" 
                                placeholder="Custom SERP title..." 
-                               class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:border-slate-900 focus:bg-white transition-all shadow-2xs">
+                               class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#C3FF00]/80 focus:border-slate-900 focus:bg-white transition-all shadow-2xs">
+                        <div class="w-full bg-slate-200 h-1 rounded-full overflow-hidden">
+                            <div id="seo-title-bar" class="h-full transition-all duration-300 ${tBarColor}" style="width: ${tPct}%"></div>
+                        </div>
                     </div>
 
                     <!-- SEO Description -->
-                    <div class="space-y-1">
+                    <div class="space-y-1.5">
                         <div class="flex items-center justify-between font-extrabold text-slate-800">
                             <span>Meta Description</span>
-                            <span id="seo-desc-counter" class="text-[10px] font-mono ${seoDescVal.length > 160 ? 'text-rose-600 font-bold' : 'text-slate-400'}">${seoDescVal.length} / 160</span>
+                            <span id="seo-desc-counter" class="text-[10px] font-mono ${dColor}">${dLen} / 160</span>
                         </div>
                         <textarea id="seo-desc-input" 
                                   rows="3" 
                                   oninput="StudioArticleWorkflow.updateSeoDescription(this.value)" 
                                   placeholder="Write a clear summary for Google SERP snippet..." 
-                                  class="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:border-slate-900 focus:bg-white transition-all shadow-2xs resize-none leading-relaxed">${seoDescVal}</textarea>
+                                  class="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#C3FF00]/80 focus:border-slate-900 focus:bg-white transition-all shadow-2xs resize-none leading-relaxed">${seoDescVal}</textarea>
+                        <div class="w-full bg-slate-200 h-1 rounded-full overflow-hidden">
+                            <div id="seo-desc-bar" class="h-full transition-all duration-300 ${dBarColor}" style="width: ${dPct}%"></div>
+                        </div>
                     </div>
 
                     <!-- LIVE GOOGLE SERP PREVIEW CARD -->
@@ -367,7 +396,7 @@ class StudioArticleWorkflowEngine {
                 <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center mb-4 text-slate-500 text-2xl font-bold shadow-2xs">
                     <i class="ph ph-cube text-slate-400"></i>
                 </div>
-                <h3 class="text-sm font-extrabold text-slate-800 mb-1">Gutenberg Block Inspector</h3>
+                <h3 class="text-sm font-extrabold text-slate-800 mb-1">Studio V2 Block Inspector</h3>
                 <p class="text-xs max-w-xs text-slate-500 leading-relaxed mb-6">Select any heading, code fence, or media block inside the Tiptap writing canvas to inspect block-level parameters.</p>
                 <button onclick="StudioArticleWorkflow.setTab('document')" class="px-4 py-2 rounded-xl bg-slate-900 text-[#C3FF00] font-bold text-xs uppercase shadow-md hover:bg-slate-800 transition-colors">
                     Return to Document Settings
@@ -449,9 +478,9 @@ class StudioArticleWorkflowEngine {
         StudioToast?.show(`Article workflow stage set to: ${newStatus.toUpperCase()}`, 'info', 'Lifecycle');
     }
 
-    openMediaVaultForCover() {
+    openMediaLibraryForCover() {
         if (!window.StudioMediaLibrary) {
-            StudioToast?.show('Media Library Vault engine not loaded.', 'error', 'Studio V2');
+            StudioToast?.show('Media Library engine not loaded.', 'error', 'Studio V2');
             return;
         }
 
@@ -459,21 +488,19 @@ class StudioArticleWorkflowEngine {
             onSelect: (asset) => {
                 this.meta.featuredImage = {
                     url: asset.url,
-                    r2CdnUrl: asset.r2CdnUrl || asset.url,
-                    filename: asset.filename,
                     alt: asset.alt || asset.filename,
-                    dimensions: asset.dimensions
+                    r2CdnUrl: asset.r2CdnUrl || asset.url
                 };
-                this.saveMetadata(true, `Bound Featured Cover: ${asset.filename}`);
-                StudioToast?.show(`Featured cover image bound from Studio V2 Media Library!`, 'success', 'Cover Vault');
+                this.saveMetadata(true, `Updated featured cover image: ${asset.filename}`);
+                StudioToast?.show(`Featured cover image bound from Studio V2 Media Library!`, 'success', 'Media Library');
             }
         });
     }
 
-    removeFeaturedImage() {
-        this.meta.featuredImage = null;
-        this.saveMetadata(true, 'Removed Featured Cover image');
-        StudioToast?.show('Featured cover image removed.', 'info', 'Cover Vault');
+    removeCoverImage() {
+        this.meta.featuredImage = { url: null, alt: '', r2CdnUrl: '' };
+        this.saveMetadata(true, 'Removed featured cover image');
+        StudioToast?.show('Featured cover image removed.', 'info', 'Media Library');
     }
 
     toggleCategory(cat) {
@@ -513,12 +540,69 @@ class StudioArticleWorkflowEngine {
 
     updateSeoTitle(val) {
         this.meta.seo.title = val;
-        this.saveMetadata();
+        this.saveMetadata(false, '', true); // Save silently without re-rendering sidebar to retain input focus
+        
+        const counter = document.getElementById('seo-title-counter');
+        const bar = document.getElementById('seo-title-bar');
+        const serpTitle = document.querySelector('#doc-inspector-sidebar .text-\\[\\#1a0dab\\]');
+        
+        if (serpTitle) {
+            serpTitle.textContent = val || 'Untitled Article Canonical Title';
+            serpTitle.title = val;
+        }
+        if (counter && bar) {
+            const len = (val || '').length;
+            const pct = Math.min(100, Math.round((len / 60) * 100));
+            counter.textContent = `${len} / 60`;
+            bar.style.width = `${pct}%`;
+            
+            if (len > 60) {
+                counter.className = 'text-[10px] font-mono text-rose-600 font-bold';
+                bar.className = 'h-full transition-all duration-300 bg-rose-500';
+            } else if (len >= 40 && len <= 60) {
+                counter.className = 'text-[10px] font-mono text-emerald-700 font-bold';
+                bar.className = 'h-full transition-all duration-300 bg-emerald-500';
+            } else if (len > 0) {
+                counter.className = 'text-[10px] font-mono text-amber-600 font-bold';
+                bar.className = 'h-full transition-all duration-300 bg-amber-400';
+            } else {
+                counter.className = 'text-[10px] font-mono text-slate-400';
+                bar.className = 'h-full transition-all duration-300 bg-slate-200';
+            }
+        }
     }
 
     updateSeoDescription(val) {
         this.meta.seo.description = val;
-        this.saveMetadata();
+        this.saveMetadata(false, '', true); // Save silently without re-rendering sidebar to retain input focus
+
+        const counter = document.getElementById('seo-desc-counter');
+        const bar = document.getElementById('seo-desc-bar');
+        const serpDesc = document.querySelector('#doc-inspector-sidebar .text-\\[\\#4d5156\\]');
+
+        if (serpDesc) {
+            serpDesc.textContent = val || 'No search description provided yet. Google will auto-generate snippets from early article paragraphs.';
+        }
+        if (counter && bar) {
+            const len = (val || '').length;
+            const pct = Math.min(100, Math.round((len / 160) * 100));
+            counter.textContent = `${len} / 160`;
+            bar.style.width = `${pct}%`;
+
+            if (len > 160) {
+                counter.className = 'text-[10px] font-mono text-rose-600 font-bold';
+                bar.className = 'h-full transition-all duration-300 bg-rose-500';
+            } else if (len >= 120 && len <= 160) {
+                counter.className = 'text-[10px] font-mono text-emerald-700 font-bold';
+                bar.className = 'h-full transition-all duration-300 bg-emerald-500';
+            } else if (len > 0) {
+                counter.className = 'text-[10px] font-mono text-amber-600 font-bold';
+                bar.className = 'h-full transition-all duration-300 bg-amber-400';
+            } else {
+                counter.className = 'text-[10px] font-mono text-slate-400';
+                bar.className = 'h-full transition-all duration-300 bg-slate-200';
+            }
+        }
     }
 
     // --- READER PREVIEW MODAL & LIVE EDGE PUBLISH EXECUTION ---
@@ -605,7 +689,21 @@ class StudioArticleWorkflowEngine {
         document.getElementById('prev-author-name').textContent = `${this.meta.author.name} (${this.meta.author.title})`;
         document.getElementById('prev-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
         document.getElementById('prev-word-read').textContent = wordText;
-        document.getElementById('prev-body-html').innerHTML = bodyHTML;
+        const prevRoot = document.getElementById('prev-body-html');
+        if (prevRoot) {
+            prevRoot.innerHTML = bodyHTML;
+            // SPRINT 9: Clean reader view sanitization of editing toolbars and ARIA touch attributes
+            prevRoot.querySelectorAll('.block-toolbar, .block-collapsed-summary, button[onclick*="triggerMediaReplace"]').forEach(el => el.remove());
+            prevRoot.querySelectorAll('.studio-block').forEach(el => {
+                el.removeAttribute('draggable');
+                el.removeAttribute('tabindex');
+                el.removeAttribute('role');
+                el.removeAttribute('aria-label');
+                el.removeAttribute('data-studio-block');
+                el.removeAttribute('data-block-id');
+                el.classList.remove('active-touch-block', 'group', 'hover:border-slate-300', 'border', 'my-6', 'rounded-2xl', 'p-2', 'sm:p-4', 'bg-white/50');
+            });
+        }
 
         const coverContainer = document.getElementById('prev-cover-container');
         const coverImg = document.getElementById('prev-cover-img');

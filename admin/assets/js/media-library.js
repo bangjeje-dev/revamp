@@ -34,7 +34,7 @@ class StudioMediaLibraryEngine {
             try {
                 this.assets = JSON.parse(saved);
             } catch (e) {
-                console.error('Failed to parse Media Vault state:', e);
+                console.error('Failed to parse Media Library state:', e);
             }
         }
 
@@ -176,7 +176,7 @@ class StudioMediaLibraryEngine {
                             <i class="ph ph-cloud-arrow-up text-lg font-bold"></i> <span>Upload to Cloudflare R2</span>
                         </button>
                         
-                        <button id="btn-close-media-library" class="w-9 h-9 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center text-xl font-bold cursor-pointer" title="Close Vault (ESC)">
+                        <button id="btn-close-media-library" class="w-9 h-9 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center text-xl font-bold cursor-pointer" title="Close Media Library (ESC)">
                             <i class="ph ph-x"></i>
                         </button>
                     </div>
@@ -373,7 +373,7 @@ class StudioMediaLibraryEngine {
             // Check against existing vault records
             const duplicate = this.assets.find(a => a.sha256 === sha256Hash || (a.filename === file.name && a.sizeBytes === file.size));
             if (duplicate) {
-                this.showAlert(`Duplicate Prevented: "${file.name}" is already archived inside the Cloudflare R2 Vault!`);
+                this.showAlert(`Duplicate Prevented: "${file.name}" is already archived inside the Studio V2 Media Library!`);
                 this.selectedId = duplicate.id;
                 this.renderGallery();
                 this.renderInspector();
@@ -398,11 +398,34 @@ class StudioMediaLibraryEngine {
                 queueList.appendChild(itemEl);
             }
 
+            // SPRINT 9: Inject visual skeleton loading placeholder card directly into gallery grid
+            const galleryGrid = document.querySelector('#media-gallery-container .grid');
+            if (galleryGrid) {
+                const skeletonDiv = document.createElement('div');
+                skeletonDiv.id = `skeleton-${fileId}`;
+                skeletonDiv.className = 'bg-white rounded-2xl border-2 border-dashed border-[#C3FF00]/80 shadow-md animate-pulse overflow-hidden flex flex-col p-2.5 space-y-2';
+                skeletonDiv.innerHTML = `
+                    <div class="relative w-full h-36 bg-slate-100 rounded-xl overflow-hidden flex flex-col items-center justify-center text-slate-400 gap-1">
+                        <i class="ph ph-spinner animate-spin text-2xl text-slate-700"></i>
+                        <span class="text-[10px] font-mono font-bold text-slate-600">Encrypting & Uploading</span>
+                        <span id="skel-pct-${fileId}" class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-slate-900 text-[#C3FF00] font-mono text-[9px] font-black shadow-md">0%</span>
+                    </div>
+                    <div class="p-1 space-y-1.5">
+                        <div class="h-3.5 bg-slate-200 rounded-md w-3/4 animate-pulse"></div>
+                        <div class="h-2.5 bg-slate-100 rounded-md w-1/2 animate-pulse"></div>
+                    </div>
+                `;
+                galleryGrid.insertBefore(skeletonDiv, galleryGrid.firstChild);
+            }
+
             // 4. Asynchronous XHR Upload Pipeline to Cloudflare R2 Edge Worker
             await this.uploadSingleFileXHR(file, sha256Hash, dimensionsObj, localPreviewUrl, fileId, (pct) => {
                 const itemPct = document.getElementById(`queue-pct-${fileId}`);
                 if (itemPct) itemPct.textContent = `${pct}%`;
                 
+                const skelPct = document.getElementById(`skel-pct-${fileId}`);
+                if (skelPct) skelPct.textContent = `${pct}%`;
+
                 totalProgress = Math.round(((completedCount * 100) + pct) / files.length);
                 if (masterBar) masterBar.style.width = `${totalProgress}%`;
                 if (masterPct) masterPct.textContent = `${totalProgress}%`;
@@ -516,14 +539,14 @@ class StudioMediaLibraryEngine {
         const progressContainer = document.getElementById('media-upload-progress-container');
         const heading = document.getElementById('upload-status-heading');
         
-        if (heading) heading.innerHTML = `<i class="ph ph-check-circle text-[#C3FF00] text-lg font-bold"></i> <span>Cloudflare R2 Vault Upload Pipeline Complete!</span>`;
+        if (heading) heading.innerHTML = `<i class="ph ph-check-circle text-[#C3FF00] text-lg font-bold"></i> <span>Cloudflare R2 Media Library Upload Pipeline Complete!</span>`;
         
         setTimeout(() => {
             if (progressContainer) progressContainer.classList.add('hidden');
             this.setTab('recent_upload');
             this.renderGallery();
             this.renderInspector();
-            StudioToast?.show('Successfully processed and archived assets into Cloudflare R2 Vault!', 'success', 'Media Library');
+            StudioToast?.show('Successfully processed and archived assets into Cloudflare R2 Media Library!', 'success', 'Media Library');
         }, 1400);
     }
 
@@ -618,7 +641,7 @@ class StudioMediaLibraryEngine {
                         <i class="ph ph-folder-open text-slate-400"></i>
                     </div>
                     <h3 class="text-base font-extrabold text-slate-800 mb-1">No media assets found</h3>
-                    <p class="text-xs max-w-sm mb-6 text-slate-500">No attachments match your search query or tab filter in the Cloudflare R2 vault.</p>
+                    <p class="text-xs max-w-sm mb-6 text-slate-500">No attachments match your search query or tab filter in the Studio V2 Media Library.</p>
                     <button onclick="document.getElementById('media-r2-upload-input').click()" class="px-5 py-2.5 rounded-xl bg-slate-900 text-[#C3FF00] font-bold text-xs uppercase shadow-md hover:bg-slate-800 transition-colors">
                         Upload New Asset to R2
                     </button>
@@ -759,7 +782,7 @@ class StudioMediaLibraryEngine {
                     <label class="text-[10px] font-mono font-bold text-slate-400 uppercase">Cloudflare R2 Public CDN URL</label>
                     <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-xl p-1.5 text-xs font-mono text-slate-600">
                         <input type="text" readonly value="${asset.r2CdnUrl}" class="bg-transparent text-slate-800 w-full text-[11px] focus:outline-none select-all px-1">
-                        <button onclick="navigator.clipboard.writeText('${asset.r2CdnUrl}'); StudioToast?.show('Copied Cloudflare R2 CDN URL to clipboard!', 'info', 'Media Vault');" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-[#C3FF00] text-slate-700 font-mono text-[10px] font-bold shrink-0 transition-colors">Copy</button>
+                        <button onclick="navigator.clipboard.writeText('${asset.r2CdnUrl}'); StudioToast?.show('Copied Cloudflare R2 CDN URL to clipboard!', 'info', 'Media Library');" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-[#C3FF00] text-slate-700 font-mono text-[10px] font-bold shrink-0 transition-colors">Copy</button>
                     </div>
                 </div>
             </div>
@@ -807,7 +830,7 @@ class StudioMediaLibraryEngine {
                 <button onclick="document.getElementById('replace-asset-input-${asset.id}').click()" class="flex-1 h-9 px-3 rounded-xl bg-white border border-slate-200 text-slate-800 hover:border-slate-900 font-extrabold text-xs transition-all flex items-center justify-center gap-1.5 shadow-2xs">
                     <i class="ph ph-arrows-clockwise text-base"></i> <span>Replace Asset</span>
                 </button>
-                <button onclick="StudioMediaLibrary.deleteAsset('${asset.id}')" class="h-9 px-3 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-extrabold text-xs transition-colors flex items-center justify-center gap-1 shrink-0" title="Delete Asset from Vault">
+                <button onclick="StudioMediaLibrary.deleteAsset('${asset.id}')" class="h-9 px-3 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-extrabold text-xs transition-colors flex items-center justify-center gap-1 shrink-0" title="Delete Asset from Media Library">
                     <i class="ph ph-trash text-base"></i>
                 </button>
             </div>
@@ -845,7 +868,7 @@ class StudioMediaLibraryEngine {
             this.saveState();
             this.renderGallery();
             this.renderInspector();
-            StudioToast?.show(`Replaced asset directly on Cloudflare R2 Edge servers!`, 'success', 'Media Vault');
+            StudioToast?.show(`Replaced asset directly on Cloudflare R2 Edge servers!`, 'success', 'Media Library');
         };
         reader.readAsDataURL(file);
     }
@@ -890,7 +913,7 @@ class StudioMediaLibraryEngine {
     confirmSelection() {
         const asset = this.assets.find(a => a.id === this.selectedId);
         if (!asset) {
-            StudioToast?.show('Please select a valid media attachment first.', 'warning', 'Media Vault');
+            StudioToast?.show('Please select a valid media attachment first.', 'warning', 'Media Library');
             return;
         }
 

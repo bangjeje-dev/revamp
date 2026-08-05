@@ -160,12 +160,12 @@
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-[#C3FF00] inline-block border border-slate-900/15 shadow-xs"></span>
                     <span class="font-extrabold text-slate-900 text-sm tracking-tight font-sans hidden sm:inline-block">Studio V2 Editorial Engine</span>
-                    <span class="px-2 py-0.5 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase tracking-wider">Sprint 2 Media Vault</span>
+                    <span class="px-2 py-0.5 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase tracking-wider">Studio V2 Beta</span>
                 </div>
             </div>
 
-            <!-- COMPACT STICKY FORMATTING TOOLBAR WITH IMAGE / MEDIA VAULT ICON -->
-            <div class="flex items-center gap-0.5 bg-slate-50/90 border border-slate-200/90 p-1 rounded-xl text-xs font-semibold text-slate-700 shadow-xs">
+            <!-- COMPACT STICKY FORMATTING TOOLBAR (HIDDEN ON SMALL SCREENS TO DECLUTTER HEADER) -->
+            <div class="hidden md:flex items-center gap-0.5 bg-slate-50/90 border border-slate-200/90 p-1 rounded-xl text-xs font-semibold text-slate-700 shadow-xs">
                 <!-- History -->
                 <div class="flex items-center gap-0.5 px-1 border-r border-slate-200/80">
                     <button id="tb-undo" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent disabled:opacity-30 transition-all cursor-pointer" title="Undo (Ctrl+Z)"><i class="ph ph-arrow-u-up-left text-base"></i></button>
@@ -186,7 +186,7 @@
                     <button id="tb-h3" class="px-2.5 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs border border-transparent transition-all cursor-pointer" title="Heading 3 (/h3)">H3</button>
                 </div>
 
-                <!-- SPRINT 2 MEDIA VAULT & LISTS -->
+                <!-- STUDIO V2 MEDIA LIBRARY & LISTS -->
                 <div class="flex items-center gap-0.5 px-1">
                     <button id="tb-image" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-700 border border-transparent transition-all cursor-pointer hover:text-emerald-600 font-extrabold mr-1" title="Open Studio V2 Media Library (/image)"><i class="ph ph-images-square text-lg"></i></button>
                     
@@ -202,18 +202,19 @@
             <div class="flex items-center gap-2.5 sm:gap-3 lg:gap-4">
                 <span id="reading-word-meter" class="text-slate-400 font-mono text-xs font-semibold hidden 2xl:inline-block">0 Words | 1m Read</span>
                 
-                <div id="ambient-save-status" class="font-mono text-xs text-slate-500 font-semibold flex items-center shrink-0">
-                    <span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Saved
+                <!-- Primary Feedback Mechanism: Ambient Auto Save -->
+                <div id="ambient-save-status" title="Primary ambient background autosave active" class="font-mono text-xs text-emerald-700 font-extrabold flex items-center shrink-0 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1.5 rounded-lg shadow-2xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2 animate-pulse"></span>Auto-Saved
                 </div>
+
+                <!-- Optional Secondary Checkpoint: Manual Save Draft -->
+                <button id="btn-save-draft" title="Save Draft Checkpoint (Ctrl+S)" class="h-8 sm:h-9 px-2 sm:px-2.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 font-medium text-xs transition-all flex items-center gap-1 cursor-pointer shrink-0 border border-slate-200/60 hover:border-slate-300">
+                    <i class="ph ph-floppy-disk text-base"></i> <span class="hidden xl:inline">Save Draft</span>
+                </button>
 
                 <!-- Preview Command -->
                 <button onclick="StudioArticleWorkflow.openPreview()" title="Open Reader Sanctuary Preview" class="h-9 sm:h-10 px-3 rounded-xl font-bold text-xs text-slate-700 hover:bg-slate-100 transition-colors flex items-center gap-1 border border-slate-200/80 shadow-2xs cursor-pointer shrink-0">
                     <i class="ph ph-eye text-base"></i> <span class="hidden lg:inline">Preview</span>
-                </button>
-
-                <!-- Save Draft Command -->
-                <button id="btn-save-draft" title="Force Local Revision (Ctrl+S)" class="h-9 sm:h-10 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-800 font-extrabold text-xs transition-all flex items-center gap-1 cursor-pointer shrink-0 border border-slate-200/80">
-                    <i class="ph ph-floppy-disk text-base"></i> <span class="hidden xl:inline">Draft</span>
                 </button>
 
                 <!-- Publish to Edge Command -->
@@ -239,12 +240,12 @@
                                placeholder="Type a title..." 
                                value="Why Simplicity & Speed Always Win: Building Studio V2 with Tiptap" 
                                class="flex-1 text-4xl sm:text-[48px] font-extrabold text-slate-950 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-[1.15] bg-transparent border-0 p-0 selection:bg-[#C3FF00]/40">
-                        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap">
-                            <button type="button" onclick="window.StudioContentTemplates && window.StudioContentTemplates.openTemplateSelectorModal()" title="Select Content Type & Preload Architectural Blocks (10 Templates)" class="h-11 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300/80 rounded-2xl font-mono text-xs font-black uppercase tracking-wider shadow-sm transition-all flex items-center gap-2 cursor-pointer">
-                                <i class="ph ph-copy-simple text-base font-bold text-[#C3FF00] bg-slate-900 px-1 py-0.5 rounded"></i> <span>Templates (10)</span>
+                        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap w-full md:w-auto mt-2 md:mt-0 justify-end">
+                            <button type="button" onclick="window.StudioContentTemplates && window.StudioContentTemplates.openTemplateSelectorModal()" title="Select Content Type & Preload Architectural Blocks (10 Templates)" class="h-10 px-3 sm:px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300/80 rounded-xl font-mono text-xs font-bold tracking-wide shadow-2xs transition-all flex items-center gap-1.5 cursor-pointer flex-1 sm:flex-initial justify-center">
+                                <i class="ph ph-copy-simple text-base font-bold text-slate-700"></i> <span>Templates <span class="text-slate-400 font-mono">(10)</span></span>
                             </button>
-                            <button type="button" onclick="window.StudioEditor && window.StudioEditor.openBlockLibraryModal()" title="Open Universal Editorial Block Library (9 Basic & 11 Custom Blocks)" class="h-11 px-4 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white rounded-2xl font-mono text-xs font-black uppercase tracking-wider shadow-lg transition-all flex items-center gap-2 cursor-pointer">
-                                <i class="ph ph-squares-four text-lg font-bold"></i> <span>+ Block Library</span>
+                            <button type="button" onclick="window.StudioEditor && window.StudioEditor.openBlockLibraryModal()" title="Open Universal Editorial Block Library (9 Basic & 11 Custom Blocks)" class="h-10 px-3.5 sm:px-4 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white rounded-xl font-mono text-xs font-extrabold uppercase tracking-wide shadow-md transition-all flex items-center gap-1.5 cursor-pointer flex-1 sm:flex-initial justify-center">
+                                <i class="ph ph-squares-four text-base font-bold"></i> <span>+ Block Library</span>
                             </button>
                         </div>
                     </div>
@@ -256,23 +257,23 @@
                 </div>
             </main>
 
-            <!-- SPRINT 4: DOCUMENT INSPECTOR RIGHT SIDEBAR (GUTENBERG / NOTION WORKFLOW) -->
+            <!-- SPRINT 4: DOCUMENT INSPECTOR RIGHT SIDEBAR (STUDIO V2 WORKFLOW) -->
             <aside id="doc-inspector-sidebar" class="w-80 lg:w-[360px] border-l border-slate-200 bg-slate-50/80 flex flex-col justify-between overflow-y-auto shrink-0 transition-all duration-200 no-scrollbar font-sans"></aside>
         </div>
 
         <footer class="h-9 border-t border-slate-200/80 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/90">
             <div class="flex items-center gap-5 overflow-x-auto no-scrollbar py-1">
-                <span>⚡ Type <strong class="text-slate-700 font-bold">/image</strong> for Media Vault</span>
+                <span>⚡ Type <strong class="text-slate-700 font-bold">/image</strong> for Media Library</span>
                 <span>💡 <strong class="text-slate-700 font-bold">Ctrl + B / I</strong> for typography</span>
                 <span>📋 <strong class="text-slate-700 font-bold">Ctrl + Shift + 7 / 8</strong> for list arrays</span>
                 <span>💾 <strong class="text-slate-700 font-bold">Ctrl + S</strong> to save draft</span>
             </div>
-            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Sprint 4 Production Workflow</span></div>
+            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Production Beta</span></div>
         </footer>
 
     </div>
 
-    <!-- Studio Toast & Reusable Media Library Vault Engine -->
+    <!-- Studio Toast & Reusable Media Library Engine -->
     <script src="../../assets/js/studio-components.js"></script>
     <script src="../../assets/js/media-library.js"></script>
     <script src="../../assets/js/article-workflow.js"></script>

@@ -187,7 +187,7 @@ class StudioSidebarElement extends HTMLElement {
             { id: 'case-studies', label: 'Portfolio Case Studies', icon: 'ph-briefcase', href: `${adminRoot}content/case-studies/index.html`, badge: '3' },
             { id: 'digital-assets', label: 'Digital Assets Catalog', icon: 'ph-package', href: `${adminRoot}digital-assets/index.html`, badge: '22+ Types' },
             { id: 'calendar', label: 'Marketing Calendar', icon: 'ph-calendar-check', href: `${adminRoot}marketing/calendar.html` },
-            { id: 'media-library', label: 'Media Library Vault', icon: 'ph-folder-open', href: `${adminRoot}media-library/index.html` },
+            { id: 'media-library', label: 'Media Library', icon: 'ph-folder-open', href: `${adminRoot}media-library/index.html` },
             { id: 'leads', label: 'Leads & CRM Analytics', icon: 'ph-users', href: `${adminRoot}analytics/leads.html` },
             { id: 'settings', label: 'Website Settings', icon: 'ph-gear-six', href: `${adminRoot}settings/index.html` }
         ];

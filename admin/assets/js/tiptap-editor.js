@@ -26,8 +26,8 @@ class StudioArticleEditorV2 {
             { category: 'Basic Blocks', title: 'Heading 2', keywords: 'heading h2 chapter subtitle headline h1', desc: 'Major document chapter header', icon: 'ph-text-h-two', action: () => this.insertStudioBlock('heading-2') },
             { category: 'Basic Blocks', title: 'Heading 3', keywords: 'heading h3 subsection header small title', desc: 'Subsection technical break', icon: 'ph-text-h-three', action: () => this.insertStudioBlock('heading-3') },
             { category: 'Basic Blocks', title: 'Quote Block', keywords: 'quote blockquote executive statement citation', desc: 'High-contrast executive citation box', icon: 'ph-quotes', action: () => this.insertStudioBlock('quote') },
-            { category: 'Basic Blocks', title: 'Image Vault Asset', keywords: 'image photo asset r2 picture upload media', desc: 'Insert single Cloudflare R2 media vault image', icon: 'ph-image', action: () => this.insertStudioBlock('image') },
-            { category: 'Basic Blocks', title: 'Gallery Vault Grid', keywords: 'gallery pictures collage grid media multi r2', desc: 'Multi-image responsive media gallery', icon: 'ph-images', action: () => this.insertStudioBlock('gallery') },
+            { category: 'Basic Blocks', title: 'Media Library Image', keywords: 'image photo asset r2 picture upload media', desc: 'Insert single Cloudflare R2 image from Media Library', icon: 'ph-image', action: () => this.insertStudioBlock('image') },
+            { category: 'Basic Blocks', title: 'Media Library Gallery', keywords: 'gallery pictures collage grid media multi r2', desc: 'Multi-image responsive Media Library gallery', icon: 'ph-images', action: () => this.insertStudioBlock('gallery') },
             { category: 'Basic Blocks', title: 'Code Syntax Fence', keywords: 'code syntax script javascript ts worker pre dev', desc: 'Dark syntax-highlighted code block', icon: 'ph-code', action: () => this.insertStudioBlock('code') },
             { category: 'Basic Blocks', title: 'Divider Rule', keywords: 'divider rule line hr sep separator horizontal', desc: 'Architectural visual separator rule', icon: 'ph-minus', action: () => this.insertStudioBlock('divider') },
             { category: 'Basic Blocks', title: 'Table Matrix', keywords: 'table matrix comparative columns grid cells', desc: 'Responsive comparative architecture matrix', icon: 'ph-table', action: () => this.insertStudioBlock('table') },
@@ -37,7 +37,7 @@ class StudioArticleEditorV2 {
             { category: 'bangjeje.dev Blocks', title: 'Technology Stack', keywords: 'tech stack matrix architecture tokens r2 tiptap', desc: 'Interactive architectural stack badge cloud', icon: 'ph-stack', action: () => this.insertStudioBlock('tech-stack') },
             { category: 'bangjeje.dev Blocks', title: 'Download CTA Banner', keywords: 'download cta zip package asset blueprint release', desc: 'High-impact resource download card', icon: 'ph-download-simple', action: () => this.insertStudioBlock('download-cta') },
             { category: 'bangjeje.dev Blocks', title: 'Related Articles', keywords: 'related articles stories reading recommendations', desc: 'Dynamic internal knowledge hub story showcase', icon: 'ph-books', action: () => this.insertStudioBlock('related-articles') },
-            { category: 'bangjeje.dev Blocks', title: 'Related Vault Assets', keywords: 'related assets vault figma ui kit design tokens', desc: 'Digital vault asset promotion card', icon: 'ph-vault', action: () => this.insertStudioBlock('related-assets') },
+            { category: 'bangjeje.dev Blocks', title: 'Related Assets', keywords: 'related assets vault figma ui kit design tokens', desc: 'Digital asset promotion card', icon: 'ph-folder-star', action: () => this.insertStudioBlock('related-assets') },
             { category: 'bangjeje.dev Blocks', title: 'Author Bio Credential', keywords: 'author bio founder bangjeje credentials profile', desc: 'Executive author profile verified badge', icon: 'ph-user-focus', action: () => this.insertStudioBlock('author-bio') },
             { category: 'bangjeje.dev Blocks', title: 'Newsletter Capture', keywords: 'newsletter email subscribe capture update form', desc: 'Executive systems briefing email capture box', icon: 'ph-envelope-open', action: () => this.insertStudioBlock('newsletter') },
             { category: 'bangjeje.dev Blocks', title: 'GitHub Repository Card', keywords: 'github repository repo git opensource code stars', desc: 'Live repository activity card with stars', icon: 'ph-github-logo', action: () => this.insertStudioBlock('github-repo') },
@@ -92,7 +92,7 @@ class StudioArticleEditorV2 {
                         if (node.type.name === 'heading') {
                             return `Heading level ${node.attrs.level}...`;
                         }
-                        return "Press '/' for commands (e.g. /image for Media Vault), or just start typing...";
+                        return "Press '/' for commands (e.g. /image for Media Library), or just start typing...";
                     },
                     emptyEditorClass: 'tiptap-empty-canvas',
                     emptyNodeClass: 'tiptap-empty-node'
@@ -132,7 +132,7 @@ class StudioArticleEditorV2 {
                     title: asset.caption || asset.alt
                 }).run();
 
-                StudioToast?.show(`Inserted "${asset.filename}" from Studio V2 Media Library!`, 'success', 'Media Vault');
+                StudioToast?.show(`Inserted "${asset.filename}" from Studio V2 Media Library!`, 'success', 'Media Library');
                 this.handleContentUpdate();
             }
         });
@@ -458,7 +458,7 @@ class StudioArticleEditorV2 {
         
         if (window.StudioArticleWorkflow && isExplicit) {
             window.StudioArticleWorkflow.saveMetadata(true, 'Explicit author revision checkpoint');
-            StudioToast?.show('Saved document & editorial metadata checkpoint!', 'success', 'Revision Vault');
+            StudioToast?.show('Saved document & editorial metadata checkpoint!', 'success', 'Studio V2 Checkpoint');
         }
 
         this.lastSaveTime = new Date();
@@ -471,10 +471,10 @@ class StudioArticleEditorV2 {
 
         if (state === 'saving') {
             badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block mr-2"></span>Saving...`;
-            badge.className = 'font-mono text-xs text-slate-500 font-bold transition-all';
+            badge.className = 'font-mono text-xs text-amber-800 font-extrabold flex items-center shrink-0 bg-amber-50 border border-amber-200/80 px-2.5 py-1.5 rounded-lg shadow-2xs transition-all';
         } else if (state === 'saved') {
-            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2"></span>Saved`;
-            badge.className = 'font-mono text-xs text-slate-700 font-bold transition-all';
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2 animate-pulse"></span>Auto-Saved`;
+            badge.className = 'font-mono text-xs text-emerald-700 font-extrabold flex items-center shrink-0 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1.5 rounded-lg shadow-2xs transition-all';
             setTimeout(() => this.tickClock(), 2500);
         }
     }
@@ -491,14 +491,15 @@ class StudioArticleEditorV2 {
 
         const seconds = Math.floor((new Date() - this.lastSaveTime) / 1000);
         if (seconds < 3) {
-            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2"></span>Saved`;
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2 animate-pulse"></span>Auto-Saved`;
+            badge.className = 'font-mono text-xs text-emerald-700 font-extrabold flex items-center shrink-0 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1.5 rounded-lg shadow-2xs transition-all';
         } else if (seconds < 60) {
-            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Last saved ${seconds} seconds ago`;
-            badge.className = 'font-mono text-xs text-slate-400 font-medium transition-all';
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2"></span>Auto-Saved (${seconds}s ago)`;
+            badge.className = 'font-mono text-xs text-emerald-700/90 font-bold flex items-center shrink-0 bg-emerald-50/80 border border-emerald-200/60 px-2.5 py-1.5 rounded-lg shadow-2xs transition-all';
         } else {
             const mins = Math.floor(seconds / 60);
-            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Last saved ${mins} ${mins === 1 ? 'minute' : 'minutes'} ago`;
-            badge.className = 'font-mono text-xs text-slate-400 font-medium transition-all';
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2"></span>Auto-Saved (${mins}m ago)`;
+            badge.className = 'font-mono text-xs text-emerald-700/90 font-bold flex items-center shrink-0 bg-emerald-50/80 border border-emerald-200/60 px-2.5 py-1.5 rounded-lg shadow-2xs transition-all';
         }
     }
 
