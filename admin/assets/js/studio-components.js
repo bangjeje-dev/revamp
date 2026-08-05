@@ -76,15 +76,19 @@ class StudioCommandPalette {
                                 </a>
                                 <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/digital-assets/create.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-semibold transition-colors">
                                     <span class="flex items-center gap-2.5"><i class="ph ph-package text-base text-emerald-600"></i> Launch 3-Step Asset Packager (22+ Types)</span>
-                                    <span class="text-slate-400 font-mono text-[10px]">Products &rarr;</span>
+                                    <span class="text-slate-400 font-mono text-[10px]">Content &rarr;</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/content/case-studies/create.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-semibold transition-colors">
                                     <span class="flex items-center gap-2.5"><i class="ph ph-briefcase text-base text-purple-600"></i> Architect New Case Study</span>
-                                    <span class="text-slate-400 font-mono text-[10px]">Portfolio &rarr;</span>
+                                    <span class="text-slate-400 font-mono text-[10px]">Content &rarr;</span>
+                                </a>
+                                <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/organization/index.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-semibold transition-colors">
+                                    <span class="flex items-center gap-2.5"><i class="ph ph-tag text-base text-pink-600"></i> Manage Categories & Global Tags</span>
+                                    <span class="text-slate-400 font-mono text-[10px]">Content &rarr;</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/marketing/composer.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-semibold transition-colors">
                                     <span class="flex items-center gap-2.5"><i class="ph ph-megaphone text-base text-amber-600"></i> Compose Marketing Campaign</span>
-                                    <span class="text-slate-400 font-mono text-[10px]">Growth &rarr;</span>
+                                    <span class="text-slate-400 font-mono text-[10px]">Marketing &rarr;</span>
                                 </a>
                             </div>
                         </div>
@@ -92,13 +96,17 @@ class StudioCommandPalette {
                         <div id="cmd-global-index">
                             <div class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider px-2 mb-1.5 mt-3">📑 Catalog Repository Index</div>
                             <div class="space-y-0.5">
+                                <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/analytics/downloads.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-medium">
+                                    <span class="flex items-center gap-2 font-bold"><i class="ph ph-chart-line-up text-emerald-600 text-base"></i> Performance & SEO Vitals Monitor</span>
+                                    <span class="text-slate-500 font-mono text-[11px]">Analytics</span>
+                                </a>
+                                <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/analytics/leads.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-medium">
+                                    <span class="flex items-center gap-2 font-bold"><i class="ph ph-users text-blue-600 text-base"></i> CRM Leads & Contact Pipeline</span>
+                                    <span class="text-slate-500 font-mono text-[11px]">CRM</span>
+                                </a>
                                 <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/digital-assets/edit.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-medium">
                                     <span class="flex items-center gap-2 font-bold"><i class="ph ph-file-zip text-emerald-600 text-base"></i> Aura SaaS Landing Page Template <span class="text-slate-400 font-mono text-[11px] font-normal">v2.1.0</span></span>
                                     <span class="badge-tier-free text-[10px] px-2 py-0.5 rounded uppercase font-bold">Free Asset</span>
-                                </a>
-                                <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/content/articles/edit.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-medium">
-                                    <span class="flex items-center gap-2 font-bold"><i class="ph ph-newspaper text-blue-600 text-base"></i> Designing for Enterprise Growth</span>
-                                    <span class="text-slate-500 font-mono text-[11px]">Live Index</span>
                                 </a>
                             </div>
                         </div>
@@ -168,44 +176,88 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// 3. STREAMLINED TAILADMIN SIDEBAR COMPONENT (No bloated category labels)
+// 3. STREAMLINED PERMANENT TAILADMIN SIDEBAR COMPONENT (Cohesive OS Architecture)
 class StudioSidebarElement extends HTMLElement {
     connectedCallback() {
         const activeItem = this.getAttribute('active') || 'dashboard';
         
-        const currPath = window.location.pathname;
+        const currPath = window.location.pathname.replace(/\\/g, '/');
         let adminRoot = '../';
         if (currPath.endsWith('/admin/dashboard.html') || currPath.endsWith('/admin/index.html') || currPath.endsWith('/admin/login.html')) {
             adminRoot = './';
-        } else if (currPath.includes('/content/') || currPath.includes('/analytics/') || currPath.includes('/marketing/')) {
+        } else if (currPath.includes('/content/articles') || currPath.includes('/content/case-studies') || currPath.includes('/content/documentation')) {
             adminRoot = '../../';
+        } else {
+            adminRoot = '../';
         }
 
-        const items = [
-            { id: 'dashboard', label: 'Dashboard Overview', icon: 'ph-squares-four', href: `${adminRoot}dashboard.html` },
-            { id: 'articles', label: 'Articles & Insights', icon: 'ph-newspaper', href: `${adminRoot}content/articles/index.html`, badge: '24' },
-            { id: 'case-studies', label: 'Portfolio Case Studies', icon: 'ph-briefcase', href: `${adminRoot}content/case-studies/index.html`, badge: '3' },
-            { id: 'digital-assets', label: 'Digital Assets Catalog', icon: 'ph-package', href: `${adminRoot}digital-assets/index.html`, badge: '22+ Types' },
-            { id: 'calendar', label: 'Marketing Calendar', icon: 'ph-calendar-check', href: `${adminRoot}marketing/calendar.html` },
-            { id: 'media-library', label: 'Media Library', icon: 'ph-folder-open', href: `${adminRoot}media-library/index.html` },
-            { id: 'leads', label: 'Leads & CRM Analytics', icon: 'ph-users', href: `${adminRoot}analytics/leads.html` },
-            { id: 'settings', label: 'Website Settings', icon: 'ph-gear-six', href: `${adminRoot}settings/index.html` }
+        const groups = [
+            {
+                heading: 'OVERVIEW',
+                items: [
+                    { id: 'dashboard', label: 'Dashboard Overview', icon: 'ph-squares-four', href: `${adminRoot}dashboard.html` }
+                ]
+            },
+            {
+                heading: 'CONTENT',
+                items: [
+                    { id: 'articles', label: 'Articles & Insights', icon: 'ph-newspaper', href: `${adminRoot}content/articles/index.html`, badge: '24' },
+                    { id: 'case-studies', label: 'Case Studies', icon: 'ph-briefcase', href: `${adminRoot}content/case-studies/index.html`, badge: '3' },
+                    { id: 'digital-assets', label: 'Digital Assets & Portfolio', icon: 'ph-package', href: `${adminRoot}digital-assets/index.html`, badge: '22+ Types' },
+                    { id: 'taxonomy', label: 'Categories & Tags', icon: 'ph-tag', href: `${adminRoot}organization/index.html` }
+                ]
+            },
+            {
+                heading: 'MEDIA',
+                items: [
+                    { id: 'media-library', label: 'Media Library', icon: 'ph-folder-open', href: `${adminRoot}media-library/index.html` }
+                ]
+            },
+            {
+                heading: 'ANALYTICS',
+                items: [
+                    { id: 'analytics', label: 'Performance & SEO Vitals', icon: 'ph-chart-line-up', href: `${adminRoot}analytics/downloads.html` }
+                ]
+            },
+            {
+                heading: 'CRM',
+                items: [
+                    { id: 'crm', label: 'Leads, Contacts & Pipeline', icon: 'ph-users', href: `${adminRoot}analytics/leads.html` }
+                ]
+            },
+            {
+                heading: 'MARKETING',
+                items: [
+                    { id: 'marketing', label: 'Campaigns & Calendar', icon: 'ph-megaphone', href: `${adminRoot}marketing/calendar.html` }
+                ]
+            },
+            {
+                heading: 'SYSTEM',
+                items: [
+                    { id: 'settings', label: 'Website Settings', icon: 'ph-gear-six', href: `${adminRoot}settings/index.html` }
+                ]
+            }
         ];
 
         let navHtml = '';
-        items.forEach(item => {
-            const isActive = item.id === activeItem ? 
-                'bg-slate-900 text-white font-bold shadow-xs' : 
-                'text-slate-600 hover:bg-slate-100 font-semibold';
-            const badgeHtml = item.badge ? `<span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded ${item.id === activeItem ? 'bg-slate-800 text-[#C3FF00]' : 'bg-slate-200 text-slate-700'} font-bold">${item.badge}</span>` : '';
+        groups.forEach((group, idx) => {
+            if (group.heading !== 'OVERVIEW') {
+                navHtml += `<div class="px-3.5 pt-3.5 pb-1 text-[10px] font-mono font-extrabold text-slate-400 uppercase tracking-wider">${group.heading}</div>`;
+            }
+            group.items.forEach(item => {
+                const isActive = item.id === activeItem ? 
+                    'bg-slate-900 text-white font-bold shadow-xs' : 
+                    'text-slate-600 hover:bg-slate-100 font-semibold';
+                const badgeHtml = item.badge ? `<span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded ${item.id === activeItem ? 'bg-slate-800 text-[#C3FF00]' : 'bg-slate-200 text-slate-700'} font-bold">${item.badge}</span>` : '';
 
-            navHtml += `
-                <a href="${item.href}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs sm:text-sm my-0.5 transition-all ${isActive}">
-                    <i class="ph ${item.icon} text-lg shrink-0 ${item.id === activeItem ? 'text-[#C3FF00]' : 'text-slate-500'}"></i> 
-                    <span class="truncate">${item.label}</span>
-                    ${badgeHtml}
-                </a>
-            `;
+                navHtml += `
+                    <a href="${item.href}" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs sm:text-sm my-0.5 transition-all ${isActive}">
+                        <i class="ph ${item.icon} text-lg shrink-0 ${item.id === activeItem ? 'text-[#C3FF00]' : 'text-slate-500'}"></i> 
+                        <span class="truncate">${item.label}</span>
+                        ${badgeHtml}
+                    </a>
+                `;
+            });
         });
 
         this.innerHTML = `
@@ -251,12 +303,14 @@ class StudioHeaderElement extends HTMLElement {
         const breadcrumb = this.getAttribute('breadcrumb') || 'Executive Hub';
         const hideActions = this.getAttribute('hide-actions') === 'true';
 
-        const currPath = window.location.pathname;
+        const currPath = window.location.pathname.replace(/\\/g, '/');
         let adminRoot = '../';
-        if (currPath.endsWith('/admin/dashboard.html') || currPath.endsWith('/admin/index.html')) {
+        if (currPath.endsWith('/admin/dashboard.html') || currPath.endsWith('/admin/index.html') || currPath.endsWith('/admin/login.html')) {
             adminRoot = './';
-        } else if (currPath.includes('/content/') || currPath.includes('/analytics/') || currPath.includes('/marketing/')) {
+        } else if (currPath.includes('/content/articles') || currPath.includes('/content/case-studies') || currPath.includes('/content/documentation')) {
             adminRoot = '../../';
+        } else {
+            adminRoot = '../';
         }
 
         const actionsHtml = hideActions ? '' : `
