@@ -1,0 +1,20 @@
+name = "bangjeje-studio-v2-r2-vault"
+main = "index.js"
+compatibility_date = "2026-08-05"
+
+# Bind Cloudflare R2 Bucket storage object
+[[r2_buckets]]
+binding = "STUDIO_MEDIA_VAULT"
+bucket_name = "bangjeje-dev-media-vault"
+preview_bucket_name = "bangjeje-dev-media-vault-preview"
+
+# Environment Variables Configuration
+[vars]
+CDN_DOMAIN = "https://cdn.bangjeje.dev"
+MAX_UPLOAD_SIZE = "26214400" # 25MB in bytes
+
+# Custom Route Binding for production bangjeje.dev API endpoint
+# [env.production]
+# routes = [
+#   { pattern = "cdn.bangjeje.dev/*", zone_name = "bangjeje.dev" }
+# ]
