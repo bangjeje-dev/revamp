@@ -86,10 +86,7 @@ class StudioCommandPalette {
                                     <span class="flex items-center gap-2.5"><i class="ph ph-tag text-base text-pink-600"></i> Manage Categories & Global Tags</span>
                                     <span class="text-slate-400 font-mono text-[10px]">Content &rarr;</span>
                                 </a>
-                                <a href="javascript:void(0)" onclick="StudioCommandPalette.navigate('/admin/marketing/composer.html')" class="flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-100 text-slate-800 font-semibold transition-colors">
-                                    <span class="flex items-center gap-2.5"><i class="ph ph-megaphone text-base text-amber-600"></i> Compose Marketing Campaign</span>
-                                    <span class="text-slate-400 font-mono text-[10px]">Marketing &rarr;</span>
-                                </a>
+                                <!-- Marketing Module Inactive for Beta (Reserved for future release) -->
                             </div>
                         </div>
 
@@ -225,12 +222,7 @@ class StudioSidebarElement extends HTMLElement {
                     { id: 'crm', label: 'Leads, Contacts & Pipeline', icon: 'ph-users', href: `${adminRoot}analytics/leads.html` }
                 ]
             },
-            {
-                heading: 'MARKETING',
-                items: [
-                    { id: 'marketing', label: 'Campaigns & Calendar', icon: 'ph-megaphone', href: `${adminRoot}marketing/calendar.html` }
-                ]
-            },
+            /* Marketing module hidden during Beta phase (Reserved for future release) */
             {
                 heading: 'SYSTEM',
                 items: [
@@ -325,7 +317,7 @@ class StudioHeaderElement extends HTMLElement {
                     <a href="${adminRoot}content/articles/create.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"><i class="ph ph-feather text-blue-600 text-base"></i> New Article (Zen Writer)</a>
                     <a href="${adminRoot}content/case-studies/create.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"><i class="ph ph-briefcase text-purple-600 text-base"></i> New Case Study</a>
                     <a href="${adminRoot}digital-assets/create.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"><i class="ph ph-package text-emerald-600 text-base"></i> New Digital Asset (3-Step)</a>
-                    <a href="${adminRoot}marketing/composer.html" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"><i class="ph ph-megaphone text-amber-600 text-base"></i> New Marketing Campaign</a>
+                    <!-- Marketing Campaign option reserved for future release -->
                 </div>
             </div>
         `;
