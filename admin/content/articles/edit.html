@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Workspace MVP &bull; Studio V2 Tiptap Engine</title>
+    <title>Article Workspace &bull; Studio V2 Editorial Engine</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-    <!-- Google Fonts: Outfit -->
+    <!-- Google Fonts: Outfit & JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/studio.css">
     <style>
-        /* Tiptap Notion / Ghost Editorial Typography Styling for TailAdmin White Theme */
+        /* SPRINT 1.5: PRODUCTION-GRADE EDITORIAL TYPOGRAPHY POLISH */
         .tiptap-empty-node::before {
             content: attr(data-placeholder);
             float: left;
@@ -21,111 +21,217 @@
             height: 0;
             font-style: italic;
         }
-        #tiptap-canvas-root .ProseMirror h1 { font-size: 2.25rem; font-weight: 800; line-height: 1.2; color: #0f172a; margin-top: 2rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; letter-spacing: -0.025em; }
-        #tiptap-canvas-root .ProseMirror h2 { font-size: 1.75rem; font-weight: 800; line-height: 1.25; color: #0f172a; margin-top: 1.75rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif; letter-spacing: -0.015em; }
-        #tiptap-canvas-root .ProseMirror h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.4; color: #1e293b; margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif; }
-        #tiptap-canvas-root .ProseMirror p { margin-bottom: 1rem; color: #334155; line-height: 1.75; font-size: 1.125rem; }
-        #tiptap-canvas-root .ProseMirror ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.75rem; margin-bottom: 0.75rem; space-y: 0.5rem; }
-        #tiptap-canvas-root .ProseMirror ol { list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.75rem; margin-bottom: 0.75rem; space-y: 0.5rem; }
-        #tiptap-canvas-root .ProseMirror li { margin-bottom: 0.375rem; color: #1e293b; }
-        #tiptap-canvas-root .ProseMirror blockquote { padding-left: 1.25rem; border-left: 4px solid #0f172a; margin-top: 1.5rem; margin-bottom: 1.5rem; font-style: italic; font-family: Georgia, serif; font-size: 1.25rem; color: #1e293b; }
-        #tiptap-canvas-root .ProseMirror pre { background-color: #0f172a; color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; padding: 1.25rem; border-radius: 0.75rem; margin-top: 1.25rem; margin-bottom: 1.25rem; overflow-x: auto; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
-        #tiptap-canvas-root .ProseMirror code { background-color: #f1f5f9; color: #e11d48; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 700; padding: 0.125rem 0.375rem; border-radius: 0.25rem; border: 1px solid #e2e8f0; }
-        #tiptap-canvas-root .ProseMirror pre code { background-color: transparent; color: inherit; font-size: inherit; font-weight: inherit; padding: 0; border: none; }
-        #tiptap-canvas-root .ProseMirror hr { margin-top: 2rem; margin-bottom: 2rem; border-top-width: 2px; border-color: #e2e8f0; }
+        /* Optimal Reading Line Lengths & Rhythms (700-800px sweet spot) */
+        #tiptap-canvas-root .ProseMirror {
+            font-family: 'Outfit', sans-serif;
+            color: #1e293b;
+            font-size: 1.25rem; /* 20px body font */
+            line-height: 1.8; /* Comfortable editorial line-height */
+        }
+        #tiptap-canvas-root .ProseMirror p {
+            margin-bottom: 1.6rem;
+            color: #334155;
+            font-weight: 400;
+        }
+        #tiptap-canvas-root .ProseMirror h1 {
+            font-size: 2.75rem; /* 44px H1 */
+            font-weight: 800;
+            line-height: 1.15;
+            color: #0f172a;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+        #tiptap-canvas-root .ProseMirror h2 {
+            font-size: 2rem; /* 32px H2 */
+            font-weight: 800;
+            line-height: 1.25;
+            color: #0f172a;
+            margin-top: 2.75rem;
+            margin-bottom: 0.85rem;
+            letter-spacing: -0.02em;
+        }
+        #tiptap-canvas-root .ProseMirror h3 {
+            font-size: 1.5rem; /* 24px H3 */
+            font-weight: 700;
+            line-height: 1.35;
+            color: #1e293b;
+            margin-top: 2.25rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+        #tiptap-canvas-root .ProseMirror ul, 
+        #tiptap-canvas-root .ProseMirror ol {
+            padding-left: 1.75rem;
+            margin-top: 1rem;
+            margin-bottom: 1.6rem;
+        }
+        #tiptap-canvas-root .ProseMirror li {
+            margin-bottom: 0.6rem;
+            padding-left: 0.25rem;
+            line-height: 1.6;
+        }
+        #tiptap-canvas-root .ProseMirror blockquote {
+            padding-left: 1.5rem;
+            border-left: 4px solid #0f172a;
+            background-color: rgba(248, 250, 252, 0.85);
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+            padding-right: 1.5rem;
+            border-radius: 0 0.75rem 0.75rem 0;
+            margin-top: 2.25rem;
+            margin-bottom: 2.25rem;
+            font-style: italic;
+            font-family: Georgia, serif;
+            font-size: 1.35rem;
+            color: #1e293b;
+            line-height: 1.65;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.02);
+        }
+        #tiptap-canvas-root .ProseMirror pre {
+            background-color: #0f172a;
+            color: #34d399;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.925rem;
+            line-height: 1.6;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        #tiptap-canvas-root .ProseMirror code {
+            background-color: #f1f5f9;
+            color: #e11d48;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            font-weight: 700;
+            padding: 0.2rem 0.45rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e2e8f0;
+        }
+        #tiptap-canvas-root .ProseMirror pre code {
+            background-color: transparent;
+            color: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            padding: 0;
+            border: none;
+        }
+        #tiptap-canvas-root .ProseMirror hr {
+            margin-top: 3.5rem;
+            margin-bottom: 3.5rem;
+            border-top-width: 2px;
+            border-color: #e2e8f0;
+        }
+        /* High contrast selection across all editor blocks */
+        ::selection {
+            background-color: rgba(195, 255, 0, 0.45) !important;
+            color: #020617 !important;
+        }
     </style>
 </head>
-<body class="bg-white font-['Outfit'] text-slate-900 selection:bg-[#C3FF00]/40 selection:text-slate-900 antialiased overflow-hidden">
+<body class="bg-white font-['Outfit'] text-slate-900 antialiased overflow-hidden">
     <div class="h-screen flex flex-col bg-white">
         
-        <!-- STUDIO V2 CLEAN EDITORIAL TOP BAR (Sprint 1 MVP) -->
-        <header class="h-16 border-b border-slate-200 px-6 flex items-center justify-between bg-white z-30 shrink-0">
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="inline-flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors border border-slate-200" title="Return to Articles Vault">
+        <!-- SPRINT 1.5 COMPACT STICKY TOOLBAR (Optimized for 1440px, 1280px, 1024px, 768px) -->
+        <header class="sticky top-0 z-40 h-16 border-b border-slate-200 px-4 sm:px-8 bg-white/95 backdrop-blur-md flex items-center justify-between shrink-0 shadow-2xs">
+            <div class="flex items-center gap-3 sm:gap-5">
+                <a href="index.html" class="inline-flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors border border-slate-200/80 shadow-2xs" title="Return to Articles Vault">
                     <i class="ph ph-arrow-left text-lg font-bold"></i>
                 </a>
                 <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-[#C3FF00] inline-block border border-slate-900/10 shadow-2xs"></span>
-                    <span class="font-extrabold text-slate-900 text-sm tracking-tight font-sans">Studio V2 Editorial Engine</span>
-                    <span class="px-2 py-0.5 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase tracking-wider ml-1">Tiptap MVP</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#C3FF00] inline-block border border-slate-900/15 shadow-xs"></span>
+                    <span class="font-extrabold text-slate-900 text-sm tracking-tight font-sans hidden sm:inline-block">Studio V2 Editorial Engine</span>
+                    <span class="px-2 py-0.5 rounded-md bg-slate-900 text-[#C3FF00] font-mono text-[10px] font-black uppercase tracking-wider">Sprint 1.5</span>
                 </div>
             </div>
 
-            <!-- Central Formatting Toolbar & History -->
-            <div class="hidden md:flex items-center gap-1 bg-slate-50 border border-slate-200 p-1.5 rounded-xl text-xs font-semibold text-slate-700 shadow-2xs">
+            <!-- COMPACT STICKY FORMATTING TOOLBAR WITH SHORTCUT HINTS -->
+            <div class="flex items-center gap-0.5 bg-slate-50/90 border border-slate-200/90 p-1 rounded-xl text-xs font-semibold text-slate-700 shadow-xs">
                 <!-- History -->
-                <div class="flex items-center gap-0.5 pr-2 border-r border-slate-200">
-                    <button id="tb-undo" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 disabled:opacity-30 transition-all" title="Undo (Ctrl+Z)"><i class="ph ph-arrow-u-up-left text-base"></i></button>
-                    <button id="tb-redo" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 disabled:opacity-30 transition-all" title="Redo (Ctrl+Y)"><i class="ph ph-arrow-u-up-right text-base"></i></button>
+                <div class="flex items-center gap-0.5 px-1 border-r border-slate-200/80">
+                    <button id="tb-undo" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent disabled:opacity-30 transition-all cursor-pointer" title="Undo (Ctrl+Z)"><i class="ph ph-arrow-u-up-left text-base"></i></button>
+                    <button id="tb-redo" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent disabled:opacity-30 transition-all cursor-pointer" title="Redo (Ctrl+Y / Ctrl+Shift+Z)"><i class="ph ph-arrow-u-up-right text-base"></i></button>
                 </div>
 
-                <!-- Typography Marks -->
-                <div class="flex items-center gap-0.5 px-2 border-r border-slate-200">
-                    <button id="tb-bold" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs font-extrabold transition-all" title="Bold (Ctrl+B)">B</button>
-                    <button id="tb-italic" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs italic font-bold transition-all" title="Italic (Ctrl+I)">I</button>
-                    <button id="tb-strike" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs line-through transition-all" title="Strikethrough">S</button>
+                <!-- Marks -->
+                <div class="flex items-center gap-0.5 px-1 border-r border-slate-200/80">
+                    <button id="tb-bold" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs font-black text-slate-700 border border-transparent transition-all cursor-pointer" title="Bold (Ctrl+B)">B</button>
+                    <button id="tb-italic" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs italic font-bold text-slate-700 border border-transparent transition-all cursor-pointer" title="Italic (Ctrl+I)">I</button>
+                    <button id="tb-strike" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs line-through text-slate-600 border border-transparent transition-all cursor-pointer" title="Strikethrough">S</button>
                 </div>
 
-                <!-- Heading Hierarchy -->
-                <div class="flex items-center gap-0.5 px-2 border-r border-slate-200 font-mono font-extrabold">
-                    <button id="tb-h1" class="px-2 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Heading 1">H1</button>
-                    <button id="tb-h2" class="px-2 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Heading 2">H2</button>
-                    <button id="tb-h3" class="px-2 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Heading 3">H3</button>
+                <!-- Headings -->
+                <div class="flex items-center gap-0.5 px-1 border-r border-slate-200/80 font-mono font-black text-xs">
+                    <button id="tb-h1" class="px-2.5 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs border border-transparent transition-all cursor-pointer" title="Heading 1 (/h1)">H1</button>
+                    <button id="tb-h2" class="px-2.5 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs border border-transparent transition-all cursor-pointer" title="Heading 2 (/h2)">H2</button>
+                    <button id="tb-h3" class="px-2.5 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs border border-transparent transition-all cursor-pointer" title="Heading 3 (/h3)">H3</button>
                 </div>
 
                 <!-- Lists & Blocks -->
-                <div class="flex items-center gap-0.5 pl-2">
-                    <button id="tb-bullet" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Bullet List"><i class="ph ph-list-bullets text-base"></i></button>
-                    <button id="tb-ordered" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Numbered List"><i class="ph ph-list-numbers text-base"></i></button>
-                    <button id="tb-quote" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Blockquote"><i class="ph ph-quotes text-base"></i></button>
-                    <button id="tb-code" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs transition-all" title="Code Block"><i class="ph ph-code text-base"></i></button>
-                    <button id="tb-clear" class="w-7 h-7 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-rose-500 transition-all ml-1" title="Clear Formatting"><i class="ph ph-eraser text-base"></i></button>
+                <div class="flex items-center gap-0.5 px-1">
+                    <button id="tb-bullet" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Bullet List (Ctrl+Shift+8)"><i class="ph ph-list-bullets text-base"></i></button>
+                    <button id="tb-ordered" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Numbered List (Ctrl+Shift+7)"><i class="ph ph-list-numbers text-base"></i></button>
+                    <button id="tb-quote" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Blockquote (/quote)"><i class="ph ph-quotes text-base"></i></button>
+                    <button id="tb-code" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-slate-600 border border-transparent transition-all cursor-pointer" title="Code Block (/code)"><i class="ph ph-code text-base"></i></button>
+                    <button id="tb-clear" class="w-8 h-8 inline-flex items-center justify-center rounded-lg hover:bg-white hover:shadow-2xs text-rose-500 hover:text-rose-700 border border-transparent transition-all cursor-pointer ml-0.5" title="Clear Formatting"><i class="ph ph-eraser text-base"></i></button>
                 </div>
             </div>
 
-            <!-- Right Actions & Draft Status (Sprint 1 MVP ONLY) -->
-            <div class="flex items-center gap-4 text-xs font-semibold">
-                <span id="reading-word-meter" class="text-slate-400 font-mono text-xs hidden lg:inline-block">168 Words | 1m Read</span>
-                <span id="draft-status-badge" class="px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase">Draft Saved Locally</span>
-                <button id="btn-save-draft" class="btn-studio-primary h-10 px-6 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white text-xs font-black tracking-wider uppercase shadow-md transition-all">
-                    <i class="ph ph-floppy-disk text-base mr-2"></i> Save Draft
+            <!-- Right Actions & Ambient Auto-Save Indicator (No Toasts!) -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <span id="reading-word-meter" class="text-slate-400 font-mono text-xs font-semibold hidden xl:inline-block">0 Words | 1m Read</span>
+                
+                <!-- AMBIENT STATUS (Saving... / Saved / Last saved X seconds ago) -->
+                <div id="ambient-save-status" class="font-mono text-xs text-slate-500 font-semibold flex items-center shrink-0">
+                    <span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Saved
+                </div>
+
+                <button id="btn-save-draft" title="Force Local Revision (Ctrl+S)" class="btn-studio-primary h-10 px-5 bg-slate-900 text-[#C3FF00] hover:bg-slate-800 hover:text-white text-xs font-black tracking-wider uppercase shadow-md transition-all cursor-pointer shrink-0">
+                    <i class="ph ph-floppy-disk text-base sm:mr-1.5"></i> <span class="hidden sm:inline">Save Draft</span>
                 </button>
             </div>
         </header>
 
-        <!-- CENTER WRITING WORKSPACE (Zero-Clutter Studio V2 Foundation) -->
+        <!-- DISTRACTION-FREE WRITING CANVAS (Optimal Reading Width: 768px) -->
         <main class="flex-1 overflow-y-auto p-6 sm:p-12 lg:p-20 bg-white no-scrollbar">
-            <div class="max-w-3xl mx-auto space-y-6">
+            <!-- Centered Editorial Box (max-w-3xl = 768px, exact 700-800px specification) -->
+            <div class="max-w-3xl mx-auto space-y-8 pb-32">
                 
-                <!-- DOCUMENT TITLE H1 INPUT -->
-                <div class="pb-6 border-b border-slate-100">
+                <!-- DISTRACTION-FREE TITLE INPUT WITH NO SHADOWS OR BORDERS -->
+                <div class="pb-6 border-b border-slate-200/60">
                     <input type="text" 
                            id="doc-title-input" 
-                           placeholder="Untitled Article..." 
+                           placeholder="Type a title..." 
                            value="Why Simplicity & Speed Always Win: Building Studio V2 with Tiptap" 
-                           class="w-full text-3xl sm:text-5xl font-black text-slate-900 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-tight bg-transparent border-0 p-0">
+                           class="w-full text-4xl sm:text-[48px] font-extrabold text-slate-950 placeholder:text-slate-300 focus:outline-none font-sans tracking-tight leading-[1.15] bg-transparent border-0 p-0 selection:bg-[#C3FF00]/40">
                 </div>
 
-                <!-- TIPTAP PROSEMIRROR AUTHORING CANVAS -->
-                <div id="tiptap-canvas-root" class="w-full text-slate-800 font-sans">
-                    <!-- Tiptap initializes directly inside this DOM root -->
+                <!-- TIPTAP WRITING CANVAS -->
+                <div id="tiptap-canvas-root" class="w-full text-slate-800 font-sans min-h-[550px]">
+                    <!-- Tiptap initializes directly inside this clean DOM root -->
                 </div>
 
             </div>
         </main>
 
-        <!-- SPRINT 1 MINIMAL TELEMETRY BAR -->
-        <footer class="h-8 border-t border-slate-200 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/70">
-            <div class="flex items-center gap-4">
-                <span>⚡ Type <strong class="text-slate-700 font-bold">/</strong> for instant block commands</span>
-                <span>💾 Shortcut <strong class="text-slate-700 font-bold">Ctrl + S</strong> to Save Draft</span>
+        <!-- SPRINT 1.5 KEYBOARD-FIRST TELEMETRY BAR -->
+        <footer class="h-9 border-t border-slate-200/80 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 bg-slate-50/90">
+            <div class="flex items-center gap-5 overflow-x-auto no-scrollbar py-1">
+                <span>⚡ Type <strong class="text-slate-700 font-bold">/</strong> for block commands</span>
+                <span>💡 <strong class="text-slate-700 font-bold">Ctrl + B / I</strong> for typography</span>
+                <span>📋 <strong class="text-slate-700 font-bold">Ctrl + Shift + 7 / 8</strong> for list arrays</span>
+                <span>💾 <strong class="text-slate-700 font-bold">Ctrl + S</strong> to save draft</span>
             </div>
-            <div><span>bangjeje.dev Studio V2 &bull; Sprint 1 MVP Foundation</span></div>
+            <div class="shrink-0 font-bold text-slate-500"><span>bangjeje.dev Studio V2 &bull; Sprint 1.5 UX Polish</span></div>
         </footer>
 
     </div>
 
-    <!-- Toast Notification Support -->
+    <!-- Toast Component File (Not invoked for Save Draft in Sprint 1.5 to maintain undisturbed writing flow) -->
     <script src="../../assets/js/studio-components.js"></script>
     <!-- Studio V2 Vanilla Tiptap Editorial Engine (ES Module) -->
     <script type="module" src="../../assets/js/tiptap-editor.js"></script>

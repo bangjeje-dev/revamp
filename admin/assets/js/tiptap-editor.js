@@ -1,31 +1,38 @@
 /**
- * bangjeje.dev Studio V2 — Sprint 1: Article Workspace MVP (Tiptap Editorial Engine)
- * Pure Vanilla JavaScript ES Module implementation of Tiptap via high-velocity CDN.
- * Focus: Smooth, fast, and stable writing experience with Slash Commands and TailAdmin styling.
- * Exclusions: No SEO, no Media Library, no Cloudflare R2, no custom blocks, no publishing backend.
+ * bangjeje.dev Studio V2 — Sprint 1.5: Editorial UX Polish (Tiptap Engine)
+ * Production-ready Vanilla JavaScript ES Module implementation of Tiptap.
+ * Focus: Delightful typography, ambient auto-save (no toasts), filtered slash commands, and keyboard-first fluidity.
  */
 
 import { Editor } from 'https://esm.sh/@tiptap/core@2.10.4';
 import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.10.4';
 import Placeholder from 'https://esm.sh/@tiptap/extension-placeholder@2.10.4';
 
-class StudioArticleEditor {
+class StudioArticleEditorV2 {
     constructor() {
         this.editor = null;
         this.slashMenuOpen = false;
         this.slashQuery = '';
         this.selectedIndex = 0;
-        this.slashItems = [
-            { title: 'Heading 1', desc: 'Large document headline or section title', icon: 'ph-text-h-one', action: () => this.editor.chain().focus().toggleHeading({ level: 1 }).run() },
-            { title: 'Heading 2', desc: 'Medium chapter heading for structured breaks', icon: 'ph-text-h-two', action: () => this.editor.chain().focus().toggleHeading({ level: 2 }).run() },
-            { title: 'Heading 3', desc: 'Small subsection header', icon: 'ph-text-h-three', action: () => this.editor.chain().focus().toggleHeading({ level: 3 }).run() },
-            { title: 'Bullet List', desc: 'Create a simple bulleted item list', icon: 'ph-list-bullets', action: () => this.editor.chain().focus().toggleBulletList().run() },
-            { title: 'Numbered List', desc: 'Create a numbered sequential list', icon: 'ph-list-numbers', action: () => this.editor.chain().focus().toggleOrderedList().run() },
-            { title: 'Quote Box', desc: 'Capture an executive citation or emphasis quote', icon: 'ph-quotes', action: () => this.editor.chain().focus().toggleBlockquote().run() },
-            { title: 'Code Fence', desc: 'Syntax highlighting code block for developers', icon: 'ph-code', action: () => this.editor.chain().focus().toggleCodeBlock().run() },
-            { title: 'Divider Rule', desc: 'Horizontal separation rule between topics', icon: 'ph-minus', action: () => this.editor.chain().focus().setHorizontalRule().run() }
+        this.saveTimer = null;
+        this.lastSaveTime = null;
+        this.tickerInterval = null;
+
+        // Categorized & searchable Slash Command block library
+        this.slashCatalog = [
+            { category: 'Typography', title: 'Heading 1', keywords: 'h1 heading one large title section headline', desc: 'Large document headline or section break', icon: 'ph-text-h-one', action: () => this.editor.chain().focus().toggleHeading({ level: 1 }).run() },
+            { category: 'Typography', title: 'Heading 2', keywords: 'h2 heading two medium chapter section', desc: 'Medium chapter heading for structured breaks', icon: 'ph-text-h-two', action: () => this.editor.chain().focus().toggleHeading({ level: 2 }).run() },
+            { category: 'Typography', title: 'Heading 3', keywords: 'h3 heading three small subsection header', desc: 'Small subsection header', icon: 'ph-text-h-three', action: () => this.editor.chain().focus().toggleHeading({ level: 3 }).run() },
+            
+            { category: 'Lists & Structure', title: 'Bullet List', keywords: 'ul bullet list points unordered item dots', desc: 'Create a simple bulleted item list', icon: 'ph-list-bullets', action: () => this.editor.chain().focus().toggleBulletList().run() },
+            { category: 'Lists & Structure', title: 'Numbered List', keywords: 'ol number ordered list sequential numbers 1 2', desc: 'Create a numbered sequential array', icon: 'ph-list-numbers', action: () => this.editor.chain().focus().toggleOrderedList().run() },
+            { category: 'Lists & Structure', title: 'Divider Rule', keywords: 'hr divider line separator horizontal break', desc: 'Horizontal separation rule between topics', icon: 'ph-minus', action: () => this.editor.chain().focus().setHorizontalRule().run() },
+            
+            { category: 'Callouts & Syntax', title: 'Quote Box', keywords: 'quote blockquote citation executive emphasis', desc: 'Capture an executive citation or emphasis quote', icon: 'ph-quotes', action: () => this.editor.chain().focus().toggleBlockquote().run() },
+            { category: 'Callouts & Syntax', title: 'Code Fence', keywords: 'code fence syntax block developer javascript typescript pre', desc: 'Syntax highlighting code block for developers', icon: 'ph-code', action: () => this.editor.chain().focus().toggleCodeBlock().run() }
         ];
 
+        this.filteredItems = [...this.slashCatalog];
         this.init();
     }
 
@@ -34,66 +41,48 @@ class StudioArticleEditor {
         this.bindToolbarEvents();
         this.bindSlashMenu();
         this.bindTitleAndSave();
-        this.setupWordCount();
+        this.setupKeyboardShortcuts();
         this.injectSlashDropdownDOM();
+        this.restoreOrInitDraft();
+        this.startSaveTicker();
         
-        // Expose instance to global window for onclick inline handlers if needed
         window.StudioEditor = this;
-        
-        StudioToast?.show('Tiptap V2 Editorial Engine active! Type "/" for instant block formatting.', 'success', 'Studio V2');
     }
 
     initTiptap() {
         const container = document.getElementById('tiptap-canvas-root');
-        if (!container) {
-            console.error('Tiptap mount point #tiptap-canvas-root not found in DOM.');
-            return;
-        }
+        if (!container) return;
 
         this.editor = new Editor({
             element: container,
             extensions: [
                 StarterKit.configure({
                     heading: { levels: [1, 2, 3, 4] },
-                    bulletList: { HTMLAttributes: { class: 'tiptap-ul list-disc pl-6 space-y-2 text-slate-800 font-medium my-3' } },
-                    orderedList: { HTMLAttributes: { class: 'tiptap-ol list-decimal pl-6 space-y-2 text-slate-800 font-medium my-3' } },
-                    blockquote: { HTMLAttributes: { class: 'tiptap-quote pl-5 border-l-4 border-slate-900 my-5 py-1 italic font-serif text-xl text-slate-800' } },
-                    codeBlock: { HTMLAttributes: { class: 'tiptap-code-block rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs p-5 my-4 overflow-x-auto border border-slate-800 shadow-sm leading-relaxed' } },
-                    code: { HTMLAttributes: { class: 'tiptap-code bg-slate-100 text-rose-600 font-mono text-xs font-bold px-1.5 py-0.5 rounded border border-slate-200' } },
-                    horizontalRule: { HTMLAttributes: { class: 'my-8 border-t-2 border-slate-200' } }
+                    bulletList: { HTMLAttributes: { class: 'tiptap-ul list-disc pl-6 space-y-2.5 text-slate-800 font-medium my-4' } },
+                    orderedList: { HTMLAttributes: { class: 'tiptap-ol list-decimal pl-6 space-y-2.5 text-slate-800 font-medium my-4' } },
+                    blockquote: { HTMLAttributes: { class: 'tiptap-quote pl-6 border-l-4 border-slate-900 bg-slate-50/70 py-4 pr-6 rounded-r-xl my-6 italic font-serif text-xl sm:text-2xl text-slate-800 leading-relaxed' } },
+                    codeBlock: { HTMLAttributes: { class: 'tiptap-code-block rounded-2xl bg-slate-900 text-emerald-300 font-mono text-sm sm:text-base p-6 my-6 overflow-x-auto border border-slate-800 shadow-sm leading-relaxed' } },
+                    code: { HTMLAttributes: { class: 'tiptap-code bg-slate-100 text-rose-600 font-mono text-xs sm:text-sm font-extrabold px-2 py-0.5 rounded border border-slate-200/80' } },
+                    horizontalRule: { HTMLAttributes: { class: 'my-10 border-t-2 border-slate-200' } }
                 }),
                 Placeholder.configure({
                     placeholder: ({ node }) => {
                         if (node.type.name === 'heading') {
                             return `Heading level ${node.attrs.level}...`;
                         }
-                        return "Start writing your article, or press '/' for commands...";
+                        return "Press '/' for commands, or just start writing your narrative...";
                     },
                     emptyEditorClass: 'tiptap-empty-canvas',
                     emptyNodeClass: 'tiptap-empty-node'
                 })
             ],
-            content: `
-                <p>Writing in <strong>Studio V2</strong> is designed to feel lighter, faster, and closer to Notion or Ghost than a heavy CMS administration panel.</p>
-                <h2>1. Built on Tiptap & ProseMirror</h2>
-                <p>We have replaced isolated JSON block containers with a real time unified document model. You can seamlessly select text across multiple paragraphs, apply instant typography styles, and utilize intuitive keyboard accelerators.</p>
-                <blockquote>"The editor should adapt to the author. The author should never adapt to the editor. Writing always comes first."</blockquote>
-                <h3>Supported MVP Capabilities:</h3>
-                <ul>
-                    <li><strong>Fluid Typography:</strong> Support for headings, bulleted arrays, ordered lists, and emphasis quotes.</li>
-                    <li><strong>Zero-Clutter Workspace:</strong> No disruptive SEO forms or metadata modals interfering with your narrative drafting flow.</li>
-                    <li><strong>Slash Command Foundation:</strong> Try typing a forward slash <code>/</code> at any new line to trigger instant formatting models.</li>
-                </ul>
-                <pre><code>// Example Tiptap Code Fence\nconst studioV2 = {\n  engine: "Tiptap / ProseMirror",\n  theme: "TailAdmin White & Outfit font",\n  status: "Sprint 1 MVP Active"\n};</code></pre>
-                <p>Continue drafting below...</p>
-            `,
             editorProps: {
                 attributes: {
-                    class: 'prose prose-slate max-w-none focus:outline-none text-slate-800 text-lg sm:text-xl leading-relaxed font-normal min-h-[420px] selection:bg-[#C3FF00]/50 selection:text-slate-900 pb-32 font-sans'
+                    class: 'prose prose-slate max-w-none focus:outline-none text-slate-800 text-lg sm:text-[20px] leading-[1.8] font-normal min-h-[480px] selection:bg-[#C3FF00]/50 selection:text-slate-950 pb-32 font-sans'
                 }
             },
             onUpdate: ({ editor }) => {
-                this.handleEditorUpdate(editor);
+                this.handleContentUpdate();
                 this.updateToolbarState(editor);
             },
             onSelectionUpdate: ({ editor }) => {
@@ -102,13 +91,63 @@ class StudioArticleEditor {
         });
     }
 
+    restoreOrInitDraft() {
+        const saved = localStorage.getItem('bangjeje_studio_v2_draft');
+        const titleInput = document.getElementById('doc-title-input');
+        
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                if (data.title && titleInput) titleInput.value = data.title;
+                if (data.content && this.editor) this.editor.commands.setContent(data.content, false);
+                if (data.timestamp) {
+                    this.lastSaveTime = new Date(data.timestamp);
+                    this.renderSaveStatus('saved');
+                }
+            } catch (e) {
+                console.error('Failed to parse local draft:', e);
+            }
+        }
+
+        if (!this.editor.getText().trim()) {
+            this.editor.commands.setContent(`
+                <p>Writing in Studio V2 has been refined to feel as light, fast, and delightful as Notion, Ghost, and Gutenberg.</p>
+                <h2>1. Production-Grade Editorial Typography</h2>
+                <p>We have calibrated reading line lengths, paragraph margins, and vertical heading rhythms for optimal eye scanning across 1440px and compact desktop viewports. Notice the airy line heights and high-contrast electric green selections.</p>
+                <blockquote>"The editor should adapt to the author. The author should never adapt to the editor. Writing always comes first."</blockquote>
+                <h3>Keyboard-First Workflow:</h3>
+                <ul>
+                    <li><strong>Ctrl + B / I:</strong> Toggle bold and italic emphasis instantaneously.</li>
+                    <li><strong>Ctrl + Shift + 7 / 8:</strong> Quickly scaffold ordered and bulleted arrays.</li>
+                    <li><strong>Ctrl + /:</strong> Trigger the categorized block library from any position.</li>
+                    <li><strong>Ctrl + S:</strong> Secure local revisions without disruptive popups or toast notifications.</li>
+                </ul>
+                <pre><code>// Production Code Block Styling\nexport const studioEditor = {\n  engine: "Tiptap / ProseMirror",\n  typography: "Outfit + JetBrains Mono",\n  autoSave: "Ambient & LocalStorage-Driven"\n};</code></pre>
+                <p>Start drafting your story below...</p>
+            `, false);
+        }
+
+        // Auto-focus behavior: if title is empty, focus title; otherwise focus editor
+        setTimeout(() => {
+            this.updateWordCount();
+            if (titleInput && (!titleInput.value || titleInput.value === 'Untitled Article...')) {
+                titleInput.focus();
+            }
+        }, 150);
+    }
+
     // --- TOOLBAR STATE SYNCHRONIZATION ---
     updateToolbarState(editor) {
         const toggleBtn = (id, active) => {
             const el = document.getElementById(id);
             if (el) {
-                if (active) el.classList.add('bg-slate-900', 'text-[#C3FF00]', 'border-slate-800');
-                else el.classList.remove('bg-slate-900', 'text-[#C3FF00]', 'border-slate-800');
+                if (active) {
+                    el.classList.add('bg-slate-900', 'text-[#C3FF00]', 'border-slate-900', 'shadow-xs');
+                    el.classList.remove('text-slate-600', 'border-transparent', 'hover:bg-slate-100');
+                } else {
+                    el.classList.remove('bg-slate-900', 'text-[#C3FF00]', 'border-slate-900', 'shadow-xs');
+                    el.classList.add('text-slate-600', 'border-transparent', 'hover:bg-slate-100');
+                }
             }
         };
 
@@ -123,11 +162,10 @@ class StudioArticleEditor {
         toggleBtn('tb-quote', editor.isActive('blockquote'));
         toggleBtn('tb-code', editor.isActive('codeBlock'));
 
-        // History undo/redo status
-        const undoBtn = document.getElementById('tb-undo');
-        const redoBtn = document.getElementById('tb-redo');
-        if (undoBtn) undoBtn.disabled = !editor.can().undo();
-        if (redoBtn) redoBtn.disabled = !editor.can().redo();
+        const u = document.getElementById('tb-undo');
+        const r = document.getElementById('tb-redo');
+        if (u) u.disabled = !editor.can().undo();
+        if (r) r.disabled = !editor.can().redo();
     }
 
     bindToolbarEvents() {
@@ -152,17 +190,46 @@ class StudioArticleEditor {
         bind('tb-redo', () => this.editor.chain().focus().redo().run());
     }
 
-    // --- SLASH COMMAND ENGINE ---
+    // --- KEYBOARD-FIRST ACCELERATORS ---
+    setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            const ctrl = e.ctrlKey || e.metaKey;
+            
+            // Ctrl+Shift+7: Numbered List
+            if (ctrl && e.shiftKey && (e.key === '7' || e.code === 'Digit7')) {
+                e.preventDefault();
+                this.editor.chain().focus().toggleOrderedList().run();
+            }
+            // Ctrl+Shift+8: Bullet List
+            else if (ctrl && e.shiftKey && (e.key === '8' || e.code === 'Digit8')) {
+                e.preventDefault();
+                this.editor.chain().focus().toggleBulletList().run();
+            }
+            // Ctrl+/ : Trigger Slash Menu directly at cursor
+            else if (ctrl && (e.key === '/' || e.code === 'Slash')) {
+                e.preventDefault();
+                this.editor.commands.insertContent('/');
+                setTimeout(() => this.checkSlashTrigger(), 20);
+            }
+            // Ctrl+S : Force Save Draft
+            else if (ctrl && e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                this.executeLocalSave();
+            }
+        });
+    }
+
+    // --- SLASH COMMAND ENGINE WITH DYNAMIC SEARCH & CATEGORIES ---
     injectSlashDropdownDOM() {
         if (document.getElementById('tiptap-slash-menu')) return;
         const dropdown = document.createElement('div');
         dropdown.id = 'tiptap-slash-menu';
-        dropdown.className = 'fixed z-50 bg-white rounded-xl shadow-2xl border border-slate-200 w-80 p-2 hidden opacity-0 transition-opacity duration-100 overflow-hidden font-sans';
+        dropdown.className = 'fixed z-50 bg-white rounded-2xl shadow-2xl border border-slate-200/90 w-80 p-2 hidden opacity-0 transform scale-95 transition-all duration-150 overflow-hidden font-sans';
         dropdown.innerHTML = `
-            <div class="px-2.5 py-1.5 text-[11px] font-mono font-bold text-slate-400 uppercase border-b border-slate-100 mb-1 flex justify-between items-center">
-                <span>⚡ Slash Commands</span><span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">ESC to cancel</span>
+            <div class="px-3 py-1.5 text-[11px] font-mono font-bold text-slate-400 uppercase border-b border-slate-100 mb-1.5 flex justify-between items-center">
+                <span>⚡ Block Library</span><span id="slash-filter-tag" class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono lowercase">/</span>
             </div>
-            <div id="slash-items-list" class="space-y-0.5 max-h-72 overflow-y-auto no-scrollbar"></div>
+            <div id="slash-items-list" class="space-y-1 max-h-80 overflow-y-auto no-scrollbar pr-0.5"></div>
         `;
         document.body.appendChild(dropdown);
     }
@@ -170,28 +237,27 @@ class StudioArticleEditor {
     bindSlashMenu() {
         document.addEventListener('keydown', (e) => {
             if (!this.slashMenuOpen) {
-                if (e.key === '/') {
-                    // Slight delay to check if slash was added to editor
+                if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
                     setTimeout(() => this.checkSlashTrigger(), 30);
                 }
                 return;
             }
 
-            // If Slash menu is open, capture arrow navigation and Enter
-            if (e.key === 'ArrowDown') {
+            if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
                 e.preventDefault();
-                this.selectedIndex = (this.selectedIndex + 1) % this.slashItems.length;
+                this.selectedIndex = (this.selectedIndex + 1) % Math.max(1, this.filteredItems.length);
                 this.renderSlashItems();
-            } else if (e.key === 'ArrowUp') {
+            } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
                 e.preventDefault();
-                this.selectedIndex = (this.selectedIndex - 1 + this.slashItems.length) % this.slashItems.length;
+                this.selectedIndex = (this.selectedIndex - 1 + this.filteredItems.length) % Math.max(1, this.filteredItems.length);
                 this.renderSlashItems();
             } else if (e.key === 'Enter') {
                 e.preventDefault();
                 this.executeSlashSelection(this.selectedIndex);
-            } else if (e.key === 'Escape' || e.key === ' ') {
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
                 this.closeSlashMenu();
-            } else if (e.key === 'Backspace') {
+            } else if (e.key === 'Backspace' || e.key.length === 1) {
                 setTimeout(() => this.checkSlashTrigger(), 30);
             }
         });
@@ -208,39 +274,62 @@ class StudioArticleEditor {
         if (!selection || !selection.rangeCount) return;
 
         const { from } = this.editor.state.selection;
-        const textBefore = this.editor.state.doc.textBetween(Math.max(0, from - 10), from, '\n');
+        const textBefore = this.editor.state.doc.textBetween(Math.max(0, from - 20), from, '\n');
         
-        // Check if trailing character is a slash on a clean boundary
-        if (textBefore && textBefore.endsWith('/')) {
+        const match = textBefore.match(/(?:^|\s)\/([a-zA-Z0-9]*)$/);
+        if (match) {
+            this.slashQuery = match[1].toLowerCase();
             const range = selection.getRangeAt(0);
             const rect = range.getBoundingClientRect();
-            if (rect && (rect.top > 0 || rect.left > 0)) {
-                this.openSlashMenu(rect.left, rect.bottom + window.scrollY + 6);
+            
+            this.filterCatalog(this.slashQuery);
+            if (!this.slashMenuOpen) {
+                this.openSlashMenu(rect.left, rect.bottom + window.scrollY + 8);
+            } else {
+                this.renderSlashItems();
+                const tag = document.getElementById('slash-filter-tag');
+                if (tag) tag.textContent = `/${this.slashQuery || ''}`;
             }
         } else if (this.slashMenuOpen) {
             this.closeSlashMenu();
         }
     }
 
+    filterCatalog(query) {
+        if (!query) {
+            this.filteredItems = [...this.slashCatalog];
+        } else {
+            this.filteredItems = this.slashCatalog.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.keywords.toLowerCase().includes(query)
+            );
+        }
+        this.selectedIndex = 0;
+    }
+
     openSlashMenu(x, y) {
         this.slashMenuOpen = true;
-        this.selectedIndex = 0;
         const menu = document.getElementById('tiptap-slash-menu');
         if (!menu) return;
 
         menu.style.left = `${Math.min(x, window.innerWidth - 340)}px`;
         menu.style.top = `${y}px`;
+        const tag = document.getElementById('slash-filter-tag');
+        if (tag) tag.textContent = `/${this.slashQuery || ''}`;
+        
         this.renderSlashItems();
         menu.classList.remove('hidden');
-        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+        setTimeout(() => {
+            menu.classList.remove('opacity-0', 'scale-95');
+        }, 10);
     }
 
     closeSlashMenu() {
         this.slashMenuOpen = false;
         const menu = document.getElementById('tiptap-slash-menu');
         if (menu && !menu.classList.contains('hidden')) {
-            menu.classList.add('opacity-0');
-            setTimeout(() => menu.classList.add('hidden'), 100);
+            menu.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => menu.classList.add('hidden'), 150);
         }
     }
 
@@ -248,12 +337,26 @@ class StudioArticleEditor {
         const list = document.getElementById('slash-items-list');
         if (!list) return;
 
-        list.innerHTML = this.slashItems.map((item, index) => {
+        if (this.filteredItems.length === 0) {
+            list.innerHTML = `<div class="p-6 text-center text-xs font-semibold text-slate-400 font-sans">No matching block commands found for "/${this.slashQuery}"</div>`;
+            return;
+        }
+
+        // Group by category
+        let currentCategory = '';
+        list.innerHTML = this.filteredItems.map((item, index) => {
             const isSelected = index === this.selectedIndex;
+            let header = '';
+            if (item.category !== currentCategory) {
+                currentCategory = item.category;
+                header = `<div class="px-3 pt-3 pb-1 text-[10px] font-mono font-black text-slate-400 uppercase tracking-wider">${currentCategory}</div>`;
+            }
+
             return `
+                ${header}
                 <div onclick="StudioEditor.executeSlashSelection(${index})" 
-                     class="flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-all ${isSelected ? 'bg-slate-900 text-white shadow-sm' : 'hover:bg-slate-100 text-slate-800'}">
-                    <div class="w-9 h-9 rounded-lg ${isSelected ? 'bg-slate-800 text-[#C3FF00]' : 'bg-slate-100 text-slate-700'} flex items-center justify-center shrink-0 text-xl font-bold">
+                     class="flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition-all ${isSelected ? 'bg-slate-900 text-white shadow-sm' : 'hover:bg-slate-100 text-slate-800'}">
+                    <div class="w-9 h-9 rounded-lg ${isSelected ? 'bg-slate-800 text-[#C3FF00]' : 'bg-slate-100 text-slate-700'} flex items-center justify-center shrink-0 text-lg font-extrabold shadow-2xs">
                         <i class="ph ${item.icon}"></i>
                     </div>
                     <div class="flex-1 overflow-hidden">
@@ -266,81 +369,99 @@ class StudioArticleEditor {
     }
 
     executeSlashSelection(index) {
-        const item = this.slashItems[index];
+        const item = this.filteredItems[index];
         if (!item || !this.editor) return;
 
-        // Delete the trailing '/' character from the document before applying format
-        this.editor.chain().focus().deleteRange({ from: this.editor.state.selection.from - 1, to: this.editor.state.selection.from }).run();
+        // Delete trailing / and query string before inserting block
+        const deleteLen = 1 + (this.slashQuery ? this.slashQuery.length : 0);
+        const { from } = this.editor.state.selection;
+        this.editor.chain().focus().deleteRange({ from: from - deleteLen, to: from }).run();
 
-        // Execute Tiptap command action
         item.action();
-        
         this.closeSlashMenu();
-        StudioToast?.show(`Applied formatting: ${item.title}`, 'info', 'Slash Engine');
     }
 
-    // --- TITLE & SAVE DRAFT FOUNDATION ---
+    // --- AMBIENT AUTO-SAVE UX (NO TOASTS) & BEHAVIORS ---
     bindTitleAndSave() {
-        const saveBtn = document.getElementById('btn-save-draft');
         const titleInput = document.getElementById('doc-title-input');
-
-        if (saveBtn) {
-            saveBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.triggerSaveDraft();
+        
+        if (titleInput) {
+            titleInput.addEventListener('input', () => this.handleContentUpdate());
+            // Auto focus Tiptap canvas when hitting Enter on Title!
+            titleInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (this.editor) this.editor.commands.focus('start');
+                }
             });
         }
 
-        // Shortcut Ctrl+S / Cmd+S
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        const saveBtn = document.getElementById('btn-save-draft');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.triggerSaveDraft();
-            }
-        });
-
-        if (titleInput) {
-            titleInput.addEventListener('input', () => this.markUnsaved());
+                this.executeLocalSave();
+            });
         }
     }
 
-    markUnsaved() {
-        const statusEl = document.getElementById('draft-status-badge');
-        if (statusEl) {
-            statusEl.className = 'px-2.5 py-0.5 rounded bg-amber-100 text-amber-800 font-mono text-[10px] font-extrabold uppercase transition-colors';
-            statusEl.textContent = 'Unsaved Changes';
-        }
+    handleContentUpdate() {
+        this.updateWordCount();
+        this.renderSaveStatus('saving');
+        
+        clearTimeout(this.saveTimer);
+        this.saveTimer = setTimeout(() => {
+            this.executeLocalSave();
+        }, 1200);
     }
 
-    triggerSaveDraft() {
+    executeLocalSave() {
         const titleInput = document.getElementById('doc-title-input');
-        const title = titleInput ? titleInput.value : 'Untitled Document';
+        const title = titleInput ? titleInput.value : 'Untitled Article';
         const html = this.editor ? this.editor.getHTML() : '';
+        const timestamp = new Date().toISOString();
 
-        // Frontend persistence simulation in localStorage for prototype stability
-        const payload = {
-            title,
-            content: html,
-            timestamp: new Date().toISOString()
-        };
-        localStorage.setItem('bangjeje_studio_v2_draft', JSON.stringify(payload));
+        localStorage.setItem('bangjeje_studio_v2_draft', JSON.stringify({ title, content: html, timestamp }));
+        
+        this.lastSaveTime = new Date();
+        this.renderSaveStatus('saved');
+    }
 
-        const statusEl = document.getElementById('draft-status-badge');
-        if (statusEl) {
-            statusEl.className = 'px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold uppercase transition-colors';
-            statusEl.textContent = 'Draft Saved locally';
+    renderSaveStatus(state) {
+        const badge = document.getElementById('ambient-save-status');
+        if (!badge) return;
+
+        if (state === 'saving') {
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block mr-2"></span>Saving...`;
+            badge.className = 'font-mono text-xs text-slate-500 font-bold transition-all';
+        } else if (state === 'saved') {
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2"></span>Saved`;
+            badge.className = 'font-mono text-xs text-slate-700 font-bold transition-all';
+            setTimeout(() => this.tickClock(), 2500);
         }
-
-        StudioToast?.show(`Draft "${title.slice(0, 24)}..." saved securely to local foundation!`, 'success', 'Studio V2 MVP');
     }
 
-    handleEditorUpdate() {
-        this.markUnsaved();
-        this.updateWordCount();
+    startSaveTicker() {
+        clearInterval(this.tickerInterval);
+        this.tickerInterval = setInterval(() => this.tickClock(), 3000);
     }
 
-    setupWordCount() {
-        this.updateWordCount();
+    tickClock() {
+        if (!this.lastSaveTime) return;
+        const badge = document.getElementById('ambient-save-status');
+        if (!badge || badge.textContent.includes('Saving...')) return;
+
+        const seconds = Math.floor((new Date() - this.lastSaveTime) / 1000);
+        if (seconds < 3) {
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-2"></span>Saved`;
+        } else if (seconds < 60) {
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Last saved ${seconds} seconds ago`;
+            badge.className = 'font-mono text-xs text-slate-400 font-medium transition-all';
+        } else {
+            const mins = Math.floor(seconds / 60);
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300 inline-block mr-2"></span>Last saved ${mins} ${mins === 1 ? 'minute' : 'minutes'} ago`;
+            badge.className = 'font-mono text-xs text-slate-400 font-medium transition-all';
+        }
     }
 
     updateWordCount() {
@@ -354,7 +475,6 @@ class StudioArticleEditor {
     }
 }
 
-// Bootstrap Studio V2 MVP when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new StudioArticleEditor();
+    new StudioArticleEditorV2();
 });
