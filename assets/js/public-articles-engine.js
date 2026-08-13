@@ -17,6 +17,18 @@ class BangjejePublicArticlesEngine {
         this.init();
     }
 
+    // --- DEFENSIVE NORMALIZATION ---
+    normalizeArticleData(article) {
+        if (!article) return null;
+        return {
+            ...article,
+            categories: article.categories || [],
+            tags: article.tags || [],
+            cover: article.cover || { url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1440&q=80', alt: 'Editorial Asset' },
+            author: article.author || { name: 'Editorial Team', title: 'bangjeje.dev', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80' }
+        };
+    }
+
     init() {
         this.loadOrSeedIndex();
         window.BangjejePublicArticles = this;
@@ -158,11 +170,11 @@ const editorialTypography = {
                     <p>In developing our <strong>TailAdmin-inspired Design System</strong>, we applied advanced color mathematics and layered glassmorphism to generate interfaces that feel immediately alive, highly intuitive, and deeply premium.</p>
 
                     <h2>The Anatomy of High-Contrast Dark Mode</h2>
-                    <p>True dark mode is never simply black text inverted onto a white screen. Using pure `#000000` against pure `#FFFFFF` creates harsh astigmatism glare. Instead, our design architecture implements structured tonal elevation:</p>
+                    <p>True dark mode is never simply black text inverted onto a white screen. Using pure \`#000000\` against pure \`#FFFFFF\` creates harsh astigmatism glare. Instead, our design architecture implements structured tonal elevation:</p>
                     <ul>
-                        <li><strong>Deep Void Background (`#050505`):</strong> Establishes infinite visual depth without optical screen glare.</li>
-                        <li><strong>Surface Elevation (`#0D1117` to `#111827`):</strong> Delineates functional card boundaries using subtle translucent backdrop-blur layers (`rgba(255, 255, 255, 0.06)` border strokes).</li>
-                        <li><strong>Electric Lime Callouts (`#C3FF00`):</strong> High-visibility focal signaling reserved strictly for interactive execution triggers, active system states, and critical performance indicators.</li>
+                        <li><strong>Deep Void Background (\`#050505\`):</strong> Establishes infinite visual depth without optical screen glare.</li>
+                        <li><strong>Surface Elevation (\`#0D1117\` to \`#111827\`):</strong> Delineates functional card boundaries using subtle translucent backdrop-blur layers (\`rgba(255, 255, 255, 0.06)\` border strokes).</li>
+                        <li><strong>Electric Lime Callouts (\`#C3FF00\`):</strong> High-visibility focal signaling reserved strictly for interactive execution triggers, active system states, and critical performance indicators.</li>
                     </ul>
                 `
             }
@@ -211,15 +223,15 @@ const editorialTypography = {
     }
 
     getFilteredArticles() {
-        return this.articles.filter(article => {
+        return this.articles.map(a => this.normalizeArticleData(a)).filter(article => {
             // Category matches
-            const matchCat = this.activeCategory === 'All' || (article.categories && article.categories.includes(this.activeCategory));
+            const matchCat = this.activeCategory === 'All' || article.categories.includes(this.activeCategory);
             // Tag matches
-            const matchTag = !this.activeTag || (article.tags && article.tags.includes(this.activeTag));
+            const matchTag = !this.activeTag || article.tags.includes(this.activeTag);
             // Search keyword matches
             let matchSearch = true;
             if (this.searchQuery) {
-                const searchStr = `${article.title} ${article.subtitle} ${article.categories.join(' ')} ${article.tags.join(' ')} ${article.content}`.toLowerCase();
+                const searchStr = `${article.title || ''} ${article.subtitle || ''} ${article.categories.join(' ')} ${article.tags.join(' ')} ${article.content || ''}`.toLowerCase();
                 matchSearch = searchStr.includes(this.searchQuery);
             }
             return matchCat && matchTag && matchSearch;
@@ -232,21 +244,18 @@ const editorialTypography = {
     }
 
     getRelatedArticles(currentSlug, maxCount = 3) {
-        const current = this.getBySlug(currentSlug);
+        const current = this.normalizeArticleData(this.getBySlug(currentSlug));
         if (!current) return [];
 
         // Score other articles by number of matching categories and tags
         const scored = this.articles
             .filter(a => a.slug !== currentSlug)
             .map(a => {
+                const normA = this.normalizeArticleData(a);
                 let score = 0;
-                if (a.categories && current.categories) {
-                    a.categories.forEach(c => { if (current.categories.includes(c)) score += 2; });
-                }
-                if (a.tags && current.tags) {
-                    a.tags.forEach(t => { if (current.tags.includes(t)) score += 1; });
-                }
-                return { article: a, score };
+                normA.categories.forEach(c => { if (current.categories.includes(c)) score += 2; });
+                normA.tags.forEach(t => { if (current.tags.includes(t)) score += 1; });
+                return { article: normA, score };
             });
 
         scored.sort((x, y) => y.score - x.score);
@@ -490,7 +499,7 @@ const editorialTypography = {
             slug = 'why-simplicity-and-speed-always-win-building-studio-v2-with-tiptap';
         }
 
-        const article = this.getBySlug(slug);
+        let article = this.getBySlug(slug);
         if (!article) {
             document.getElementById('article-main-container').innerHTML = `
                 <div class="py-32 text-center max-w-xl mx-auto px-6">
@@ -504,6 +513,7 @@ const editorialTypography = {
             `;
             return;
         }
+        article = this.normalizeArticleData(article);
 
         // Set document SEO tags & Google JSON-LD structured data dynamically (Sprint 6)
         if (window.BangjejeSEO) {
@@ -550,6 +560,7 @@ const editorialTypography = {
 
         // Tiptap Content Output Sanctuary
         const contentEl = document.getElementById('detail-content-body');
+        if (contentEl) {
             contentEl.innerHTML = article.content;
             
             // Sprint 7 Universal Block System: Clean editorial handlebars, drag triggers, and force expanded read state in public view
