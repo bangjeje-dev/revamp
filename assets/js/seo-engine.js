@@ -23,7 +23,7 @@ class BangjejeSEOEngine {
         this.orgProfile = {
             name: 'bangjeje.dev',
             url: this.canonicalDomain,
-            logo: 'https://cdn.bangjeje.dev/bangjejedev.svg'
+            logo: 'https://cdn.bangjeje.dev/bangjeje.dev/logobjj.svg'
         };
         
         window.BangjejeSEO = this;
