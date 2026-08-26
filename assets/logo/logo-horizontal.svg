@@ -2,7 +2,7 @@
     <defs>
         <style type="text/css">
             @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@800&amp;display=swap');
-            .fil0 {fill:#C3FF00}
+            .fil0 {fill:#9929EA}
             .text { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 550px; fill: #FFFFFF; letter-spacing: -10px; }
         </style>
     </defs>

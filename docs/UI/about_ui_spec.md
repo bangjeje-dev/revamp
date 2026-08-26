@@ -7,13 +7,13 @@ The About page is an editorial, typography-driven experience. It strips away hea
 1. **Typography:** The absolute dominant element. Headlines (`<h1>`, `<h2>`) will use extreme scaling (`text-5xl` to `text-[7rem]`) with ultra-tight tracking (`tracking-tighter`).
 2. **Whitespace (Negative Space):** Serves as a primary design element. Padding of `py-32` to `py-48` will enforce a slow, deliberate reading pace.
 3. **Glassmorphism:** Used sparingly for structural containment (e.g., The Principles cards).
-4. **Color (#C3FF00):** Used exclusively for interaction states, key emphasis, and subtle ambient glows.
+4. **Color (#9929EA):** Used exclusively for interaction states, key emphasis, and subtle ambient glows.
 
 ## 3. Section-by-Section Layout
 
 **01. The Manifesto Hero**
 - **Layout:** Centered, highly constrained max-width container (`max-w-4xl`). Massive headline scaling down to a refined, mid-sized paragraph.
-- **UI:** No buttons. Just raw typography. A subtle mesh gradient glow (`#C3FF00` at 5-10% opacity) sits behind the text.
+- **UI:** No buttons. Just raw typography. A subtle mesh gradient glow (`#9929EA` at 5-10% opacity) sits behind the text.
 
 **02. The Core Thesis (The Cost of Fragmented Execution)**
 - **Layout:** Asymmetric 12-column grid. Left side (col-span-4) holds the section sticky title. Right side (col-span-8) holds large, editorial prose.
@@ -21,7 +21,7 @@ The About page is an editorial, typography-driven experience. It strips away hea
 
 **03. How We Think (Strategic Decision Making)**
 - **Layout:** 2-column alternating text layout, or standard vertical stacking with `max-w-3xl` center alignment works best for readability.
-- **UI:** Indented blockquotes with a 2px solid `#C3FF00` left border for key strategic statements.
+- **UI:** Indented blockquotes with a 2px solid `#9929EA` left border for key strategic statements.
 
 **04. The Principles**
 - **Layout:** 2-column or 3-column CSS Grid.
@@ -72,7 +72,7 @@ The About page is an editorial, typography-driven experience. It strips away hea
 - **Surface:** `bg-[#0D1117]` used for The Partnership Model to create a subtle banding effect.
 - **Card:** `bg-[#111827]` mixed with `bg-opacity-50` for glass cards.
 - **Text:** `text-[#F8FAFC]` for all headings and active states. `text-[#94A3B8]` for all body copy and inactive states.
-- **Accent:** `#C3FF00` reserved for links (hover), active nav states, button backgrounds (primary), and abstract mesh gradients.
+- **Accent:** `#9929EA` reserved for links (hover), active nav states, button backgrounds (primary), and abstract mesh gradients.
 
 ## 9. Glass Card Specifications
 - **Reuse:** Exact same `.glass-card` utility classes from the Homepage.
@@ -98,7 +98,7 @@ The About page is an editorial, typography-driven experience. It strips away hea
 - Parallax effects minimized to avoid distracting from the text. Focus entirely on opacity and Y-translation reveals.
 
 ## 14. Hover States
-- **Text Links:** `text-textSecondary` transitions to `text-textPrimary` with a bottom border or underline using the `#C3FF00` accent.
+- **Text Links:** `text-textSecondary` transitions to `text-textPrimary` with a bottom border or underline using the `#9929EA` accent.
 - **Glass Cards:** Subtle lift and border illumination.
 - **Work Bridge:** The entire container should act as a giant hit area, scaling the internal image/graphic slightly (`scale-105`) and highlighting the arrow icon.
 

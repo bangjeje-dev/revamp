@@ -44,7 +44,7 @@ Every project featured on this page must follow a strict narrative arc:
 
 ## 8. Navigation Behaviour
 - Inherits the exact sticky glass header from the Homepage and Services page.
-- The "Work" link in the navigation must glow in the neon lime `#C3FF00` active state.
+- The "Work" link in the navigation must glow in the neon lime `#9929EA` active state.
 - Smooth scrolling for all internal anchor links.
 
 ## 9. Page Hierarchy
@@ -92,7 +92,7 @@ Every project featured on this page must follow a strict narrative arc:
 ## 16. Accessibility Notes
 - Contrast ratios must remain high despite the dark mode (ensure `#94A3B8` secondary text against `#050505` background passes AA standards).
 - High-quality `aria-label`s on any case study outbound links.
-- Keyboard navigation (Tab) must clearly outline the `.btn-primary` and external project links with an explicit focus state (using `#C3FF00`).
+- Keyboard navigation (Tab) must clearly outline the `.btn-primary` and external project links with an explicit focus state (using `#9929EA`).
 
 ## 17. Performance Requirements
 - This page will be heavy on imagery. Next-gen image formats (WebP/AVIF) are mandatory.

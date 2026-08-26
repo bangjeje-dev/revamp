@@ -40,7 +40,7 @@ The narrative avoids self-congratulatory jargon and focuses on a radical, object
 
 ## 8. Navigation Behaviour
 - Inherits the sticky glass header from the global system.
-- The "Approach" (or "About") link in the navigation glows in the neon lime `#C3FF00` active state.
+- The "Approach" (or "About") link in the navigation glows in the neon lime `#9929EA` active state.
 - Smooth scrolling for internal anchor links if a table of contents is utilized.
 
 ## 9. Page Hierarchy

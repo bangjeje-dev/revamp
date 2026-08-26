@@ -174,7 +174,7 @@ const editorialTypography = {
                     <ul>
                         <li><strong>Deep Void Background (\`#050505\`):</strong> Establishes infinite visual depth without optical screen glare.</li>
                         <li><strong>Surface Elevation (\`#0D1117\` to \`#111827\`):</strong> Delineates functional card boundaries using subtle translucent backdrop-blur layers (\`rgba(255, 255, 255, 0.06)\` border strokes).</li>
-                        <li><strong>Electric Lime Callouts (\`#C3FF00\`):</strong> High-visibility focal signaling reserved strictly for interactive execution triggers, active system states, and critical performance indicators.</li>
+                        <li><strong>Electric Lime Callouts (\`#9929EA\`):</strong> High-visibility focal signaling reserved strictly for interactive execution triggers, active system states, and critical performance indicators.</li>
                     </ul>
                 `
             }
@@ -285,7 +285,7 @@ const editorialTypography = {
                 const isActive = this.activeCategory === cat;
                 return `
                     <button onclick="BangjejePublicArticles.setCategoryFilter('${cat}')" 
-                            class="px-5 py-2.5 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer border ${isActive ? 'bg-[#C3FF00] text-[#050505] border-[#C3FF00] shadow-[0_0_20px_rgba(195,255,0,0.3)]' : 'bg-surface/60 text-textSecondary border-white/10 hover:border-white/30 hover:text-white'}">
+                            class="px-5 py-2.5 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer border ${isActive ? 'bg-[#9929EA] text-[#050505] border-[#9929EA] shadow-[0_0_20px_rgba(153, 41, 234,0.3)]' : 'bg-surface/60 text-textSecondary border-white/10 hover:border-white/30 hover:text-white'}">
                         ${cat}
                     </button>
                 `;
@@ -296,12 +296,12 @@ const editorialTypography = {
         if (tagsContainer) {
             const allTags = [...new Set(this.articles.flatMap(a => a.tags || []))].slice(0, 8);
             tagsContainer.innerHTML = `
-                <span class="text-xs font-mono font-bold text-textSecondary uppercase tracking-widest mr-2 flex items-center gap-1.5"><i class="ph ph-tag text-[#C3FF00]"></i> Trending Topics:</span>
+                <span class="text-xs font-mono font-bold text-textSecondary uppercase tracking-widest mr-2 flex items-center gap-1.5"><i class="ph ph-tag text-[#9929EA]"></i> Trending Topics:</span>
                 ${allTags.map(tag => {
                     const isActive = this.activeTag === tag;
                     return `
                         <button onclick="BangjejePublicArticles.setTagFilter('${tag}')" 
-                                class="px-3 py-1 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer border ${isActive ? 'bg-[#C3FF00] text-dark border-[#C3FF00] shadow-[0_0_15px_rgba(195,255,0,0.3)]' : 'bg-black/30 text-textSecondary border-white/10 hover:border-[#C3FF00]/50 hover:text-white'}">
+                                class="px-3 py-1 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer border ${isActive ? 'bg-[#9929EA] text-dark border-[#9929EA] shadow-[0_0_15px_rgba(153, 41, 234,0.3)]' : 'bg-black/30 text-textSecondary border-white/10 hover:border-[#9929EA]/50 hover:text-white'}">
                             #${tag}
                         </button>
                     `;
@@ -313,7 +313,7 @@ const editorialTypography = {
         if (filtered.length === 0) {
             container.innerHTML = `
                 <div class="py-24 text-center border border-glass rounded-3xl bg-surface/40 backdrop-blur-md max-w-2xl mx-auto my-12 p-8">
-                    <i class="ph ph-magnifying-glass-slash text-6xl text-[#C3FF00]/40 mx-auto mb-4 block"></i>
+                    <i class="ph ph-magnifying-glass-slash text-6xl text-[#9929EA]/40 mx-auto mb-4 block"></i>
                     <h3 class="text-2xl font-bold text-white mb-2">No articles matched your criteria</h3>
                     <p class="text-textSecondary text-base mb-6 font-light">We couldn't locate architectural insights matching "${this.searchQuery || this.activeTag || this.activeCategory}". Try clearing your search parameters.</p>
                     <button onclick="BangjejePublicArticles.setSearchQuery(''); BangjejePublicArticles.setCategoryFilter('All'); document.getElementById('article-search-input').value = '';" 
@@ -336,13 +336,13 @@ const editorialTypography = {
             html += `
                 <!-- FEATURED ARCHITECTURAL ARTICLE -->
                 <div class="mb-16">
-                    <a href="/articles/view.html?slug=${featured.slug}" class="block glass-card overflow-hidden group cursor-pointer border border-white/10 hover:border-[#C3FF00]/40 transition-all duration-500 rounded-3xl">
+                    <a href="/articles/view.html?slug=${featured.slug}" class="block glass-card overflow-hidden group cursor-pointer border border-white/10 hover:border-[#9929EA]/40 transition-all duration-500 rounded-3xl">
                         <div class="grid grid-cols-1 lg:grid-cols-12">
                             <div class="lg:col-span-7 relative min-h-[360px] md:min-h-[460px] overflow-hidden bg-dark">
                                 <img src="${featured.cover.url}" alt="${featured.cover.alt}" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000">
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/30 to-transparent lg:hidden"></div>
                                 <div class="absolute top-6 left-6 flex flex-wrap gap-2 z-10">
-                                    <span class="bg-[#C3FF00] text-dark font-mono font-black text-xs uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+                                    <span class="bg-[#9929EA] text-dark font-mono font-black text-xs uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
                                         <i class="ph ph-star-fill text-dark font-bold"></i> Featured Story
                                     </span>
                                     ${featured.categories.map(c => `<span class="bg-dark/80 backdrop-blur text-white text-xs font-mono font-bold tracking-wider uppercase px-3 py-1.5 rounded-full border border-white/10">${c}</span>`).join('')}
@@ -351,11 +351,11 @@ const editorialTypography = {
                             <div class="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between bg-surface/90 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-white/10">
                                 <div>
                                     <div class="flex items-center gap-3 text-xs font-mono font-medium text-textSecondary tracking-widest uppercase mb-5">
-                                        <span class="text-[#C3FF00] font-bold">${dateStr}</span>
-                                        <span class="w-1.5 h-1.5 bg-[#C3FF00] rounded-full animate-pulse"></span>
+                                        <span class="text-[#9929EA] font-bold">${dateStr}</span>
+                                        <span class="w-1.5 h-1.5 bg-[#9929EA] rounded-full animate-pulse"></span>
                                         <span>${featured.readingTime}</span>
                                     </div>
-                                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-6 tracking-tight leading-[1.18] group-hover:text-[#C3FF00] transition-colors font-sans">
+                                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-6 tracking-tight leading-[1.18] group-hover:text-[#9929EA] transition-colors font-sans">
                                         ${featured.title}
                                     </h2>
                                     <p class="text-base sm:text-lg text-textSecondary font-light leading-relaxed mb-8 line-clamp-4">
@@ -370,7 +370,7 @@ const editorialTypography = {
                                             <div class="text-textSecondary text-xs font-mono">${featured.author.title}</div>
                                         </div>
                                     </div>
-                                    <span class="w-11 h-11 rounded-full bg-white/5 group-hover:bg-[#C3FF00] group-hover:text-dark text-white flex items-center justify-center border border-white/10 group-hover:border-[#C3FF00] transition-all font-bold text-lg shrink-0">
+                                    <span class="w-11 h-11 rounded-full bg-white/5 group-hover:bg-[#9929EA] group-hover:text-dark text-white flex items-center justify-center border border-white/10 group-hover:border-[#9929EA] transition-all font-bold text-lg shrink-0">
                                         <i class="ph ph-arrow-up-right"></i>
                                     </span>
                                 </div>
@@ -387,7 +387,7 @@ const editorialTypography = {
             html += paginatedItems.map(art => {
                 const dStr = new Date(art.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 return `
-                    <a href="/articles/view.html?slug=${art.slug}" class="glass-card overflow-hidden group cursor-pointer flex flex-col h-full border border-white/10 hover:border-[#C3FF00]/40 transition-all duration-500 rounded-3xl">
+                    <a href="/articles/view.html?slug=${art.slug}" class="glass-card overflow-hidden group cursor-pointer flex flex-col h-full border border-white/10 hover:border-[#9929EA]/40 transition-all duration-500 rounded-3xl">
                         <div class="aspect-[16/10] relative overflow-hidden bg-dark">
                             <img src="${art.cover.url}" alt="${art.cover.alt}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
                             <div class="absolute top-4 left-4 z-10 flex flex-wrap gap-1.5">
@@ -398,10 +398,10 @@ const editorialTypography = {
                             <div>
                                 <div class="flex items-center gap-3 text-xs font-mono font-semibold text-textSecondary tracking-widest uppercase mb-3.5">
                                     <span>${dStr}</span>
-                                    <span class="w-1 h-1 bg-[#C3FF00] rounded-full"></span>
-                                    <span class="text-[#C3FF00] font-medium">${art.readingTime}</span>
+                                    <span class="w-1 h-1 bg-[#9929EA] rounded-full"></span>
+                                    <span class="text-[#9929EA] font-medium">${art.readingTime}</span>
                                 </div>
-                                <h3 class="text-2xl font-bold text-white mb-4 tracking-tight leading-snug group-hover:text-[#C3FF00] transition-colors font-sans">
+                                <h3 class="text-2xl font-bold text-white mb-4 tracking-tight leading-snug group-hover:text-[#9929EA] transition-colors font-sans">
                                     ${art.title}
                                 </h3>
                                 <p class="text-sm sm:text-base text-textSecondary font-light leading-relaxed mb-6 line-clamp-3">
@@ -409,7 +409,7 @@ const editorialTypography = {
                                 </p>
                             </div>
                             <div class="pt-5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-textSecondary">
-                                <span class="flex items-center gap-2 font-medium text-white group-hover:text-[#C3FF00] transition-colors uppercase tracking-widest">
+                                <span class="flex items-center gap-2 font-medium text-white group-hover:text-[#9929EA] transition-colors uppercase tracking-widest">
                                     Read Insights <i class="ph ph-arrow-right font-bold"></i>
                                 </span>
                                 <span class="text-textSecondary/70">${art.wordCount || 1000} Words</span>
@@ -437,7 +437,7 @@ const editorialTypography = {
         let buttons = '';
         buttons += `
             <button onclick="BangjejePublicArticles.setPage(${this.currentPage - 1})" 
-                    class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-surface/80 text-white hover:border-[#C3FF00] hover:text-[#C3FF00] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold" 
+                    class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-surface/80 text-white hover:border-[#9929EA] hover:text-[#9929EA] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold" 
                     ${this.currentPage === 1 ? 'disabled' : ''}>
                 <i class="ph ph-caret-left"></i>
             </button>
@@ -447,7 +447,7 @@ const editorialTypography = {
             const isCur = i === this.currentPage;
             buttons += `
                 <button onclick="BangjejePublicArticles.setPage(${i})" 
-                        class="w-10 h-10 rounded-full flex items-center justify-center border font-mono font-bold text-sm transition-all cursor-pointer ${isCur ? 'bg-[#C3FF00] text-dark border-[#C3FF00] shadow-[0_0_15px_rgba(195,255,0,0.4)] font-black' : 'bg-surface/80 border-white/10 text-white hover:border-[#C3FF00] hover:text-[#C3FF00]'}">
+                        class="w-10 h-10 rounded-full flex items-center justify-center border font-mono font-bold text-sm transition-all cursor-pointer ${isCur ? 'bg-[#9929EA] text-dark border-[#9929EA] shadow-[0_0_15px_rgba(153, 41, 234,0.4)] font-black' : 'bg-surface/80 border-white/10 text-white hover:border-[#9929EA] hover:text-[#9929EA]'}">
                     ${i}
                 </button>
             `;
@@ -455,7 +455,7 @@ const editorialTypography = {
 
         buttons += `
             <button onclick="BangjejePublicArticles.setPage(${this.currentPage + 1})" 
-                    class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-surface/80 text-white hover:border-[#C3FF00] hover:text-[#C3FF00] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold" 
+                    class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-surface/80 text-white hover:border-[#9929EA] hover:text-[#9929EA] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-bold" 
                     ${this.currentPage === totalPages ? 'disabled' : ''}>
                 <i class="ph ph-caret-right"></i>
             </button>
@@ -503,7 +503,7 @@ const editorialTypography = {
         if (!article) {
             document.getElementById('article-main-container').innerHTML = `
                 <div class="py-32 text-center max-w-xl mx-auto px-6">
-                    <i class="ph ph-warning-circle text-7xl text-[#C3FF00] mb-6 inline-block animate-pulse"></i>
+                    <i class="ph ph-warning-circle text-7xl text-[#9929EA] mb-6 inline-block animate-pulse"></i>
                     <h1 class="text-4xl font-bold text-white mb-4">Article Not Found</h1>
                     <p class="text-textSecondary text-lg mb-8 leading-relaxed font-light">The story titled "<strong>${slug}</strong>" may have been archived or moved to a new canonical Cloudflare edge route.</p>
                     <a href="../articles.html" class="btn-primary px-8 py-3.5 text-sm inline-flex items-center gap-2">
@@ -529,11 +529,11 @@ const editorialTypography = {
         if (breadcrumbEl) {
             const primaryCat = (article.categories && article.categories[0]) || 'Insights';
             breadcrumbEl.innerHTML = `
-                <a href="../index.html" class="hover:text-white transition-colors flex items-center gap-1.5 font-sans"><i class="ph ph-house text-[#C3FF00]"></i> Home</a>
+                <a href="../index.html" class="hover:text-white transition-colors flex items-center gap-1.5 font-sans"><i class="ph ph-house text-[#9929EA]"></i> Home</a>
                 <span class="text-white/20">/</span>
                 <a href="../articles.html" class="hover:text-white transition-colors">Knowledge Hub</a>
                 <span class="text-white/20">/</span>
-                <a href="../articles.html?category=${encodeURIComponent(primaryCat)}" class="hover:text-[#C3FF00] transition-colors font-bold text-[#C3FF00]">${primaryCat}</a>
+                <a href="../articles.html?category=${encodeURIComponent(primaryCat)}" class="hover:text-[#9929EA] transition-colors font-bold text-[#9929EA]">${primaryCat}</a>
                 <span class="text-white/20">/</span>
                 <span class="text-white font-semibold truncate max-w-[240px] sm:max-w-md font-sans">${article.title}</span>
             `;
@@ -541,7 +541,7 @@ const editorialTypography = {
 
         document.getElementById('detail-title').textContent = article.title;
         document.getElementById('detail-subtitle').textContent = article.subtitle;
-        document.getElementById('detail-categories').innerHTML = article.categories.map(c => `<a href="../articles.html?category=${encodeURIComponent(c)}" class="bg-surface border border-white/10 hover:border-[#C3FF00] px-3.5 py-1.5 rounded-full text-xs font-mono font-bold text-[#C3FF00] tracking-widest uppercase transition-colors inline-block">${c}</a>`).join('');
+        document.getElementById('detail-categories').innerHTML = article.categories.map(c => `<a href="../articles.html?category=${encodeURIComponent(c)}" class="bg-surface border border-white/10 hover:border-[#9929EA] px-3.5 py-1.5 rounded-full text-xs font-mono font-bold text-[#9929EA] tracking-widest uppercase transition-colors inline-block">${c}</a>`).join('');
         
         const dStr = new Date(article.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
         document.getElementById('detail-date').textContent = dStr;
@@ -575,7 +575,7 @@ const editorialTypography = {
         // Render Footer Tags
         const tagsEl = document.getElementById('detail-tags');
         if (tagsEl) {
-            tagsEl.innerHTML = article.tags.map(t => `<a href="../articles.html?tag=${encodeURIComponent(t)}" class="bg-surface/80 border border-white/10 hover:border-[#C3FF00]/60 text-white hover:text-[#C3FF00] font-mono text-xs px-4 py-1.5 rounded-xl transition-all block font-bold">#${t}</a>`).join('');
+            tagsEl.innerHTML = article.tags.map(t => `<a href="../articles.html?tag=${encodeURIComponent(t)}" class="bg-surface/80 border border-white/10 hover:border-[#9929EA]/60 text-white hover:text-[#9929EA] font-mono text-xs px-4 py-1.5 rounded-xl transition-all block font-bold">#${t}</a>`).join('');
         }
 
         // Automatically Generate Sticky Table of Contents (TOC) with Valid SEO Keyword Slugs (Sprint 6)
@@ -611,7 +611,7 @@ const editorialTypography = {
             const isH3 = heading.tagName.toLowerCase() === 'h3';
             tocHTML += `
                 <li>
-                    <a href="#${anchorId}" class="block py-1.5 px-3 rounded-lg text-xs font-sans transition-all text-textSecondary hover:text-[#C3FF00] hover:bg-white/5 truncate ${isH3 ? 'pl-6 font-normal border-l border-white/10 ml-2' : 'font-semibold font-mono border-l-2 border-transparent hover:border-[#C3FF00]'}">
+                    <a href="#${anchorId}" class="block py-1.5 px-3 rounded-lg text-xs font-sans transition-all text-textSecondary hover:text-[#9929EA] hover:bg-white/5 truncate ${isH3 ? 'pl-6 font-normal border-l border-white/10 ml-2' : 'font-semibold font-mono border-l-2 border-transparent hover:border-[#9929EA]'}">
                         ${heading.textContent}
                     </a>
                 </li>
@@ -635,7 +635,7 @@ const editorialTypography = {
         container.innerHTML = related.map(art => {
             const dStr = new Date(art.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             return `
-                <a href="/articles/view.html?slug=${art.slug}" class="glass-card overflow-hidden group cursor-pointer flex flex-col h-full border border-white/10 hover:border-[#C3FF00]/40 transition-all duration-500 rounded-3xl">
+                <a href="/articles/view.html?slug=${art.slug}" class="glass-card overflow-hidden group cursor-pointer flex flex-col h-full border border-white/10 hover:border-[#9929EA]/40 transition-all duration-500 rounded-3xl">
                     <div class="aspect-[16/9] relative overflow-hidden bg-dark">
                         <img src="${art.cover.url}" alt="${art.cover.alt}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
                         <div class="absolute top-4 left-4 z-10">
@@ -646,10 +646,10 @@ const editorialTypography = {
                         <div>
                             <div class="flex items-center gap-3 text-xs font-mono font-semibold text-textSecondary tracking-widest uppercase mb-3">
                                 <span>${dStr}</span>
-                                <span class="w-1 h-1 bg-[#C3FF00] rounded-full"></span>
-                                <span class="text-[#C3FF00]">${art.readingTime}</span>
+                                <span class="w-1 h-1 bg-[#9929EA] rounded-full"></span>
+                                <span class="text-[#9929EA]">${art.readingTime}</span>
                             </div>
-                            <h3 class="text-xl font-bold text-white mb-3 tracking-tight group-hover:text-[#C3FF00] transition-colors font-sans">
+                            <h3 class="text-xl font-bold text-white mb-3 tracking-tight group-hover:text-[#9929EA] transition-colors font-sans">
                                 ${art.title}
                             </h3>
                             <p class="text-sm text-textSecondary font-light leading-relaxed mb-6 line-clamp-2">
@@ -657,7 +657,7 @@ const editorialTypography = {
                             </p>
                         </div>
                         <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-textSecondary">
-                            <span class="font-bold text-white group-hover:text-[#C3FF00] transition-colors uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="font-bold text-white group-hover:text-[#9929EA] transition-colors uppercase tracking-widest flex items-center gap-1.5">
                                 Read Article <i class="ph ph-arrow-right font-bold"></i>
                             </span>
                         </div>

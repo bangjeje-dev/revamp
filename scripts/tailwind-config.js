@@ -8,9 +8,9 @@ tailwind.config = {
                         dark: '#050505',
                         surface: '#0D1117',
                         card: '#111827',
-                        accent: '#C3FF00',
-                        accentHover: '#D7FF4D',
-                        glow: 'rgba(195, 255, 0, 0.35)',
+                        accent: '#9929EA',
+                        accentHover: '#B05BFF',
+                        glow: 'rgba(153, 41, 234, 0.35)',
                         textPrimary: '#F8FAFC',
                         textSecondary: '#94A3B8',
                         glass: 'rgba(255, 255, 255, 0.08)'

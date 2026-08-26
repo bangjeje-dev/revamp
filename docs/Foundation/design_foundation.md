@@ -19,9 +19,9 @@
 *   **Background (Canvas):** `#050505` (Deepest black)
 *   **Elevated Surface:** `#0D1117`
 *   **Card Surface:** `#111827`
-*   **Primary Accent:** `#C3FF00` (Neon Lime) - *Used strictly for < 10% of the interface (CTAs, subtle glows).*
-*   **Accent Hover:** `#D7FF4D`
-*   **Glow Effect:** `rgba(195,255,0,.35)`
+*   **Primary Accent:** `#9929EA` (Neon Lime) - *Used strictly for < 10% of the interface (CTAs, subtle glows).*
+*   **Accent Hover:** `#B05BFF`
+*   **Glow Effect:** `rgba(153, 41, 234,.35)`
 *   **Glass Borders:** `rgba(255,255,255,.08)`
 *   **Primary Text:** `#F8FAFC`
 *   **Secondary Text:** `#94A3B8`
@@ -44,7 +44,7 @@
 ## 6. Interaction & Motion
 *   **Philosophy:** Motion should feel expensive. Soft, slow, and intentional.
 *   **Scroll Reveals:** Elements float up smoothly as they enter the viewport using intersection observers. No harsh snapping.
-*   **Hover States:** Cards emit a very subtle `#C3FF00` border highlight and ambient inner background shift. Buttons slightly lift and glow brighter.
+*   **Hover States:** Cards emit a very subtle `#9929EA` border highlight and ambient inner background shift. Buttons slightly lift and glow brighter.
 
 ## 7. Layout & Spacing
 *   **Container:** `max-w-8xl` (1440px) to ensure extreme wide-screen layouts don't break.

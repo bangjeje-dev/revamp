@@ -22,7 +22,7 @@ This document defines the complete UI/UX blueprint for the Work page (`work.html
 - **H2 (Case Study Title):** `text-4xl` to `text-5xl`, tracking tight, high contrast white.
 - **H3 (Section Headers):** `text-xl` to `text-2xl`, subtle `#94A3B8`.
 - **Body Text:** `text-lg` or `text-xl`, light font weight (`font-light`), extremely readable line height (`leading-relaxed`), using `#94A3B8` (text-textSecondary).
-- **Micro-Copy (Tags/Labels):** `text-xs` to `text-[10px]`, monospace or sans-serif, uppercase, wide tracking (`tracking-widest`), font weight bold, utilizing `#C3FF00`.
+- **Micro-Copy (Tags/Labels):** `text-xs` to `text-[10px]`, monospace or sans-serif, uppercase, wide tracking (`tracking-widest`), font weight bold, utilizing `#9929EA`.
 
 ### 4. Spacing System
 - **Vertical Rhythm:** Massive, deliberate whitespace.
@@ -32,7 +32,7 @@ This document defines the complete UI/UX blueprint for the Work page (`work.html
 
 ### 5. Component Specification
 - **`.glass-card`:** Used for project metadata blocks or archive grid items. `bg-card/30`, 16px blur, 1px border of `rgba(255,255,255,0.06)`, `rounded-2xl`.
-- **`.btn-primary`:** Solid `#C3FF00` background, dark text, glowing box-shadow, pill-shaped (`rounded-full`).
+- **`.btn-primary`:** Solid `#9929EA` background, dark text, glowing box-shadow, pill-shaped (`rounded-full`).
 - **`.btn-secondary`:** Transparent background, `rgba(255,255,255,0.1)` border, white text, pill-shaped.
 - **`.pill-tag`:** Small metadata tags for tech stack or industry (e.g., "Fintech", "React"). Border `rgba(255,255,255,0.1)`, small padding, uppercase text.
 
@@ -51,9 +51,9 @@ This document defines the complete UI/UX blueprint for the Work page (`work.html
 - Cursor changes to pointer on all interactive surfaces.
 
 ### 9. Hover States
-- **Primary Buttons:** Background shifts to `#D7FF4D` (lighter lime), shadow intensity increases.
-- **Secondary Buttons:** Background shifts to `rgba(255,255,255,0.08)`, border glows `#C3FF00`.
-- **Cards/Images:** Slight translateY lift (`-translate-y-2`), border color shifts to `rgba(195,255,0,0.3)`.
+- **Primary Buttons:** Background shifts to `#B05BFF` (lighter lime), shadow intensity increases.
+- **Secondary Buttons:** Background shifts to `rgba(255,255,255,0.08)`, border glows `#9929EA`.
+- **Cards/Images:** Slight translateY lift (`-translate-y-2`), border color shifts to `rgba(153, 41, 234,0.3)`.
 
 ### 10. Animation Rules
 - **Scroll Reveal (`.reveal-up`):** The Intersection Observer logic from the homepage handles all entrance animations. Elements fade in and translate up 30px over 1000ms using `cubic-bezier(0.16, 1, 0.3, 1)`.
@@ -78,7 +78,7 @@ This document defines the complete UI/UX blueprint for the Work page (`work.html
 
 ### 15. Visual Consistency Checklist
 - [ ] `#050505` background
-- [ ] `#C3FF00` accent color strictly limited to <10% of UI
+- [ ] `#9929EA` accent color strictly limited to <10% of UI
 - [ ] Outfit font stack exclusively
 - [ ] Same `.reveal-up` CSS classes as homepage
 - [ ] Same `.glass-panel` and `.glass-card` CSS as homepage

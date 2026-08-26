@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth antialiased selection:bg-[#C3FF00] selection:text-[#050505]">
+<html lang="en" class="scroll-smooth antialiased selection:bg-[#9929EA] selection:text-[#050505]">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5KVFF84ZZC"></script>
@@ -39,8 +39,8 @@
                         dark: '#050505',
                         surface: '#0D1117',
                         card: '#111827',
-                        accent: '#C3FF00',
-                        accentHover: '#D7FF4D',
+                        accent: '#9929EA',
+                        accentHover: '#B05BFF',
                         textPrimary: '#F8FAFC',
                         textSecondary: '#94A3B8'
                     },
@@ -63,16 +63,16 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-primary {
-            background: #C3FF00;
+            background: #9929EA;
             color: #050505;
-            box-shadow: 0 0 25px rgba(195, 255, 0, 0.25);
+            box-shadow: 0 0 25px rgba(153, 41, 234, 0.25);
             transition: all 0.3s ease;
             border-radius: 9999px;
             font-weight: 700;
         }
         .btn-primary:hover {
-            background: #D7FF4D;
-            box-shadow: 0 0 35px rgba(195, 255, 0, 0.45);
+            background: #B05BFF;
+            box-shadow: 0 0 35px rgba(153, 41, 234, 0.45);
             transform: translateY(-2px);
         }
 
@@ -109,8 +109,8 @@
         .editorial-content blockquote {
             padding: 1.75rem 2rem;
             margin: 2.5rem 0;
-            border-left: 4px solid #C3FF00;
-            background: rgba(195, 255, 0, 0.05);
+            border-left: 4px solid #9929EA;
+            background: rgba(153, 41, 234, 0.05);
             border-radius: 0 1.25rem 1.25rem 0;
             font-size: 1.35rem;
             font-weight: 400;
@@ -121,7 +121,9 @@
         .editorial-content ul, .editorial-content ol {
             padding-left: 1.5rem;
             margin-bottom: 2.25rem;
-            space-y: 1rem;
+        }
+        .editorial-content ul > li + li, .editorial-content ol > li + li {
+            margin-top: 1rem;
         }
         .editorial-content ul li, .editorial-content ol li {
             font-size: 1.15rem;
@@ -129,7 +131,7 @@
             color: #CBD5E1;
             margin-bottom: 0.85rem;
             list-style-type: square;
-            color: #C3FF00;
+            color: #9929EA;
         }
         .editorial-content ul li span, .editorial-content ol li span { color: #E2E8F0; }
         .editorial-content pre {
@@ -192,7 +194,7 @@
     </nav>
 
     <main id="article-main-container" class="min-h-screen relative pt-28 pb-32">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-[#C3FF00]/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-[#9929EA]/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
         <!-- 1. ARTICLE HERO HEADER -->
         <header class="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 pt-10 sm:pt-16 pb-12">
@@ -201,7 +203,7 @@
 
             <!-- Categories -->
             <div id="detail-categories" class="flex flex-wrap gap-2 mb-6">
-                <span class="inline-block bg-white/5 px-3 py-1 rounded-full text-xs font-mono font-bold text-[#C3FF00] tracking-widest uppercase">Loading...</span>
+                <span class="inline-block bg-white/5 px-3 py-1 rounded-full text-xs font-mono font-bold text-[#9929EA] tracking-widest uppercase">Loading...</span>
             </div>
 
             <!-- H1 Title & Subtitle -->
@@ -215,7 +217,7 @@
             <!-- Author Byline & Metrics Bar -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-6 border-y border-white/10">
                 <div class="flex items-center gap-4">
-                    <img id="detail-author-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#C3FF00]/40 shadow-md">
+                    <img id="detail-author-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#9929EA]/40 shadow-md">
                     <div>
                         <div id="detail-author-name" class="text-white font-bold text-base">bangjeje</div>
                         <div id="detail-author-title" class="text-textSecondary font-mono text-xs">Principal Architect &amp; Founder</div>
@@ -223,8 +225,8 @@
                 </div>
                 <div class="flex items-center gap-4 text-xs font-mono font-bold text-textSecondary tracking-widest uppercase">
                     <span id="detail-date" class="text-white">Oct 20, 2026</span>
-                    <span class="w-1.5 h-1.5 bg-[#C3FF00] rounded-full"></span>
-                    <span id="detail-reading-time" class="text-[#C3FF00]">6 Min Read</span>
+                    <span class="w-1.5 h-1.5 bg-[#9929EA] rounded-full"></span>
+                    <span id="detail-reading-time" class="text-[#9929EA]">6 Min Read</span>
                     <span class="w-1.5 h-1.5 bg-white/20 rounded-full hidden sm:inline-block"></span>
                     <span class="hidden sm:inline-block text-slate-400">Edge verified ⚡</span>
                 </div>
@@ -235,15 +237,15 @@
                 <span class="text-xs font-mono text-textSecondary uppercase tracking-widest">Share Executive Research:</span>
                 <div class="flex items-center gap-2">
                     <button onclick="BangjejePublicArticles.shareArticle('copy')" title="Copy Permanent Link" class="h-9 px-3.5 rounded-xl bg-surface hover:bg-white/10 text-white text-xs font-mono font-bold flex items-center gap-1.5 border border-white/10 transition-all cursor-pointer shadow-2xs">
-                        <i class="ph ph-link text-sm text-[#C3FF00]"></i> <span>Copy Permalink</span>
+                        <i class="ph ph-link text-sm text-[#9929EA]"></i> <span>Copy Permalink</span>
                     </button>
-                    <button onclick="BangjejePublicArticles.shareArticle('twitter')" title="Share on Twitter / X" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#C3FF00] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
+                    <button onclick="BangjejePublicArticles.shareArticle('twitter')" title="Share on Twitter / X" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#9929EA] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
                         <i class="ph ph-x-logo font-bold"></i>
                     </button>
-                    <button onclick="BangjejePublicArticles.shareArticle('linkedin')" title="Share on LinkedIn" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#C3FF00] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
+                    <button onclick="BangjejePublicArticles.shareArticle('linkedin')" title="Share on LinkedIn" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#9929EA] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
                         <i class="ph ph-linkedin-logo font-bold"></i>
                     </button>
-                    <button onclick="BangjejePublicArticles.shareArticle('threads')" title="Share on Threads" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#C3FF00] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
+                    <button onclick="BangjejePublicArticles.shareArticle('threads')" title="Share on Threads" class="w-9 h-9 rounded-xl bg-surface hover:bg-[#9929EA] hover:text-dark text-white text-base font-bold flex items-center justify-center border border-white/10 transition-all cursor-pointer shadow-2xs">
                         <i class="ph ph-threads font-bold"></i>
                     </button>
                 </div>
@@ -280,9 +282,9 @@
                     <div class="glass-panel p-7 sticky top-28 border border-white/10 space-y-5">
                         <div class="flex items-center justify-between border-b border-white/10 pb-4">
                             <h4 class="text-sm font-mono font-black text-white uppercase tracking-widest flex items-center gap-2">
-                                <i class="ph ph-list-numbers text-[#C3FF00] text-lg"></i> <span>Table of Contents</span>
+                                <i class="ph ph-list-numbers text-[#9929EA] text-lg"></i> <span>Table of Contents</span>
                             </h4>
-                            <span class="text-[10px] font-mono font-black uppercase bg-[#C3FF00] text-dark px-2 py-0.5 rounded-md">Live Sync</span>
+                            <span class="text-[10px] font-mono font-black uppercase bg-[#9929EA] text-dark px-2 py-0.5 rounded-md">Live Sync</span>
                         </div>
                         <ul id="sticky-toc-list" class="space-y-2 text-xs">
                             <!-- Populated with H2 and H3 anchors by public-articles-engine.js -->
@@ -291,13 +293,13 @@
                         <!-- Executive Consultation Callout -->
                         <div class="pt-6 border-t border-white/10 space-y-3.5">
                             <div class="flex items-center gap-2 text-white font-bold text-xs">
-                                <i class="ph ph-chat-circle-dots text-[#C3FF00] text-base"></i>
+                                <i class="ph ph-chat-circle-dots text-[#9929EA] text-base"></i>
                                 <span>Require custom cloud architecture?</span>
                             </div>
                             <p class="text-xs text-textSecondary leading-relaxed font-light">
                                 Our systems architects design high-frequency applications for ambitious enterprises globally.
                             </p>
-                            <a href="../pages/contact.html" class="w-full h-10 rounded-xl bg-white/10 hover:bg-[#C3FF00] hover:text-dark text-white text-xs font-mono font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm block text-center">
+                            <a href="../pages/contact.html" class="w-full h-10 rounded-xl bg-white/10 hover:bg-[#9929EA] hover:text-dark text-white text-xs font-mono font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm block text-center">
                                 <span>Initiate Discovery</span> <i class="ph ph-arrow-right"></i>
                             </a>
                         </div>
@@ -311,10 +313,10 @@
         <section id="related-articles-section" class="relative z-10 max-w-8xl mx-auto px-6 sm:px-12 border-t border-white/10 pt-20 mb-20">
             <div class="flex items-center justify-between mb-10">
                 <div>
-                    <span class="text-[#C3FF00] font-mono text-xs font-black uppercase tracking-widest block mb-1">Continued Research</span>
+                    <span class="text-[#9929EA] font-mono text-xs font-black uppercase tracking-widest block mb-1">Continued Research</span>
                     <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight font-sans">Related Architectural Intelligence</h3>
                 </div>
-                <a href="../articles.html" class="text-xs font-mono text-white hover:text-[#C3FF00] font-extrabold flex items-center gap-1 uppercase tracking-widest transition-colors">
+                <a href="../articles.html" class="text-xs font-mono text-white hover:text-[#9929EA] font-extrabold flex items-center gap-1 uppercase tracking-widest transition-colors">
                     <span>View Knowledge Hub</span> <i class="ph ph-arrow-right font-bold"></i>
                 </a>
             </div>
@@ -326,16 +328,16 @@
         <!-- 5. EXECUTIVE NEWSLETTER CTA CARD -->
         <section class="relative z-10 px-6 sm:px-12 max-w-6xl mx-auto">
             <div class="glass-panel p-8 sm:p-14 relative overflow-hidden border border-white/15 rounded-[2rem]">
-                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#C3FF00]/10 blur-[100px] rounded-full pointer-events-none"></div>
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#9929EA]/10 blur-[100px] rounded-full pointer-events-none"></div>
                 <div class="max-w-2xl relative z-10 space-y-5">
-                    <span class="px-3.5 py-1.5 rounded-full bg-[#C3FF00]/15 border border-[#C3FF00]/30 text-[#C3FF00] text-xs font-mono font-black uppercase tracking-widest inline-block">
+                    <span class="px-3.5 py-1.5 rounded-full bg-[#9929EA]/15 border border-[#9929EA]/30 text-[#9929EA] text-xs font-mono font-black uppercase tracking-widest inline-block">
                         Executive Briefing
                     </span>
                     <h3 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-[1.15] font-sans">
                         Receive systems engineering briefs directly to your inbox.
                     </h3>
                     <form onsubmit="event.preventDefault(); alert('🚀 Thank you for subscribing to bangjeje.dev Executive Briefing!'); this.reset();" class="flex flex-col sm:flex-row gap-3.5 pt-2">
-                        <input type="email" required placeholder="Enter your business email..." class="flex-1 bg-dark/80 border border-white/20 rounded-2xl px-5 py-3 text-white placeholder:text-textSecondary/60 focus:outline-none focus:border-[#C3FF00] text-sm sm:text-base">
+                        <input type="email" required placeholder="Enter your business email..." class="flex-1 bg-dark/80 border border-white/20 rounded-2xl px-5 py-3 text-white placeholder:text-textSecondary/60 focus:outline-none focus:border-[#9929EA] text-sm sm:text-base">
                         <button type="submit" class="btn-primary px-7 py-3 text-sm font-bold tracking-wider uppercase shrink-0 cursor-pointer flex items-center justify-center gap-2">
                             <span>Subscribe</span> <i class="ph ph-paper-plane-tilt font-bold"></i>
                         </button>
@@ -361,10 +363,10 @@
             <div>
                 <h4 class="text-white font-mono text-xs font-black uppercase tracking-widest mb-5">Architecture Hub</h4>
                 <ul class="space-y-3.5 text-sm text-textSecondary font-medium">
-                    <li><a href="../articles.html?category=Engineering" class="hover:text-[#C3FF00] transition-colors">Engineering &amp; Performance</a></li>
-                    <li><a href="../articles.html?category=Cloud+Architecture" class="hover:text-[#C3FF00] transition-colors">Cloud Architecture</a></li>
-                    <li><a href="../articles.html?category=Editorial+OS" class="hover:text-[#C3FF00] transition-colors">Studio V2 Editorial OS</a></li>
-                    <li><a href="../articles.html?category=Design+Systems" class="hover:text-[#C3FF00] transition-colors">Design Systems &amp; UI/UX</a></li>
+                    <li><a href="../articles.html?category=Engineering" class="hover:text-[#9929EA] transition-colors">Engineering &amp; Performance</a></li>
+                    <li><a href="../articles.html?category=Cloud+Architecture" class="hover:text-[#9929EA] transition-colors">Cloud Architecture</a></li>
+                    <li><a href="../articles.html?category=Editorial+OS" class="hover:text-[#9929EA] transition-colors">Studio V2 Editorial OS</a></li>
+                    <li><a href="../articles.html?category=Design+Systems" class="hover:text-[#9929EA] transition-colors">Design Systems &amp; UI/UX</a></li>
                 </ul>
             </div>
             <div>
@@ -372,17 +374,16 @@
                 <ul class="space-y-3.5 text-sm text-textSecondary font-medium">
                     <li><a href="../pages/about.html" class="hover:text-white transition-colors">Executive Team</a></li>
                     <li><a href="../pages/case-studies.html" class="hover:text-white transition-colors">Client Case Studies</a></li>
-                    <li><a href="../pages/contact.html" class="hover:text-[#C3FF00] transition-colors font-bold text-white">Initiate Project &rarr;</a></li>
-                    <li><a href="../admin/content/articles/index.html" class="text-slate-500 hover:text-slate-400 font-mono text-xs block pt-2">🔒 Studio V2 CMS Login</a></li>
+                    <li><a href="../pages/contact.html" class="hover:text-[#9929EA] transition-colors font-bold text-white">Initiate Project &rarr;</a></li>
                 </ul>
             </div>
         </div>
         <div class="max-w-8xl mx-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-textSecondary font-mono">
-            <span>&copy; 2026 bangjeje.dev. All rights reserved. Powered by Studio V2 Editorial OS on Cloudflare Pages.</span>
+            <span>&copy; 2026 bangjeje.dev. All rights reserved. Powered by Cloudflare Pages.</span>
             <div class="flex items-center gap-6 mt-4 sm:mt-0">
                 <a href="#" class="hover:text-white transition-colors">Privacy</a>
                 <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" class="hover:text-[#C3FF00] transition-colors font-bold">Status: All Edge Nodes Operational 🟢</a>
+                <a href="#" class="hover:text-[#9929EA] transition-colors font-bold">Status: All Edge Nodes Operational 🟢</a>
             </div>
         </div>
     </footer>

@@ -26,24 +26,24 @@
         }
         
         .glass-card:hover {
-            border-color: rgba(195, 255, 0, 0.3);
+            border-color: rgba(153, 41, 234, 0.3);
             background: rgba(17, 24, 39, 0.5);
-            box-shadow: 0 10px 40px -10px rgba(195, 255, 0, 0.1);
+            box-shadow: 0 10px 40px -10px rgba(153, 41, 234, 0.1);
         }
 
         /* Buttons */
         .btn-primary {
-            background: #C3FF00;
+            background: #9929EA;
             color: #050505;
-            box-shadow: 0 0 20px rgba(195, 255, 0, 0.2);
+            box-shadow: 0 0 20px rgba(153, 41, 234, 0.2);
             transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
             border-radius: 9999px;
             font-weight: 600;
         }
         
         .btn-primary:hover {
-            background: #D7FF4D;
-            box-shadow: 0 0 30px rgba(195, 255, 0, 0.4);
+            background: #B05BFF;
+            box-shadow: 0 0 30px rgba(153, 41, 234, 0.4);
             transform: translateY(-2px);
         }
         
@@ -63,7 +63,7 @@
 
         /* Typography */
         .text-glow {
-            text-shadow: 0 0 40px rgba(195, 255, 0, 0.3);
+            text-shadow: 0 0 40px rgba(153, 41, 234, 0.3);
         }
         
         .gradient-text {
@@ -74,7 +74,7 @@
         }
 
         .gradient-accent {
-            background: linear-gradient(to right, #D7FF4D, #C3FF00);
+            background: linear-gradient(to right, #B05BFF, #9929EA);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -124,21 +124,21 @@
         }
         
         .input-field:focus {
-            border-color: #C3FF00;
-            box-shadow: 0 0 0 1px #C3FF00, 0 10px 30px -10px rgba(195, 255, 0, 0.1);
+            border-color: #9929EA;
+            box-shadow: 0 0 0 1px #9929EA, 0 10px 30px -10px rgba(153, 41, 234, 0.1);
             background: rgba(13, 17, 23, 0.8);
         }
 
         .pill-radio:checked + label {
-            border-color: #C3FF00;
-            color: #C3FF00;
-            background: rgba(195, 255, 0, 0.05);
-            box-shadow: 0 0 20px rgba(195, 255, 0, 0.1);
+            border-color: #9929EA;
+            color: #9929EA;
+            background: rgba(153, 41, 234, 0.05);
+            box-shadow: 0 0 20px rgba(153, 41, 234, 0.1);
         }
 
         .input-field:focus ~ .input-label,
         .input-field:not(:placeholder-shown) ~ .input-label {
-            color: #C3FF00;
+            color: #9929EA;
         }
 
         /* Infinite Marquee System */

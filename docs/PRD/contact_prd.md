@@ -38,7 +38,7 @@ The Contact page acts as the final conversion gateway. It is not merely a utilit
 
 ## 8. Navigation Behaviour
 - Inherits the global sticky glass header.
-- The "Contact" (or CTA button) link in the navigation maintains the neon lime `#C3FF00` active state.
+- The "Contact" (or CTA button) link in the navigation maintains the neon lime `#9929EA` active state.
 - Form submission should not cause a full page reload (handle via AJAX), or should route to a highly premium "Success" state/page.
 
 ## 9. Page Hierarchy
@@ -70,11 +70,11 @@ To prevent the studio from wasting time on low-tier inquiries, the form must sub
 - **Open Text:** A single, large `textarea` asking for the "Core Challenge" rather than a generic "Message".
 
 ## 13. CTA Strategy
-- **Form Submit Button:** Must feel significant, yet conversational and welcoming. Instead of "Submit", use "Let's start a conversation" or "Send Inquiry". It should be the most visually dominant element on the page (Primary Neon Lime `#C3FF00`).
+- **Form Submit Button:** Must feel significant, yet conversational and welcoming. Instead of "Submit", use "Let's start a conversation" or "Send Inquiry". It should be the most visually dominant element on the page (Primary Neon Lime `#9929EA`).
 - **Global Header CTA:** Remains visible but perhaps de-emphasized slightly since the user is already on the target page.
 
 ## 14. Micro Interactions
-- **Input Focus:** When a user focuses on a text input, the border should glow with the `#C3FF00` accent, and the label should transition smoothly.
+- **Input Focus:** When a user focuses on a text input, the border should glow with the `#9929EA` accent, and the label should transition smoothly.
 - **Selection Pills:** Clicking a budget or project type pill should trigger a satisfying scale effect and color shift.
 - **Submit Loading State:** The button should feature a smooth loading animation (e.g., an animated icon or pulse) upon click to indicate processing.
 

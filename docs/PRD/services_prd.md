@@ -45,7 +45,7 @@ To deeply articulate bangjeje.dev’s four core capabilities to potential client
 
 ## 8. Navigation Behaviour
 *   The global glassmorphism navigation remains sticky. 
-*   The active state for "Services" will glow in the primary accent (`#C3FF00`).
+*   The active state for "Services" will glow in the primary accent (`#9929EA`).
 *   In-page anchor links (e.g., jumping from a sticky sub-nav to specific services) will use smooth, eased scrolling (`scroll-behavior: smooth`).
 
 ## 9. Page Hierarchy
@@ -68,7 +68,7 @@ To deeply articulate bangjeje.dev’s four core capabilities to potential client
 
 ### Section 1: Hero
 *   **Purpose:** Set a massive, authoritative tone. Confirm the user is in the right place to solve complex digital problems.
-*   **Visual:** Enormous typography, deep black canvas (`#050505`), subtle `#C3FF00` ambient glow. Extremely minimal.
+*   **Visual:** Enormous typography, deep black canvas (`#050505`), subtle `#9929EA` ambient glow. Extremely minimal.
 
 ### Sections 2-5: The Core Services
 *   **Purpose:** Break down each offering into digestible, business-focused insights.
@@ -103,7 +103,7 @@ To deeply articulate bangjeje.dev’s four core capabilities to potential client
 *   **Desktop (4K):** The layout is constrained by `max-w-8xl` to ensure the design doesn't stretch infinitely, maintaining perfect editorial proportions.
 
 ## 16. Accessibility Notes
-*   **Contrast:** The neon lime (`#C3FF00`) against true black (`#050505`) exceeds WCAG AAA standards. 
+*   **Contrast:** The neon lime (`#9929EA`) against true black (`#050505`) exceeds WCAG AAA standards. 
 *   **Screen Readers:** All semantic tags will be strictly adhered to. Glass UI elements that are purely decorative will have `aria-hidden="true"`.
 
 ## 17. Performance Requirements

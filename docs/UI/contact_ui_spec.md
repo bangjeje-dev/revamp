@@ -6,14 +6,14 @@ The Contact page functions as a high-end acquisition terminal. The layout is sev
 ## 2. Visual Hierarchy
 1. **The Form Container:** Housed within a massive `.glass-panel` to differentiate the interactive space from the background.
 2. **Typography (Hero & Labels):** Extreme headline scaling grabs attention, while precise, uppercase tracking-widest labels guide the form completion process.
-3. **The Submit Button:** The most prominent interactive element on the page, utilizing the neon lime `#C3FF00` fill.
+3. **The Submit Button:** The most prominent interactive element on the page, utilizing the neon lime `#9929EA` fill.
 4. **Interactive Pills/Inputs:** Secondary visual weight, utilizing subtle glow and border transitions to indicate focus and selection.
 
 ## 3. Section-by-Section Layout
 
 **01. The Invitation Hero**
 - **Layout:** Centered or heavily left-aligned depending on the grid. Max-width constrained to `max-w-4xl`.
-- **UI:** Massive greeting. Subtle ambient mesh glow `#C3FF00` at 10% opacity behind the text.
+- **UI:** Massive greeting. Subtle ambient mesh glow `#9929EA` at 10% opacity behind the text.
 
 **02. Why Work With Us (Confidence Reinforcement)**
 - **Layout:** A subtle 3-column micro-grid directly beneath the hero or seamlessly integrated before the form.
@@ -53,7 +53,7 @@ The Contact page functions as a high-end acquisition terminal. The layout is sev
 - **Background:** `bg-[#050505]`.
 - **Glass Panel:** `bg-[#0D1117]/40` with `backdrop-blur-2xl`.
 - **Inputs:** `bg-black/20` (darker than the glass panel to indicate a well/input area) with `border-white/10`.
-- **Accent:** `#C3FF00` strictly reserved for the active states of inputs, selected pills, and the final submit button.
+- **Accent:** `#9929EA` strictly reserved for the active states of inputs, selected pills, and the final submit button.
 
 ## 9. Form Design System
 - **No generic `<select>` dropdowns.** Use interactive CSS grid "Pills" for Project Type and Estimated Budget.
@@ -65,7 +65,7 @@ The Contact page functions as a high-end acquisition terminal. The layout is sev
 - **Default:** `border border-white/10 bg-black/20 text-textSecondary`.
 - **Hover:** `border-white/30`.
 - **Focus:** `border-accent ring-1 ring-accent/50 bg-black/40 text-textPrimary`. The label should also transition to `text-accent`.
-- **Selected Pill:** `bg-accent text-dark border-accent scale-105 shadow-[0_0_20px_rgba(195,255,0,0.2)]`.
+- **Selected Pill:** `bg-accent text-dark border-accent scale-105 shadow-[0_0_20px_rgba(153, 41, 234,0.2)]`.
 
 ## 11. Button System
 - **Submit Button:** Reuses `.btn-primary`.
@@ -88,7 +88,7 @@ The Contact page functions as a high-end acquisition terminal. The layout is sev
 
 ## 15. Accessibility
 - **Labels:** Explicit `<label for="id">` must be used. Do not rely solely on `placeholder` attributes.
-- **Focus Rings:** Ensure `focus-visible` states are clearly demarcated by the `#C3FF00` accent.
+- **Focus Rings:** Ensure `focus-visible` states are clearly demarcated by the `#9929EA` accent.
 - **Contrast:** `textSecondary` (`#94A3B8`) against the `bg-black/20` inputs passes WCAG AA.
 
 ## 16. Component Reuse Strategy

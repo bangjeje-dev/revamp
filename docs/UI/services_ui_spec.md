@@ -25,11 +25,11 @@
 *   **Component Gaps:** `gap-6` or `gap-8` for grids, up to `gap-16` for editorial side-by-side text blocks.
 
 ### Button System & CTA Hierarchy
-*   **Primary CTA (`.btn-primary`):** Background `#C3FF00`, Text `#050505`. Pill shape (`rounded-full`). Soft shadow/glow (`rgba(195,255,0,0.2)`). Hovers to `#D7FF4D`.
-*   **Secondary CTA (`.btn-secondary`):** Transparent background, `border border-glass`, Text `#F8FAFC`. Hovers to white text with a very subtle `#C3FF00` border glow. Used for "View Related Work".
+*   **Primary CTA (`.btn-primary`):** Background `#9929EA`, Text `#050505`. Pill shape (`rounded-full`). Soft shadow/glow (`rgba(153, 41, 234,0.2)`). Hovers to `#B05BFF`.
+*   **Secondary CTA (`.btn-secondary`):** Transparent background, `border border-glass`, Text `#F8FAFC`. Hovers to white text with a very subtle `#9929EA` border glow. Used for "View Related Work".
 
 ### Navigation & Scroll Behavior
-*   **Nav:** Sticky global header. Transparent until scroll, then inherits a deep `backdrop-blur-md` with `border-b border-glass`. The "Services" link is active (colored `#C3FF00`).
+*   **Nav:** Sticky global header. Transparent until scroll, then inherits a deep `backdrop-blur-md` with `border-b border-glass`. The "Services" link is active (colored `#9929EA`).
 *   **Scroll:** `scroll-behavior: smooth` applied globally.
 *   **Link Routing:** Every service section should have a secondary CTA routing to the `#work` or `/work.html` section to maintain engagement.
 
@@ -39,7 +39,7 @@
 *   **Easing:** Heavy, cinematic easing (`cubic-bezier(0.16, 1, 0.3, 1)`). Duration: `700ms`.
 
 ### Accessibility Considerations
-*   **Focus States:** Explicit keyboard focus states (`focus-visible`) using a 2px `#C3FF00` ring with an offset.
+*   **Focus States:** Explicit keyboard focus states (`focus-visible`) using a 2px `#9929EA` ring with an offset.
 *   **Contrast:** Secondary text (`#94A3B8`) against `#050505` exceeds WCAG AA.
 *   **ARIA:** Decorative glows are set to `aria-hidden="true"`.
 
@@ -64,7 +64,7 @@
     *   *Side B (Deliverables):* A structural, bordered list of actual deliverables. Not standard glass cards, but elegant rows (e.g., `border-b border-glass py-4`).
 *   **Typography:** Service titles at `text-6xl`. Deliverable items at `text-xl` or `text-2xl` with a thin font weight.
 *   **Spacing:** `py-32`. Huge gaps (`gap-16`) between Side A and Side B.
-*   **Interaction (Hover):** Hovering over a deliverable row triggers a soft `#C3FF00` 1px border shift and a slight left-padding increase (`translate-x`).
+*   **Interaction (Hover):** Hovering over a deliverable row triggers a soft `#9929EA` 1px border shift and a slight left-padding increase (`translate-x`).
 *   **Animation:** Side A drifts up first. Side B deliverables drift up sequentially (staggered).
 *   **CTA:** Secondary CTA linking to `/work.html` or `/contact.html`.
 *   **Responsive:** Z-pattern breaks into a strict vertical stack on mobile/tablet. Content block always appears *above* the deliverable list on mobile.
@@ -84,7 +84,7 @@
 *   **Layout:** Massive full-width glass panel constrained by the `max-w-6xl` container. High padding (`py-24`).
 *   **Typography:** Giant centered headline: "Ready to engineer your next phase of growth?"
 *   **Spacing:** `mb-12` (provides space before the global footer).
-*   **Interaction:** The entire container emits a soft, pulsing `#C3FF00` glow behind it. Primary button is magnetic.
+*   **Interaction:** The entire container emits a soft, pulsing `#9929EA` glow behind it. Primary button is magnetic.
 *   **Animation:** Standard reveal-up.
 *   **CTA:** `.btn-primary` -> "Initiate Project".
 *   **Responsive:** Padding reduces on mobile (`py-16`), text scales to `text-4xl`.
@@ -95,5 +95,5 @@
 - [ ] No generic box shadows; use soft, colored ambient glows.
 - [ ] No border radii under `16px` for structural elements, except buttons (`rounded-full`).
 - [ ] Ensure all hover states transition color AND a secondary property (transform or border).
-- [ ] Never use `#2DD4BF` (Teal) – exclusively use `#C3FF00` (Lime) for accents.
+- [ ] Never use `#2DD4BF` (Teal) – exclusively use `#9929EA` (Lime) for accents.
 - [ ] Validate that all sections link out to either Contact, Work, or Articles to prevent dead-ends.
