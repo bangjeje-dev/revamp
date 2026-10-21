@@ -1,5 +1,5 @@
 {
-  "name": "bangjeje-maintenance",
+  "name": "revamp",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bangjeje-dev/maintenancepage.git"
+    "url": "git+https://github.com/bangjeje-dev/revamp.git"
   },
   "dependencies": {
     "vite": "^6.0.0"
