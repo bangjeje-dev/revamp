@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /docs/
-
-Sitemap: https://bangjeje.dev/sitemap.xml
